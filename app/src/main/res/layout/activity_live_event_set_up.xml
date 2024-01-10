@@ -59,7 +59,7 @@
         android:background="@color/divider"
         app:layout_constraintTop_toBottomOf="@+id/clToolbar" />
 
-    <com.blueray.fares.videoliveeventsample.view.widget.CameraPreview
+    <com.blueray.Kanz.videoliveeventsample.view.widget.CameraPreview
         android:id="@+id/cpLiveEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.blueray.fares.videoliveeventsample.view.widget.SetupItemView
+    <com.blueray.Kanz.videoliveeventsample.view.widget.SetupItemView
         android:id="@+id/sivCameraDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
         android:background="@color/ondark_04"
         app:layout_constraintTop_toBottomOf="@+id/sivCameraDevice" />
 
-    <com.blueray.fares.videoliveeventsample.view.widget.SetupItemView
+    <com.blueray.Kanz.videoliveeventsample.view.widget.SetupItemView
         android:id="@+id/sivAudioDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

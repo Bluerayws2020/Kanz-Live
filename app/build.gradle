@@ -8,17 +8,17 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/mohammedjaber/Downloads/Untitled')
+            storeFile file('/Users/mohammedjaber/Downloads/kanzJks')
             storePassword 'brws1234'
             keyAlias 'key0'
             keyPassword 'brws1234'
         }
     }
-    namespace 'com.blueray.fares'
+    namespace 'com.blueray.Kanz'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.blueray.fares"
+        applicationId "com.blueray.Kanz"
         minSdk 24
         targetSdk 34
         versionCode 4
@@ -162,4 +162,8 @@ dependencies {
     implementation 'com.hbb20:ccp:1.7.1'
 
     implementation 'io.github.chaosleung:pinview:1.4.4' // github link to deal with this library https://github.com/ChaosLeung/PinView
+
+
+    implementation 'com.github.agoraio-community:videouikit-android:final:1.1.1'
+
 }

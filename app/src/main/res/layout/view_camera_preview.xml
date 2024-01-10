@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-        <com.blueray.fares.videoliveeventsample.view.widget.SquareTextureView
+        <com.blueray.Kanz.videoliveeventsample.view.widget.SquareTextureView
             android:id="@+id/svCameraPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

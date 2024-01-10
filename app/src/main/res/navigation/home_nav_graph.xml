@@ -7,44 +7,44 @@
     >
     <fragment
         android:id="@+id/yourChannelFragment"
-        android:name="com.blueray.fares.ui.fragments.YourChannelFragment"
+        android:name="com.blueray.Kanz.ui.fragments.YourChannelFragment"
         android:label="YourChannelFragment"
         tools:layout="@layout/fragment_your_channel"
         />
     <fragment
         android:id="@+id/partitionChannelFragment"
-        android:name="com.blueray.fares.ui.fragments.PartitionChannelFragment"
+        android:name="com.blueray.Kanz.ui.fragments.PartitionChannelFragment"
         android:label="PartitionChannelFragment"
         tools:layout="@layout/fragment_partition_channel"
         />
     <fragment
         android:id="@+id/homeVidFrag"
-        android:name="com.blueray.fares.ui.fragments.HomeVidFrag"
+        android:name="com.blueray.Kanz.ui.fragments.HomeVidFrag"
         android:label="HomeVidFrag" />
 
     <fragment
         android:id="@+id/notificationFragmentss"
-        android:name="com.blueray.fares.ui.fragments.NotificationFragment"
+        android:name="com.blueray.Kanz.ui.fragments.NotificationFragment"
         android:label="NotificationFragment" />
     <fragment
         android:id="@+id/liveEventListFragment"
-        android:name="com.blueray.fares.videoliveeventsample.view.fragment.LiveEventListFragment"
+        android:name="com.blueray.Kanz.videoliveeventsample.view.fragment.LiveEventListFragment"
         android:label="LiveEventListFragment" />
     <fragment
         android:id="@+id/homePagerFragment"
-        android:name="com.blueray.fares.ui.fragments.HomePagerFragment"
+        android:name="com.blueray.Kanz.ui.fragments.HomePagerFragment"
         android:label="fragment_home_pager"
         tools:layout="@layout/fragment_home_pager" />
     <fragment
         android:id="@+id/myAccountFragment"
-        android:name="com.blueray.fares.ui.fragments.MyAccountFragment"
+        android:name="com.blueray.Kanz.ui.fragments.MyAccountFragment"
         android:label="MyAccountFragment" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.blueray.fares.ui.fragments.SearchFragment"
+        android:name="com.blueray.Kanz.ui.fragments.SearchFragment"
         android:label="SearchFragment" />
     <fragment
         android:id="@+id/notfi"
-        android:name="com.blueray.fares.ui.activities.Notfi"
+        android:name="com.blueray.Kanz.ui.activities.Notfi"
         android:label="Notfi" />
 </navigation>

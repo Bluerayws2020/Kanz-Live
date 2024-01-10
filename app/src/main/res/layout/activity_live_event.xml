@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <com.blueray.fares.videoliveeventsample.view.widget.LiveEventReactionView
+        <com.blueray.Kanz.videoliveeventsample.view.widget.LiveEventReactionView
             android:id="@+id/lervLikeReaction"
             android:layout_width="56dp"
             android:layout_height="0dp"
