@@ -142,7 +142,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         targetUidBody:String ){
 
         viewModelScope.launch{
-            getFollowingLive.value = repo.getFollowing(userId,targetUidBody)
+            getFollowingLive.value = repo.getFollowingFollower(userId,targetUidBody)
         }
     }
 
@@ -153,7 +153,7 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         targetUidBody:String ){
 
         viewModelScope.launch{
-            getFollowerLive.value = repo.getFollower(userId,targetUidBody)
+            getFollowerLive.value = repo.getFollowingFollower(userId,targetUidBody)
         }
     }
 

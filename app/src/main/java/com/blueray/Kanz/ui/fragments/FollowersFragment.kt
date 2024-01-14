@@ -19,8 +19,8 @@ import com.blueray.Kanz.ui.viewModels.AppViewModel
 
 class FollowersFragment : Fragment() {
 
-    private lateinit var binding : FragmentFollowersBinding
-    private lateinit var adapter : FollowersAdapter
+    private lateinit var binding: FragmentFollowersBinding
+    private lateinit var adapter: FollowersAdapter
     private val mainViewModel by viewModels<AppViewModel>()
 
     override fun onCreateView(
@@ -37,7 +37,7 @@ class FollowersFragment : Fragment() {
 
         val userId = arguments?.getString("user_id")
 
-Log.d("WERTYUIO",userId.toString())
+        Log.d("WERTYUIO", userId.toString())
         val tabPosition = arguments?.getString("tab_position", "0") ?: "0"
 
         if (tabPosition == "0") {
@@ -51,7 +51,7 @@ Log.d("WERTYUIO",userId.toString())
             // Code for the Following tab
         }
 
-        Log.d("FollwersssUUUIIIIDDD",userId.toString())
+        Log.d("FollwersssUUUIIIIDDD", userId.toString())
         getFollowing()
         getFollower()
         setUpRecyclerView()
@@ -67,14 +67,21 @@ Log.d("WERTYUIO",userId.toString())
             when (result) {
                 is NetworkResults.Success -> {
 
-                    adapter = FollowersAdapter(requireContext(),result.data.data,object :FollowerClick{
-                        override fun onFollowClikcs(pos: Int) {
-                            mainViewModel.retriveSetAction(result.data.data[pos].uid, "user", "following")
+                    adapter = FollowersAdapter(
+                        requireContext(),
+                        result.data.result.following,
+                        object : FollowerClick {
+                            override fun onFollowClikcs(pos: Int) {
+                                mainViewModel.retriveSetAction(
+                                    result.data.result.following[pos].uid,
+                                    "user",
+                                    "following"
+                                )
 
-                        }
+                            }
 
-                    })
-                    val lm  = LinearLayoutManager(requireContext())
+                        })
+                    val lm = LinearLayoutManager(requireContext())
                     binding.followersRv.adapter = adapter
                     binding.followersRv.layoutManager = lm
 
@@ -90,28 +97,58 @@ Log.d("WERTYUIO",userId.toString())
         }
 
     }
+
     fun getFollower() {
         mainViewModel.getFollower().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResults.Success -> {
 
-
-
-                    if (result.data.data.isNullOrEmpty()){
+                    if (result.data.result.toString().isNullOrEmpty()) {
                         binding.noData.show()
                         binding.followersRv.hide()
-                    }else {
+                    } else {
                         binding.noData.hide()
                         binding.followersRv.show()
                     }
-                    adapter = FollowersAdapter(requireContext(),result.data.data,object :FollowerClick{
-                        override fun onFollowClikcs(pos: Int) {
-                            mainViewModel.retriveSetAction(result.data.data[pos].uid, "user", "following")
 
-                        }
+                    var followrsList = result.data.result.followers
 
-                    })
-                    val lm  = LinearLayoutManager(requireContext())
+                    adapter = FollowersAdapter(
+                        requireContext(),
+                        followrsList,
+                        object : FollowerClick {
+                            override fun onFollowClikcs(pos: Int) {
+                                mainViewModel.retriveSetAction(
+                                    followrsList[pos].uid,
+                                    "user",
+                                    "following"
+                                )
+                            }
+                        })
+
+//                    if (result.data.data.isNullOrEmpty()) {
+//                        binding.noData.show()
+//                        binding.followersRv.hide()
+//                    } else {
+//                        binding.noData.hide()
+//                        binding.followersRv.show()
+//                    }
+//
+//                    var followrsList = result.data.data[0]
+//
+//                    adapter = FollowersAdapter(
+//                        requireContext(),
+//                        result.data.data,
+//                        object : FollowerClick {
+//                            override fun onFollowClikcs(pos: Int) {
+//                                mainViewModel.retriveSetAction(
+//                                    result.data.data[pos].uid,
+//                                    "user",
+//                                    "following"
+//                                )
+//                            }
+//                        })
+                    val lm = LinearLayoutManager(requireContext())
                     binding.followersRv.adapter = adapter
                     binding.followersRv.layoutManager = lm
 
@@ -127,6 +164,7 @@ Log.d("WERTYUIO",userId.toString())
         }
 
     }
+
     private fun getUserAction() {
 
         mainViewModel.getSetAction().observe(viewLifecycleOwner) { result ->
@@ -141,7 +179,6 @@ Log.d("WERTYUIO",userId.toString())
                         ).show()
 
 
-
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -149,8 +186,6 @@ Log.d("WERTYUIO",userId.toString())
                             Toast.LENGTH_LONG
                         ).show()
                     }
-
-
 
 
                 }

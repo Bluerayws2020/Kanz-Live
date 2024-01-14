@@ -78,17 +78,22 @@ data class LoginModel(
 data class FollowingResponse(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val msg: String,
-    @SerializedName("data") val data: List<FollowingList>,
+  //  @SerializedName("data") val data: List<FollowingList>,
+    @SerializedName("result") val result: FollowType,
 
     )
+
+data class FollowType(
+    @SerializedName("followers") val followers: List<FollowingList>,
+    @SerializedName("following") val following: List<FollowingList>,
+
+    )
+
 data class FollowingList(
     @SerializedName("uid") val uid: String,
     @SerializedName("user_name") val user_name: String,
     @SerializedName("picture") val picture: String,
     @SerializedName("flag") var flag: Int,
-
-
-
 
     )
 data class MessageModel(

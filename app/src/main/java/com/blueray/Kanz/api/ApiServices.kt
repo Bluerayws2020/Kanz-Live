@@ -114,6 +114,14 @@ interface ApiServices {
 
     ): FollowingResponse
 
+    @Multipart
+    @POST("user/getUserFollowersFollowingData")
+    suspend fun getUserFollowersFollowingData(
+        @Part("uid") uid: RequestBody,
+        @Part("target_uid") target_uid:RequestBody
+
+    ): FollowingResponse
+
 
     @Multipart
     @POST("app/flag-action")
