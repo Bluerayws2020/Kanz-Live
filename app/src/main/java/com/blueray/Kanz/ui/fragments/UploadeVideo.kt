@@ -292,7 +292,7 @@ binding.includeTap.title.text =  "رفع مقطع"
         hideProgress()
 
         viewmodel.getCategory().observe(this) { result ->
-
+            Log.e("****" , result.toString())
             when (result) {
                 is NetworkResults.Success -> {
 

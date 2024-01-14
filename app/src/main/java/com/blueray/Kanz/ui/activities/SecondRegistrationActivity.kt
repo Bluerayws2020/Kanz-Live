@@ -2,6 +2,7 @@ package com.blueray.Kanz.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
@@ -95,6 +96,7 @@ getCategory()
 
         viewmodel.getCategory().observe(this) { result ->
 
+            Log.e("****" , result.toString())
             when (result) {
                 is NetworkResults.Success -> {
 

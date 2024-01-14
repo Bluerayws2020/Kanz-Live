@@ -263,7 +263,7 @@ binding.radioOption1.isChecked = true
                 is NetworkResults.Success -> {
                     hideProgress()
                         natonalList = result.data as ArrayList<DropDownModel>
-                        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, natonalList.map { it.name })
+                        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, natonalList.map { it.hashtag })
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 //                        binding.nationalitySpinner.adapter = adapter
 //                    binding.nationalitySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -306,7 +306,7 @@ binding.radioOption1.isChecked = true
                 is NetworkResults.Success -> {
                     hideProgress()
                         genderList = result.data as ArrayList<DropDownModel>
-                        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderList.map { it.name })
+                        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderList.map { it.hashtag })
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 //                        binding.genderSpinner.adapter = adapter
 
@@ -367,7 +367,7 @@ binding.radioOption1.isChecked = true
                 is NetworkResults.Success -> {
                     hideProgress()
                     countryList = result.data as ArrayList<DropDownModel>
-                    val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, countryList.map { it.name })
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, countryList.map { it.hashtag })
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.countryForBand.adapter = adapter
 
@@ -436,7 +436,7 @@ binding.radioOption1.isChecked = true
                 is NetworkResults.Success -> {
                     hideProgress()
                     cityList = result.data as ArrayList<DropDownModel>
-                    val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cityList.map { it.name })
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cityList.map { it.hashtag })
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 //                    binding.citySpinner.adapter = adapter
 

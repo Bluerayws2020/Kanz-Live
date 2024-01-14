@@ -29,10 +29,10 @@ class ActivitiesTypesAdapter(
 
         val data = list[position]
       if (flag == 1){
-          holder.binding.choice.text = "# ${data.name}"
+          holder.binding.choice.text = "# ${data.hashtag}"
 
       }else {
-          holder.binding.choice.text = data.name
+          holder.binding.choice.text = data.hashtag
 
       }
 

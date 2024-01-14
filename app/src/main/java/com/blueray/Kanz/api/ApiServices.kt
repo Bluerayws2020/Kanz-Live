@@ -260,13 +260,13 @@ interface ApiServices {
     @GET("app/gender-list")
     suspend fun getGender( ): List<DropDownModel>
 
+//
+//    @GET("app/activity-list")
+//    suspend fun getCategory(@Header("Authorization") authHeader: String ): List<DropDownModel>
 
-    @GET("app/activity-list")
+
+    @POST("frontend/getHashtags")
     suspend fun getCategory(@Header("Authorization") authHeader: String ): List<DropDownModel>
-
-
-
-
 
 
     @GET

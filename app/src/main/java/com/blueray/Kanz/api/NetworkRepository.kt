@@ -87,49 +87,49 @@ object NetworkRepository {
         }
     }
 
-    suspend fun getFollowing(
-        uid: String,
-        targetUid: String,
-
-
-        ): NetworkResults<FollowingResponse> {
-        return withContext(Dispatchers.IO) {
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-            try {
-                val results = ApiClient.retrofitService.getFollowing(
-                    uidBody, targetUidBody
-                )
-                NetworkResults.Success(results)
-            } catch (e: Exception) {
-                NetworkResults.Error(e)
-            }
-        }
-    }
-
-    suspend fun getFollower(
-        uid: String,
-        targetUid: String,
-
-
-        ): NetworkResults<FollowingResponse> {
-        return withContext(Dispatchers.IO) {
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-            try {
-                val results = ApiClient.retrofitService.getFollowers(
-                    uidBody, targetUidBody
-                )
-                NetworkResults.Success(results)
-            } catch (e: Exception) {
-                NetworkResults.Error(e)
-            }
-        }
-    }
+//    suspend fun getFollowing(
+//        uid: String,
+//        targetUid: String,
+//
+//
+//        ): NetworkResults<FollowingResponse> {
+//        return withContext(Dispatchers.IO) {
+//            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//
+//            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//
+//            try {
+//                val results = ApiClient.retrofitService.getFollowing(
+//                    uidBody, targetUidBody
+//                )
+//                NetworkResults.Success(results)
+//            } catch (e: Exception) {
+//                NetworkResults.Error(e)
+//            }
+//        }
+//    }
+//
+//    suspend fun getFollower(
+//        uid: String,
+//        targetUid: String,
+//
+//
+//        ): NetworkResults<FollowingResponse> {
+//        return withContext(Dispatchers.IO) {
+//            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//
+//            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//
+//            try {
+//                val results = ApiClient.retrofitService.getFollowers(
+//                    uidBody, targetUidBody
+//                )
+//                NetworkResults.Success(results)
+//            } catch (e: Exception) {
+//                NetworkResults.Error(e)
+//            }
+//        }
+//    }
 
     suspend fun getFollowingFollower(
         uid: String,
