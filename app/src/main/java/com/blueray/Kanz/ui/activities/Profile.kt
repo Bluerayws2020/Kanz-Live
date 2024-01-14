@@ -26,7 +26,6 @@ import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.viewModels.AppViewModel
-import com.blueray.Kanz.videoliveeventsample.util.showToast
 import com.bumptech.glide.Glide
 import java.io.File
 import java.io.IOException

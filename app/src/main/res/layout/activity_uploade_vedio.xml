@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".ui.activities.RegistrationActivity">
+    tools:context=".ui.activities.UploadeVedio">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,12 +29,23 @@
                 app:cardCornerRadius="@dimen/sb_size_12"
                 android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-android:id="@+id/uploades"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon_play"
-                />
+
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/uploades"
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+
+
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/upl_l"
+                    />
             </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout

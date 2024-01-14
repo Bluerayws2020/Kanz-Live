@@ -297,9 +297,6 @@
         <!-- STYLE -->
         <style name="Widget.SendbirdLive" parent="android:Widget"/>
 
-        <style name="SendbirdLive" parent="Theme.Fares">
-            <item name="sb_widget_setup_item_view">@style/Widget.SendbirdLive.SetupItemView</item>
-        </style>
 
         <style name="Widget.SendbirdLive.SetupItemView">
             <item name="left_icon">@drawable/icon_video_on</item>

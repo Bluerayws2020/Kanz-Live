@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.RegistrationActivity">
+    tools:context=".ui.activities.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -112,16 +112,16 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/forgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="10dp"
-                android:text="@string/forgot_password"
-                android:textColor="@color/yellow300"
-                android:textSize="@dimen/sb_size_12"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/forgotPassword"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="@string/forgot_password"-->
+<!--                android:textColor="@color/yellow300"-->
+<!--                android:textSize="@dimen/sb_size_12"-->
+<!--                />-->
 
 
             <com.google.android.material.button.MaterialButton

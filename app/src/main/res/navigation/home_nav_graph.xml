@@ -26,10 +26,7 @@
         android:id="@+id/notificationFragmentss"
         android:name="com.blueray.Kanz.ui.fragments.NotificationFragment"
         android:label="NotificationFragment" />
-    <fragment
-        android:id="@+id/liveEventListFragment"
-        android:name="com.blueray.Kanz.videoliveeventsample.view.fragment.LiveEventListFragment"
-        android:label="LiveEventListFragment" />
+
     <fragment
         android:id="@+id/homePagerFragment"
         android:name="com.blueray.Kanz.ui.fragments.HomePagerFragment"
@@ -47,4 +44,20 @@
         android:id="@+id/notfi"
         android:name="com.blueray.Kanz.ui.activities.Notfi"
         android:label="Notfi" />
+    <fragment
+        android:id="@+id/liveEventList"
+        android:name="com.blueray.Kanz.hlsdemo.common.meeting.fragment.LiveEventList"
+        android:label="LiveEventList" />
+    <fragment
+        android:id="@+id/createMeetingFragment"
+        android:name="com.blueray.Kanz.hlsdemo.common.meeting.fragment.CreateMeetingFragment"
+        android:label="CreateMeetingFragment" />
+    <fragment
+        android:id="@+id/createOrJoinFragment"
+        android:name="com.blueray.Kanz.hlsdemo.common.meeting.fragment.CreateOrJoinFragment"
+        android:label="CreateOrJoinFragment" />
+    <fragment
+        android:id="@+id/joinMeetingFragment"
+        android:name="com.blueray.Kanz.hlsdemo.common.meeting.fragment.JoinMeetingFragment"
+        android:label="JoinMeetingFragment" />
 </navigation>

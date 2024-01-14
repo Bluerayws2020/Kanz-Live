@@ -6,11 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.blueray.Kanz.databinding.MainViewBinding
-import com.blueray.Kanz.videoliveeventsample.BaseApplication
-import com.blueray.Kanz.videoliveeventsample.util.showToast
-import com.sendbird.live.AuthenticateParams
-import com.sendbird.live.SendbirdLive
-import com.sendbird.live.videoliveeventsample.util.EventObserver
+
 
 class MainView : BaseActivity() {
 
@@ -35,20 +31,20 @@ class MainView : BaseActivity() {
         binding.guestBtn.setOnClickListener {
 
 //            prefManager = PrefManager(this)
-            (application as BaseApplication).initResultLiveData.observe(this, EventObserver {
-                if (it) {
-                    autoAuthenticate { isSucceed, e ->
-                        if (e != null) showToast(e)
-                        val intent = Intent(this, HomeActivity::class.java)
-//                        else showToast("يوجد خلل 4003")
-
-                        startActivity(intent)
-                        finish()
-                    }
-                } else {
-             showToast("يوجد خلل 4003")
-                }
-            })
+//            (application as BaseApplication).initResultLiveData.observe(this, EventObserver {
+//                if (it) {
+//                    autoAuthenticate { isSucceed, e ->
+//                        if (e != null) showToast(e)
+//                        val intent = Intent(this, HomeActivity::class.java)
+////                        else showToast("يوجد خلل 4003")
+//
+//                        startActivity(intent)
+//                        finish()
+//                    }
+//                } else {
+//             showToast("يوجد خلل 4003")
+//                }
+//            })
 
 
         }
@@ -56,25 +52,25 @@ class MainView : BaseActivity() {
 
     }
 
-    private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
-        val appId = "6A2870E9-4E98-4044-85DE-24DF3DDECB4B"
-        val userId = "Guest"
-//        val accessToken = "a509c1fbce3f09483f6b3196bb6f9368757a72ac"
-        val accessToken = ""
-
-        if (appId == null || userId == null) {
-            callback.invoke(false, null)
-            return
-        }
-
-        val params = AuthenticateParams(userId, accessToken)
-        SendbirdLive.authenticate(params) { user, e ->
-            if (e != null || user == null) {
-                callback.invoke(false, "${e?.message}")
-                return@authenticate
-            }
-            callback.invoke(true, null)
-        }
-    }
+//    private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
+//        val appId = "6A2870E9-4E98-4044-85DE-24DF3DDECB4B"
+//        val userId = "Guest"
+////        val accessToken = "a509c1fbce3f09483f6b3196bb6f9368757a72ac"
+//        val accessToken = ""
+//
+//        if (appId == null || userId == null) {
+//            callback.invoke(false, null)
+//            return
+//        }
+//
+//        val params = AuthenticateParams(userId, accessToken)
+//        SendbirdLive.authenticate(params) { user, e ->
+//            if (e != null || user == null) {
+//                callback.invoke(false, "${e?.message}")
+//                return@authenticate
+//            }
+//            callback.invoke(true, null)
+//        }
+//    }
 
 }

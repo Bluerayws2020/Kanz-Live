@@ -197,4 +197,25 @@
     <string name="i_agree_to_the_terms_and_conditions_and_acknowledge_my_use_of_this_application_to_comply_with_the_seller_s_terms_policies_and_guidelines">I agree to the terms and conditions, and acknowledge my use of this application to comply with the seller\'s terms, policies and guidelines.</string>
     <string name="please_enter_the_code_sent_to_your_phone_number_s">Please Enter The Code Sent to your Phone Number %S</string>
     <string name="enter_confimation_number">Enter Confimation Number</string>
+
+
+
+
+<!--    Vid Sdk-->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="mic_status">Mic Status</string>
+    <string name="toggle_camera">Toggle Camera</string>
+    <string name="toggle_mic">Toggle Mic</string>
+    <string name="toggle_screenshare">Toggle ScreenShare</string>
+    <string name="toggle_recording">Toggle Recording</string>
+    <string name="toggle_live">Toggle Live</string>
+    <string name="show_viewer">Show Viewer</string>
+    <string-array name="facingModes">
+        <item>Front</item>
+        <item>Back</item>
+    </string-array>
+    <string name="show_recording">Show Recording Indicator</string>
+    <string name="notificationTitle">VideoSDK RTC is sharing your screen</string>
+    <string name="notificationContent">meeting is running</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

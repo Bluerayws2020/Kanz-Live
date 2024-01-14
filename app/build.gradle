@@ -4,6 +4,9 @@ plugins {
     id 'kotlin-parcelize'
 
 }
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 
 android {
     signingConfigs {
@@ -33,10 +36,18 @@ android {
             signingConfig signingConfigs.release
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+
+            buildConfigField("String", "AUTH_TOKEN", "\"" + localProperties['auth_token'] + "\"")
+            buildConfigField("String", "AUTH_URL", "\"" + "\"")
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+
+            buildConfigField("String", "AUTH_TOKEN", "\"" + localProperties['auth_token'] + "\"")
+            buildConfigField("String", "AUTH_URL", "\"" + localProperties['auth_url'] + "\"")
         }
     }
     compileOptions {
@@ -63,6 +74,7 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.android.volley:volley:1.2.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -80,7 +92,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'androidx.cardview:cardview:1.0.0'
 //    implementation 'com.sendbird.sdk:uikit:3.+'
-    implementation 'com.sendbird.sdk:sendbird-live:1.1.2'
+//    implementation 'com.sendbird.sdk:sendbird-live:1.1.2'
     implementation 'io.coil-kt:coil:2.4.0'
 
     //nav component
@@ -92,7 +104,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
 
-    implementation 'com.sendbird.sdk:sendbird-live-uikit:1.0.0-beta.4'
+//    implementation 'com.sendbird.sdk:sendbird-live-uikit:1.0.0-beta.4'
 
     // Api - Retrofit  -  Okhttp
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
@@ -141,11 +153,13 @@ dependencies {
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     implementation 'com.google.android.exoplayer:exoplayer:2.19.1' // Replace with the latest version
 
-
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.X.X'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.X.X'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.X.X'
 //    live Streaming
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    implementation 'com.sendbird.sdk:sendbird-live:1.2.0-beta.1'
+//    implementation 'com.sendbird.sdk:sendbird-live:1.2.0-beta.1'
     implementation 'io.coil-kt:coil:2.4.0'
     implementation 'com.google.android.gms:play-services-basement:18.2.0'
 
@@ -164,6 +178,12 @@ dependencies {
     implementation 'io.github.chaosleung:pinview:1.4.4' // github link to deal with this library https://github.com/ChaosLeung/PinView
 
 
-    implementation 'com.github.agoraio-community:videouikit-android:final:1.1.1'
+
+//    vid Sdk
+    implementation 'com.nabinbhandari.android:permissions:3.8'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
+    implementation 'live.videosdk:rtc-android-sdk:0.1.21'
+
 
 }

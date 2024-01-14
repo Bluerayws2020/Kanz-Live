@@ -50,7 +50,7 @@
     </queries>
 
     <application
-        android:name=".videoliveeventsample.BaseApplication"
+        android:name=".hlsdemo.common.utils.MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -68,7 +68,7 @@
             android:name=".ui.activities.SplashScreen"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.FirstSplashesScreens"
+            android:name=".ui.activities.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -90,9 +90,9 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.activities.HomeActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.activities.HomeActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ui.activities.UploadeVedio"
             android:exported="false" />
@@ -123,50 +123,33 @@
         <activity
             android:name=".ui.activities.RegistrationActivity"
             android:exported="false" />
-        <activity
-            android:name=".videoliveeventsample.view.LiveEventSetUpActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.UserIdsForHostListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.CreateLiveEventActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.HostAndCandidatesListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.ParticipantListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.LiveEventForHostActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.LiveEventSummaryActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.LiveEventEndedActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.LiveEventForParticipantActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".videoliveeventsample.view.LiveEventActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activities.MainView"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".hlsdemo.common.meeting.activity.CreateOrJoinActivity"
+            android:exported="false"
+/>
+
+        <activity
+            android:name=".hlsdemo.common.meeting.activity.MainActivitys"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <meta-data
+            android:name="notificationTitle"
+            android:value="@string/notificationTitle" />
+        <meta-data
+            android:name="notificationContent"
+            android:value="@string/notificationContent" />
+        <meta-data
+            android:name="notificationIcon"
+            android:resource="@mipmap/ic_launcher_round" />
     </application>
 
 </manifest>

@@ -126,6 +126,7 @@ binding.includeTap.title.text =  "رفع مقطع"
             }
         }
 
+        binding.uploades.playAnimation()
         binding.uploades.setOnClickListener {
 
             showUploadOptions()
@@ -183,6 +184,9 @@ binding.includeTap.title.text =  "رفع مقطع"
                 getPathFromUri(it),
                 MediaStore.Images.Thumbnails.MINI_KIND
             )
+
+            binding.uploades.hide()
+
 
             // Assuming you have an ImageView named 'imageViewThumbnail' in your layout
             binding.uploades.setImageBitmap(thumbnailBitmap)

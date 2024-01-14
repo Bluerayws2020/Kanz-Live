@@ -8,9 +8,5 @@
         <attr name="tag_text_appearance" format="reference" />
     </declare-styleable>
 
-<!--  Sendbird live theme  -->
 
-    <declare-styleable name="SendbirdLiveTheme">
-        <attr name="sb_widget_setup_item_view" format="reference"/>
-    </declare-styleable>
 </resources>

@@ -7,7 +7,7 @@
     <!-- Specify the properties of the border -->
     <stroke android:width="0.5dp" android:color="#66293056" /> <!-- black color border with 2dp width -->
     <solid android:color="#834857A9"/>
-    <corners android:radius="@dimen/sb_size_31"/>
+    <corners android:radius="31dp"/>
     <!-- Optionally, specify the size of the circle -->
     <!--    <size-->
     <!--        android:width="100dp"-->

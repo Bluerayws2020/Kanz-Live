@@ -13,11 +13,6 @@ import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.ui.viewModels.AppViewModel
-import com.blueray.Kanz.videoliveeventsample.BaseApplication
-import com.blueray.Kanz.videoliveeventsample.util.showToast
-import com.sendbird.live.AuthenticateParams
-import com.sendbird.live.SendbirdLive
-import com.sendbird.live.videoliveeventsample.util.EventObserver
 
 class LoginActivity : BaseActivity() {
     private val viewmodel by viewModels<AppViewModel>()
@@ -67,9 +62,9 @@ HelperUtils.hideKeyBoard(this)
         }
 
         
-        binding.forgotPassword.setOnClickListener { 
-            startActivity(Intent(this,ForgetPasswordFirstActivity::class.java))
-        }
+//        binding.forgotPassword.setOnClickListener {
+//            startActivity(Intent(this,ForgetPasswordFirstActivity::class.java))
+//        }
 
     }
 
@@ -109,6 +104,8 @@ HelperUtils.hideKeyBoard(this)
 
         sharedPreferences.edit().apply {
             putString(HelperUtils.UID_KEY, model.datas.uid)
+            putString(HelperUtils.TOKEN_KEY, model.datas.token)
+
             putString("role", model.datas.id)
 
             putString(HelperUtils.USERNAME, binding.userName.text?.trim().toString())
@@ -122,22 +119,7 @@ HelperUtils.hideKeyBoard(this)
         startActivity(Intent(this,HomeActivity::class.java))
         finish()
         //            prefManager = PrefManager(this)
-        (application as BaseApplication).initResultLiveData.observe(this, EventObserver {
-            if (it) {
-                autoAuthenticate { isSucceed, e ->
-                    if (e != null) showToast(e)
-                    binding.progressBar.hide()
-                    binding.progressBar.hide()
 
-                    startActivity(Intent(this,HomeActivity::class.java))
-finish()
-                }
-            } else {
-                showToast("يوجد خلل 4003")
-                binding.progressBar.hide()
-
-            }
-        })
 
     }
 
@@ -161,15 +143,7 @@ finish()
             return
         }
 
-        val params = AuthenticateParams(userId, accessToken)
-        SendbirdLive.authenticate(params) { user, e ->
-            if (e != null || user == null) {
-                callback.invoke(false, "${e?.message}")
 
-                return@authenticate
-            }
-            callback.invoke(true, null)
-        }
     }
 
 }

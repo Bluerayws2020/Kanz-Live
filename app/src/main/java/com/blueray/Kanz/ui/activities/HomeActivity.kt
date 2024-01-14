@@ -15,16 +15,9 @@ import com.blueray.Kanz.helpers.HelperUtils.setDefaultLanguage
 import com.blueray.Kanz.helpers.HelperUtils.setLang
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
-import com.blueray.Kanz.videoliveeventsample.BaseApplication
-import com.blueray.Kanz.videoliveeventsample.util.showToast
-import com.blueray.Kanz.videoliveeventsample.view.fragment.LiveEventListFragment
-import com.sendbird.live.AuthenticateParams
-import com.sendbird.live.SendbirdLive
-import com.sendbird.live.videoliveeventsample.util.EventObserver
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    private val liveEventListFragment = LiveEventListFragment()
 
     private lateinit var binding : ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,18 +42,6 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-        (application as BaseApplication).initResultLiveData.observe(
-            this@HomeActivity,
-            EventObserver {
-                if (it) {
-                    autoAuthenticate { isSucceed, e ->
-                        if (e != null) showToast(e)
-
-                    }
-                } else {
-
-                }
-            })
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
@@ -162,14 +143,7 @@ true
             return
         }
 
-        val params = AuthenticateParams(userId, accessToken)
-        SendbirdLive.authenticate(params) { user, e ->
-            if (e != null || user == null) {
-                callback.invoke(false, "${e?.message}")
-                return@authenticate
-            }
-            callback.invoke(true, null)
-        }
+
     }
 
 

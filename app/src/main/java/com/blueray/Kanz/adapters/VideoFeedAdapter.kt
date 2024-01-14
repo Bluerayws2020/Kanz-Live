@@ -141,7 +141,7 @@ class VideoFeedAdapter(
                 item.video_counts?.like_count = item.video_counts?.like_count?.plus(1)!!
             }
             updateLikeButtonUI(holder, item)
-//            onProfileClick.onProfileLike(pos = item.nodeId.toInt())
+            onProfileClick.onProfileLike(pos = item.nodeId.toInt())
 
         }
 

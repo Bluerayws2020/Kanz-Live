@@ -14,9 +14,7 @@ import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.RigsterModel
 import com.blueray.Kanz.ui.viewModels.AppViewModel
-import com.blueray.Kanz.videoliveeventsample.util.showToast
-import com.sendbird.live.AuthenticateParams
-import com.sendbird.live.SendbirdLive
+
 
 class ThirdRegistrationActivity : BaseActivity() {
 
@@ -253,15 +251,7 @@ Log.d("TESTTTTLOOG",model.toString())
             return
         }
 
-        val params = AuthenticateParams(userId, accessToken)
-        SendbirdLive.authenticate(params) { user, e ->
-            if (e != null || user == null) {
-                callback.invoke(false, "${e?.message}")
 
-                return@authenticate
-            }
-            callback.invoke(true, null)
-        }
     }
 
 

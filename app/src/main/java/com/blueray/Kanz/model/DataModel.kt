@@ -1,6 +1,7 @@
 package com.blueray.Kanz.model
 
 import com.google.gson.annotations.SerializedName
+import org.json.JSONObject
 import java.io.Serializable
 
 sealed class NetworkResults<out R> {
@@ -15,7 +16,7 @@ sealed class NetworkResults<out R> {
 data class UserLoginModel(
     @SerializedName("msg") val status: MessageModel,
 
-    @SerializedName("data") val datas: LoginModel
+    @SerializedName("results") val datas: LoginModel
 
 )
 
@@ -63,6 +64,7 @@ data class RigsterModel(
 data class LoginModel(
     @SerializedName("id") val id: String,
     @SerializedName("uid") val uid: String,
+    @SerializedName("token") val token: String,
 
     @SerializedName("type") val type: String,
     @SerializedName("phone_number") val phone_number: String,
@@ -342,6 +344,27 @@ data class Pprofile_data(
     )
 
 
+data class MeetingItem(
+    val autoCloseConfig: JSONObject,
+    val apiKey: String,
+    val disabled: Boolean,
+    val createdAt: String,
+    val updatedAt: String,
+    val roomId: String,
+    val links: JSONObject,
+    val id: String
+)
+data class  AutoCloseConfig(
+    val type: String
+
+)
+
+
+data class  Links(
+    val get_room: String,
+    val get_session: String
+
+)
 data class Grid(
     val image :Int ,
     val sounds :Int ,
@@ -349,3 +372,62 @@ data class Grid(
     val name:String,
     val price:String
 )
+
+data class ApiResponse(
+    val pageInfo: PageInfo,
+    val data: List<SessionData>
+)
+
+data class PageInfo(
+    val currentPage: Int,
+    val perPage: Int,
+    val lastPage: Int,
+    val total: Int
+)
+
+data class SessionData(
+    val apiKey: String,
+    val sessionId: String,
+    val streamKey: String,
+    val mode: String,
+    val start: String,
+    val end: String?,
+    val deleted: Boolean,
+    val quality: String,
+    val orientation: String,
+    val createdAt: String,
+    val roomId: String,
+    val downstreamUrl: String,
+    val playbackHlsUrl: String,
+    val livestreamUrl: String,
+    val id: String
+)
+
+data class Template(
+    val url: String,
+    val config: Config,
+    val isCustom: Boolean
+)
+
+data class Config(
+    val layout: Layout,
+    val theme: String
+)
+
+data class Layout(
+    val type: String,
+    val priority: String,
+    val gridSize: Int
+)
+
+data class Webhook(
+    val totalCount: Int,
+    val successCount: Int,
+    val data: List<Any>
+)
+
+data class Linkss(
+    val get_room: String,
+    val get_session: String
+)
+

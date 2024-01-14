@@ -25,6 +25,8 @@ object HelperUtils {
     const val BASE_URL = "https://siyam.br-ws.com/"
     const val SHARED_PREF = "Fares"
      const val UID_KEY = "UID"
+    const val TOKEN_KEY = "TOKEN"
+
      const val USERNAME = "USERNAME"
      const val PASSWORD = "PASSWORD"
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sb_size_100">100dp</dimen>
+    <dimen name="sb_size_12">12dp</dimen>
+    <dimen name="sb_size_30">30dp</dimen>
+    <dimen name="sb_size_5">5dp</dimen>
+    <dimen name="sb_size_20">20dp</dimen>
+    <dimen name="sb_size_13">13dp</dimen>
+    <dimen name="sb_size_40">40dp</dimen>
+    <dimen name="sb_size_10">10dp</dimen>
+    <dimen name="sb_size_25">25dp</dimen>
+    <dimen name="sb_size_35">35dp</dimen>
+    <dimen name="sb_size_22">22dp</dimen>
+    <dimen name="sb_size_16">16dp</dimen>
+    <dimen name="sb_size_50">50dp</dimen>
+    <dimen name="sb_size_60">60dp</dimen>
+    <dimen name="sb_size_70">70dp</dimen>
+    <dimen name="sb_size_0">0dp</dimen>
+</resources>

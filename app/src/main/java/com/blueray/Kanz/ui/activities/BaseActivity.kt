@@ -1,6 +1,7 @@
 package com.blueray.Kanz.ui.activities
 
 import android.content.Context
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.blueray.Kanz.helpers.ContextWrapper
 import java.util.*
@@ -14,5 +15,5 @@ abstract class BaseActivity : AppCompatActivity(){
         val newContext = ContextWrapper.wrap(newBase!!, local)
         super.attachBaseContext(newContext)
     }
-
+  fun showToast (msg:String) = Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
 }

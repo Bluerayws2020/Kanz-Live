@@ -32,7 +32,7 @@ class HomePagerFragment : Fragment() {
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                // Handle page change. You can notify fragments here.
+                // Handle page change. You can notify fragments here.3
                 notifyFragmentsAboutPageChange(position)
 
             }

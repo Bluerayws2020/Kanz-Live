@@ -133,11 +133,11 @@ android:text="اختر اهتماماتك لتجرب تجربة تصفح محت�
                 app:cornerRadius="18dp"
                 app:icon="@drawable/forword"
                 app:iconGravity="textEnd"
-                android:layout_marginEnd="@dimen/sb_size_12"
+                android:layout_marginEnd="12dp"
                 app:iconSize="10dp" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/notNow"
-                    android:layout_width="@dimen/sb_size_100"
+                    android:layout_width="100dp"
                     android:layout_height="60dp"
                     android:text="ليس الان"
                     android:backgroundTint="#17293056"
