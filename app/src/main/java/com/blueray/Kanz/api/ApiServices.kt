@@ -96,24 +96,24 @@ interface ApiServices {
         @Part("uid") uid: RequestBody,
 
         ): UserUploadeDone
-
-    @Multipart
-    @POST("app/following-users")
-    suspend fun getFollowing(
-        @Part("uid") uid: RequestBody,
-        @Part("target_uid") target_uid:RequestBody
-
-
-        ): FollowingResponse
-
-    @Multipart
-    @POST("app/followers")
-    suspend fun getFollowers(
-        @Part("uid") uid: RequestBody,
-        @Part("target_uid") target_uid:RequestBody
-
-
-    ): FollowingResponse
+//
+//    @Multipart
+//    @POST("app/following-users")
+//    suspend fun getFollowing(
+//        @Part("uid") uid: RequestBody,
+//        @Part("target_uid") target_uid:RequestBody
+//
+//
+//        ): FollowingResponse
+//
+//    @Multipart
+//    @POST("app/followers")
+//    suspend fun getFollowers(
+//        @Part("uid") uid: RequestBody,
+//        @Part("target_uid") target_uid:RequestBody
+//
+//
+//    ): FollowingResponse
 
     @Multipart
     @POST("user/getUserFollowersFollowingData")
