@@ -296,7 +296,7 @@ binding.includeTap.title.text =  "رفع مقطع"
             when (result) {
                 is NetworkResults.Success -> {
 
-                    adapter = ActivitiesTypesAdapterForUploade(1,result.data,object :OnCategroryChose{
+                    adapter = ActivitiesTypesAdapterForUploade(1,result.data.results,object :OnCategroryChose{
                         override fun onCategroyChose(id: String) {
                             categoryId  = id
                         }

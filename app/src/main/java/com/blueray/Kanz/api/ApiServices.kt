@@ -2,14 +2,17 @@ package com.blueray.Kanz.api
 
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
+import com.blueray.Kanz.model.GetMyProfileResponse
+import com.blueray.Kanz.model.MainJsonDropDownModel
+import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MessageModel
-import com.blueray.Kanz.model.MessageModelData
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.SearchDataModel
+import com.blueray.Kanz.model.UpdateProfileResponse
+import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
-import com.blueray.Kanz.model.ViewUserLoginModel
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import okhttp3.MultipartBody
@@ -66,9 +69,9 @@ interface ApiServices {
 
 
     @Multipart
-    @POST("app/login")
+    @POST("user/login")
     suspend fun userOtpLogin(
-        @Part("user") phone: RequestBody,
+        @Part("user_name") user_name: RequestBody,
         @Part("password") password: RequestBody,
         @Part("lang") lang: RequestBody,
 
@@ -134,6 +137,33 @@ interface ApiServices {
 
         ): MessageModel
 
+    @Multipart
+    @POST("user/likeOrUnlikeVideo")
+    suspend fun likeOrUnlikeVideo(
+        @Part("uid") uid: RequestBody,
+        @Part("entity_id") entity_id: RequestBody,
+        @Part("entity_type") entity_type: RequestBody,
+//        @Part("flag_id") flag_id: RequestBody,
+
+        ): UserActionMessage
+
+    @Multipart
+    @POST("user/saveOrCancelSaveVideo")
+    suspend fun saveOrCancelSaveVideo(
+        @Part("uid") uid: RequestBody,
+        @Part("entity_id") entity_id: RequestBody,
+        @Part("entity_type") entity_type: RequestBody,
+//        @Part("flag_id") flag_id: RequestBody,
+    ): UserActionMessage
+
+    @Multipart
+    @POST("user/followOrUnfollowUser")
+    suspend fun followOrUnfollowUser(
+        @Part("uid") uid: RequestBody,
+        @Part("entity_id") entity_id: RequestBody,
+        @Part("entity_type") entity_type: RequestBody,
+//        @Part("flag_id") flag_id: RequestBody,
+    ): UserActionMessage
 
 
     @GET("app2/poetries")
@@ -189,7 +219,7 @@ interface ApiServices {
         @Part("uid") uid: RequestBody,
         @Part("id") id: RequestBody,
 
-        ): MessageModelData
+        ): UpdateProfileResponse
 @Multipart
     @POST("app/notifications")
     suspend fun getNotfi(
@@ -222,29 +252,28 @@ interface ApiServices {
 
         ): checkUserFollowData
 
-    @GET("app/user-info")
+    @POST("user/getMyProfile")
     suspend fun getUserInfo(
-        @Query("uid")  uid:String,
+        @Header("Authorization") bearerToken:String
 
-    ):List<ViewUserLoginModel>
+    ):GetMyProfileResponse
 
 
 
     @Multipart
-    @POST("app/edit-poet-profile")
+    @POST("user/updateMyProfile")
     suspend fun editProfile(
-        @Part("uid") uid: RequestBody,
+        @Header("Authorization") bearerToken: String,
         @Part("first_name") first_name: RequestBody,
         @Part("last_name") last_name: RequestBody,
-        @Part("email") email: RequestBody,
+        @Part("user_name") user_name: RequestBody,
+        @Part("date_of_birth") date_of_birth: RequestBody,
+        @Part("sex") sex: RequestBody,
         @Part("phone") phone: RequestBody,
-        @Part  img :   MultipartBody.Part,
-        @Part("barth_of_date") barth_of_date: RequestBody,
-    @Part("gender") gender: RequestBody,
-
-
-
-        ):MessageModelData
+        @Part("country_phone_id") country_phone_id: RequestBody,
+        @Part("email") email: RequestBody,
+//        @Part image_profile :MultipartBody.Part
+    ): UpdateProfileResponse
     @GET("app/nationality-list")
     suspend fun getNational( ): List<DropDownModel>
 
@@ -253,10 +282,13 @@ interface ApiServices {
 
 
     @GET("app/country-list")
-    suspend fun getCitis(         @Query("pid")  pid:String
+    suspend fun getCitis(@Query("pid")  pid:String
     ): List<DropDownModel>
-    @GET("app/country-list")
-    suspend fun getCountry  (): List<DropDownModel>
+
+
+    @POST("frontend/getCountries")
+    suspend fun getCountry  (): MainJsonDropDownModel
+
     @GET("app/gender-list")
     suspend fun getGender( ): List<DropDownModel>
 
@@ -266,7 +298,7 @@ interface ApiServices {
 
 
     @POST("frontend/getHashtags")
-    suspend fun getCategory(@Header("Authorization") authHeader: String ): List<DropDownModel>
+    suspend fun getCategory(@Header("Authorization") authHeader: String ): MainJsonDropDownModelHashTag
 
 
     @GET

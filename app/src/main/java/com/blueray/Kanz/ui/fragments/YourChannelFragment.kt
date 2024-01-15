@@ -136,15 +136,15 @@ getUserProifle()
         mainViewModel.getUserProfile().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResults.Success -> {
-                    if(result.data.isEmpty())
+                    if(result.data.results.id ==null)
                     {}
                     else{
-                        val  data = result.data[0]
+                        val  data = result.data
 
 
-                        Glide.with(requireContext()).load(result.data[0].user_picture).into(binding.profileImage)
+                        Glide.with(requireContext()).load(result.data.results.profile_image).into(binding.profileImage)
 
-                        binding.yourChannelTv.text  =  data.username
+                        binding.yourChannelTv.text  =  data.results.user_name
 
                     }
 

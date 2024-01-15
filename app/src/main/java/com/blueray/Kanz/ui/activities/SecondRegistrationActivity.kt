@@ -18,36 +18,38 @@ import com.blueray.Kanz.ui.viewModels.AppViewModel
 
 class SecondRegistrationActivity : BaseActivity() {
     private val viewmodel by viewModels<AppViewModel>()
-companion object{
-    var activtyIds = ""
-}
-    private lateinit var binding : ActivitySecoundRegistrationBinding
-    private lateinit var adapter : ActivitiesTypesAdapter
+
+    companion object {
+        var activtyIds = ""
+    }
+
+    private lateinit var binding: ActivitySecoundRegistrationBinding
+    private lateinit var adapter: ActivitiesTypesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySecoundRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.nextBtn.setOnClickListener {
-            startActivity(Intent(this,ThirdRegistrationActivity::class.java))
+            startActivity(Intent(this, ThirdRegistrationActivity::class.java))
         }
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        HelperUtils.setDefaultLanguage(this,"ar")
+        HelperUtils.setDefaultLanguage(this, "ar")
 
         viewmodel.retriveCategory()
-getCategory()
+        getCategory()
 
 
-            binding.signInBtn.setOnClickListener {
-            if (activtyIds.isEmpty()){
-            Toast.makeText(this,"يرجى اختيار تصنيف",Toast.LENGTH_LONG).show()
+        binding.signInBtn.setOnClickListener {
+            if (activtyIds.isEmpty()) {
+                Toast.makeText(this, "يرجى اختيار تصنيف", Toast.LENGTH_LONG).show()
 
-            }else {
-            startActivity(Intent(this, LoginActivity::class.java))
-
-            }
-
+            } else {
+                startActivity(Intent(this, LoginActivity::class.java))
 
             }
+
+
+        }
 
         binding.includeTab.back.setOnClickListener {
             onBackPressed()
@@ -60,7 +62,7 @@ getCategory()
     }
 
 
-//    private fun getCategory() {
+    //    private fun getCategory() {
 //        hideProgress()
 //
 //        viewmodel.getCategory().observe(this) { result ->
@@ -96,11 +98,11 @@ getCategory()
 
         viewmodel.getCategory().observe(this) { result ->
 
-            Log.e("****" , result.toString())
+            Log.e("****", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
 
-                    adapter = ActivitiesTypesAdapter(0,result.data, object : OnCategroryChose {
+                    adapter = ActivitiesTypesAdapter(0, result.data.results, object : OnCategroryChose {
                         override fun onCategroyChose(id: String) {
                             activtyIds = id
                         }

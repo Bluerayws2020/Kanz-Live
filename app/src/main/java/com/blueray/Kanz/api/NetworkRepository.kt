@@ -4,15 +4,19 @@ import android.util.Base64
 import android.util.Log
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
+import com.blueray.Kanz.model.GetMyProfileResponse
+import com.blueray.Kanz.model.MainJsonDropDownModel
+import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MessageModel
-import com.blueray.Kanz.model.MessageModelData
+
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.SearchDataModel
+import com.blueray.Kanz.model.UpdateProfileResponse
+import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
-import com.blueray.Kanz.model.ViewUserLoginModel
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import kotlinx.coroutines.Dispatchers
@@ -154,13 +158,13 @@ object NetworkRepository {
     }
 
     suspend fun setUserActionPost(
-        uid: String,
-        entityId: String,
-        entity_type: String,
+        uid: String,          // my id
+        entityId: String,     // video id or user id
+        entity_type: String,  // node or user
         flag_id: String,
 
 
-        ): NetworkResults<MessageModel> {
+        ): NetworkResults<UserActionMessage> {
         return withContext(Dispatchers.IO) {
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val entityIdBody = entityId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -170,11 +174,28 @@ object NetworkRepository {
 
 
             try {
-                val results = ApiClient.retrofitService.ActionPost(
-                    uidBody, entityIdBody, entity_typeBody, flag_idBody
-
-
+                var results =  ApiClient.retrofitService.likeOrUnlikeVideo(
+                    uidBody, entityIdBody, entity_typeBody
                 )
+
+
+                if (flag_id == "like") {
+                    results = ApiClient.retrofitService.likeOrUnlikeVideo(
+                        uidBody, entityIdBody, entity_typeBody
+                    )
+                }
+                if (flag_id == "save") {
+                    results = ApiClient.retrofitService.saveOrCancelSaveVideo(
+                        uidBody, entityIdBody, entity_typeBody
+                    )
+                }
+
+                if (flag_id == "following") {
+                    results = ApiClient.retrofitService.followOrUnfollowUser(
+                        uidBody, entityIdBody, entity_typeBody
+                    )
+                }
+
                 NetworkResults.Success(results)
             } catch (e: Exception) {
                 NetworkResults.Error(e)
@@ -238,7 +259,7 @@ object NetworkRepository {
         id: String,
 
 
-        ): NetworkResults<MessageModelData> {
+        ): NetworkResults<UpdateProfileResponse> {
         return withContext(Dispatchers.IO) {
 
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -336,15 +357,15 @@ object NetworkRepository {
 
 
     suspend fun getUserProfile(
-        uid: String
+        token: String
 
-    ): NetworkResults<List<ViewUserLoginModel>> {
+    ): NetworkResults<GetMyProfileResponse> {
         return withContext(Dispatchers.IO) {
 
 
             try {
                 val results = ApiClient.retrofitService.getUserInfo(
-                    uid
+                    token
                 )
 
 
@@ -383,7 +404,7 @@ object NetworkRepository {
     suspend fun getCountry(
 
 
-    ): NetworkResults<List<DropDownModel>> {
+    ): NetworkResults<MainJsonDropDownModel> {
         return withContext(Dispatchers.IO) {
 
 
@@ -422,50 +443,51 @@ object NetworkRepository {
 
     suspend fun getEditProfile(
 
-        uid: String,
+        bearerToken: String,
         first_name: String,
         last_name: String,
+        user_name: String,
         email: String,
         phone: String,
-        img: File,
-        gender: String,
+        country_phone_id: String,
+        sex: String,
         barth_of_date: String,
 
 
-        ): NetworkResults<MessageModelData> {
+        ): NetworkResults<UpdateProfileResponse> {
         return withContext(Dispatchers.IO) {
-
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val first_nameBody = first_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val last_nameBody = last_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val user_nameBody = user_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val phoneBody = phone.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val country_phone_idBody = country_phone_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val emailBody = email.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val genderBody = gender.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val genderBody = sex.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val barth_of_dateBody =
                 barth_of_date.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-            val commercial_recordBody =
-                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), img)
-            val commercial_record_part =
-                MultipartBody.Part.createFormData("img", img.name, commercial_recordBody)
+            // TODO: dont forget to add the image edit
+//            val commercial_recordBody =
+//                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image)
+//            val commercial_record_part  =  MultipartBody.Part.createFormData("profile_image", profile_image.name, commercial_recordBody)
 
             try {
                 val results = ApiClient.retrofitService.editProfile(
-                    uidBody,
+                    bearerToken,
                     first_nameBody,
                     last_nameBody,
-                    emailBody,
-                    phoneBody,
-                    commercial_record_part,
+                    user_nameBody,
+                    barth_of_dateBody,
                     genderBody,
-                    barth_of_dateBody
-                )
+                    phoneBody,
+                    country_phone_idBody,
+                    emailBody ,
+
+                    )
                 NetworkResults.Success(results)
-            } catch (e: Exception) {
+            } catch (e: Exception){
                 NetworkResults.Error(e)
             }
-        }
-    }
+            }}
 
     suspend fun getCheckUserFollow(
 
@@ -514,7 +536,7 @@ object NetworkRepository {
     suspend fun getCategory(
 
 
-    ): NetworkResults<List<DropDownModel>> {
+    ): NetworkResults<MainJsonDropDownModelHashTag> {
         return withContext(Dispatchers.IO) {
 
 

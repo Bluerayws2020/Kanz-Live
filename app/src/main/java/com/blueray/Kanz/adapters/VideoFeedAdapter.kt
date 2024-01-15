@@ -22,9 +22,12 @@ import com.google.android.exoplayer2.Player
 
 
 class VideoFeedAdapter(
-     val videoUrls: ArrayList<NewAppendItItems>, var onProfileClick: OnProfileClick, var context: Context, private val videoPlaybackControl: VideoPlaybackControl
-    ,
-    var isUser:Int) : RecyclerView.Adapter<VideoFeedAdapter.VideoViewHolder>() {
+    val videoUrls: ArrayList<NewAppendItItems>,
+    var onProfileClick: OnProfileClick,
+    var context: Context,
+    private val videoPlaybackControl: VideoPlaybackControl,
+    var isUser: Int
+) : RecyclerView.Adapter<VideoFeedAdapter.VideoViewHolder>() {
     var likeCount = 0
     var commintCount = 0
 
@@ -32,12 +35,14 @@ class VideoFeedAdapter(
         var player: ExoPlayer? = null
 
 
-        val gestureDetector = GestureDetector(binding.root.context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onDoubleTap(e: MotionEvent): Boolean {
-                binding.likeBtn.performClick() // Simulate a click on the like button
-                return true
-            }
-        })
+        val gestureDetector = GestureDetector(
+            binding.root.context,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDoubleTap(e: MotionEvent): Boolean {
+                    binding.likeBtn.performClick() // Simulate a click on the like button
+                    return true
+                }
+            })
 
         fun bind(videoUrl: String) {
 
@@ -94,8 +99,6 @@ class VideoFeedAdapter(
     }
 
 
-
-
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.bind(videoUrls[position].videoUrl)
         val item = videoUrls[position]
@@ -105,20 +108,20 @@ class VideoFeedAdapter(
             holder.gestureDetector.onTouchEvent(event)
             true
         }
-            holder.binding.username.text =  videoUrls[position].userName
-            holder.binding.description.text =  videoUrls[position].videoTitle
+        holder.binding.username.text = videoUrls[position].userName
+        holder.binding.description.text = videoUrls[position].videoTitle
 //
-            // Save button
-            holder.binding.saveBtn.setOnClickListener {
-                item.userSave = if(item.userSave == "1") "0" else "1"
-                updateSaveButtonUI(holder, item)
-                onProfileClick.onProfileSaved(item.nodeId.toInt())
-            }
+        // Save button
+        holder.binding.saveBtn.setOnClickListener {
+            item.userSave = if (item.userSave == "1") "0" else "1"
+            updateSaveButtonUI(holder, item)
+            onProfileClick.onProfileSaved(item.nodeId.toInt())
+        }
 
-        if (videoUrls[position].userFav == "1"){
+        if (videoUrls[position].userFav == "1") {
             holder.binding.likeBtn.setImageResource(R.drawable.heartss)
 
-        }else {
+        } else {
             holder.binding.likeBtn.setImageResource(R.drawable.heart)
 
         }
@@ -145,7 +148,7 @@ class VideoFeedAdapter(
 
         }
 
-            holder.binding.loginitems.hide()
+        holder.binding.loginitems.hide()
 
 //
 //
@@ -157,14 +160,14 @@ class VideoFeedAdapter(
 //            holder.binding.loginitems.show()
 //        }
 
-if (isUser == 3001){
+        if (isUser == 3001) {
 
-    holder.binding.deltBtn.show()
-}else {
-    holder.binding.deltBtn.hide()
+            holder.binding.deltBtn.show()
+        } else {
+            holder.binding.deltBtn.hide()
 
-}
-Log.d("LikkkesCountss",videoUrls[position].video_counts?.like_count.toString())
+        }
+        Log.d("LikkkesCountss", videoUrls[position].video_counts?.like_count.toString())
         likeCount = videoUrls[position].video_counts?.like_count!!
         commintCount = videoUrls[position].video_counts?.like_count ?: 0
 
@@ -175,24 +178,22 @@ Log.d("LikkkesCountss",videoUrls[position].video_counts?.like_count.toString())
         // Like button logic
 
 
-        if (videoUrls[position].userSave == "1"){
-holder.binding.saveBtn.setImageResource(R.drawable.baseline_bookmark_24)
+        if (videoUrls[position].userSave == "1") {
+            holder.binding.saveBtn.setImageResource(R.drawable.baseline_bookmark_24)
 
-        }else {
+        } else {
             holder.binding.saveBtn.setImageResource(R.drawable.save)
 
         }
 //
 
 
-
-
-        holder.binding.commentBtn.setOnClickListener{
+        holder.binding.commentBtn.setOnClickListener {
 
             onProfileClick.onProfileCommint(pos = position)
         }
 
-        holder.binding.shareBtn.setOnClickListener{
+        holder.binding.shareBtn.setOnClickListener {
 //            onProfileClick.onProfileShare(pos = position)
         }
 
@@ -202,18 +203,18 @@ holder.binding.saveBtn.setImageResource(R.drawable.baseline_bookmark_24)
         holder.binding.loginitems.setOnClickListener {
             onProfileClick.onMyProfileClikc()
         }
-        holder.binding.description.setOnClickListener{
+        holder.binding.description.setOnClickListener {
             onProfileClick.onProfileClikc(position)
         }
 
-        holder.binding.username.setOnClickListener{
+        holder.binding.username.setOnClickListener {
             onProfileClick.onProfileClikc(position)
         }
-        holder.binding.profiel.setOnClickListener{
+        holder.binding.profiel.setOnClickListener {
             onProfileClick.onProfileClikc(position)
         }
 
-        holder.binding.shareBtn.setOnClickListener{
+        holder.binding.shareBtn.setOnClickListener {
             onProfileClick.onProfileShare(position)
         }
 
@@ -241,11 +242,13 @@ holder.binding.saveBtn.setImageResource(R.drawable.baseline_bookmark_24)
         super.onViewRecycled(holder)
         holder.releasePlayer()
     }
+
     override fun onViewAttachedToWindow(holder: VideoViewHolder) {
         super.onViewAttachedToWindow(holder)
         // Resume playback when the view is visible
         holder.player?.playWhenReady = true
     }
+
     override fun onViewDetachedFromWindow(holder: VideoViewHolder) {
         super.onViewDetachedFromWindow(holder)
         // Pause playback when the view is not visible
@@ -259,10 +262,12 @@ holder.binding.saveBtn.setImageResource(R.drawable.baseline_bookmark_24)
         // Update like count text
         holder.binding.likesCount.text = item.video_counts?.like_count.toString()
     }
+
     private fun updateSaveButtonUI(holder: VideoViewHolder, item: NewAppendItItems) {
         holder.binding.saveBtn.setImageResource(if (item.userSave == "1") R.drawable.baseline_bookmark_24 else R.drawable.save)
         holder.binding.commentsCount.text = item.video_counts?.save_count.toString()
     }
+
     override fun getItemCount(): Int = videoUrls.size
 
     fun appendData(newItems: MutableList<NewAppendItItems>) {

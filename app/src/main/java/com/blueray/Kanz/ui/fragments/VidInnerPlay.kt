@@ -292,17 +292,17 @@ botBinding.deletBtn.setOnClickListener {
 
             when (result) {
                 is NetworkResults.Success -> {
-                    if (result.data.status == 200) {
+                    if (result.data.msg == 200) {
                         Toast.makeText(
                             this,
-                            result.data.msg.toString(),
+                            result.data.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
 
                     } else {
                         Toast.makeText(
                             this,
-                            result.data.msg.toString(),
+                            result.data.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -330,10 +330,10 @@ botBinding.deletBtn.setOnClickListener {
 
             when (result) {
                 is NetworkResults.Success -> {
-                    if (result.data.status.status == 200) {
+                    if (result.data.msg.status == 200) {
                         Toast.makeText(
                             this,
-                            result.data.status.msg.toString(),
+                            result.data.msg.message,
                             Toast.LENGTH_LONG
                         ).show()
 
@@ -343,7 +343,7 @@ botBinding.deletBtn.setOnClickListener {
                     } else {
                         Toast.makeText(
                             this,
-                            result.data.status.msg.toString(),
+                            result.data.msg.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }

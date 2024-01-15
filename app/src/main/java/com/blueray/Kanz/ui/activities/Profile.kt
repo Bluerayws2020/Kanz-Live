@@ -40,7 +40,7 @@ class Profile : BaseActivity() {
     private lateinit var binding : EditProfilessBinding
     private val mainViewModel by viewModels<AppViewModel>()
     private lateinit var navController: NavController
-
+    private var gender: Int? = null
 
     private lateinit var currentPhotoPath: String
 
@@ -53,38 +53,34 @@ class Profile : BaseActivity() {
         binding = EditProfilessBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mainViewModel.retriveViewUserProfile()
-getUserProifle()
+        getUserProifle()
         binding.tollbars.back.setOnClickListener {
             onBackPressed()
         }
 
-getUpdateUserProfile()
+        getUpdateUserProfile()
 
         binding.tollbars .logout.show()
         binding.tollbars .logout.setOnClickListener {
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle(title)
-                builder.setMessage("هل انت متاكد من تسجيل الخروج ؟")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(title)
+            builder.setMessage("هل انت متاكد من تسجيل الخروج ؟")
 
-                builder.setPositiveButton("نعم") { dialog, _ ->
-                    val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
+            builder.setPositiveButton("نعم") { dialog, _ ->
+                val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
 
-                    sharedPreferences.edit().apply {
-                        putString(HelperUtils.UID_KEY, "0")
+                sharedPreferences.edit().apply {
+                    putString(HelperUtils.UID_KEY, "0")
+                }.apply()            // go to home activity
+                startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
+            }
 
+            builder.setNegativeButton("لا") { dialog, _ ->
+                dialog.dismiss()
+            }
 
-
-
-                    }.apply()            // go to home activity
-                    startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
-                }
-
-                builder.setNegativeButton("لا") { dialog, _ ->
-                    dialog.dismiss()
-                }
-
-                val dialog = builder.create()
-                dialog.show()
+            val dialog = builder.create()
+            dialog.show()
 
 
 
@@ -97,11 +93,24 @@ getUpdateUserProfile()
         }
         binding.edits.setOnClickListener {
             binding.progressBar.show()
-            imageFile?.let { it1 ->
-                mainViewModel.updateUserProfile(binding.nameEt.text.toString(),"",binding.emailTxt.text.toString(),binding.phoneTxt.text.toString(),
-                    it1,binding.genderEt.text.toString(),binding.birthDateTxt.text.toString()
-                )
+            if (binding.genderEt.text.toString() == "female" || binding.genderEt.text.toString() == "Female"){
+                gender = 1
+            }else if (binding.genderEt.text.toString() == "male" || binding.genderEt.text.toString() == "Male"){
+                gender = 2
             }
+            mainViewModel.updateUserProfile(
+                first_name = binding.nameEt.text.toString(),
+                //todo: some required fields are not editable in the app
+                last_name = "khater",
+                user_name = binding.userNameEt.text.toString(),
+                email = binding.emailTxt.text.toString(),
+                phone = binding.phoneTxt.text.toString(),
+                country_phone_id = "962",
+                sex = gender.toString(),
+                barth_of_date = binding.birthDateTxt.text.toString()
+
+            )
+
         }
 
 
@@ -113,14 +122,16 @@ getUpdateUserProfile()
         mainViewModel.getUpdateUserLive().observe(this) { result ->
             when (result) {
                 is NetworkResults.Success -> {
-binding.progressBar.hide()
-                  showToast(result.data.status.msg.toString())
+                    binding.progressBar.hide()
+                    showToast(result.data.msg.message.toString())
                 }
 
                 is NetworkResults.Error -> {
-
-                    Log.d("ERRRRor",result.exception.toString())
+                    binding.progressBar.hide()
+                    HelperUtils.showMessage(this, result.exception.toString())
+                    Log.d("prof error", result.exception.toString())
                 }
+
                 is NetworkResults.NoInternet -> TODO()
             }
         }
@@ -134,22 +145,23 @@ binding.progressBar.hide()
             when (result) {
                 is NetworkResults.Success -> {
 
-                    val  data = result.data[0]
-                    Glide.with(this).load(result.data[0].user_picture).placeholder(R.drawable.logo2).into(binding.userImagee)
-                    binding.userNameEt.setText(data.username)
+                    val data = result.data
+                    Glide.with(this).load(result.data.results.profile_image)
+                        .placeholder(R.drawable.logo2).into(binding.userImagee)
+                    binding.userNameEt.setText(data.results.user_name)
 
-                    binding.phoneTxt.setText(data.phone_number)
-                    binding.emailTxt.setText(data.profile_data.mail)
-binding.nameEt.setText(data.profile_data.first_name )
+                    binding.phoneTxt.setText(data.results.phone)
+                    binding.emailTxt.setText(data.results.email)
+                    binding.nameEt.setText(data.results.first_name)
 
-binding.genderEt.setText(data.profile_data.gender.toString())
-                    binding.birthDateTxt.setText(data.profile_data.birth_date.toString())
+                    binding.genderEt.setText(data.results.sex.toString())
+                    binding.birthDateTxt.setText(data.results.date_of_birth)
 
                 }
 
                 is NetworkResults.Error -> {
 
-                    Log.d("ERRRRor",result.exception.toString())
+                    Log.d("no data here", result.exception.toString())
                 }
                 is NetworkResults.NoInternet -> TODO()
             }
@@ -290,6 +302,6 @@ binding.genderEt.setText(data.profile_data.gender.toString())
         imageData = currentPhotoPath
         imageFile = File(imageData)
 
-    }
+        }
 
 }

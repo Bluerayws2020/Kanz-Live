@@ -70,17 +70,17 @@ class SavedVideoFragment : Fragment() {
 
             when (result) {
                 is NetworkResults.Success -> {
-                    if (result.data.status == 200) {
+                    if (result.data.msg == 200) {
                         Toast.makeText(
                             requireContext(),
-                            result.data.msg.toString(),
+                            result.data.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
 
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            result.data.msg.toString(),
+                            result.data.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }

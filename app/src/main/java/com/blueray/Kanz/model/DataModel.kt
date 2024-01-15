@@ -16,7 +16,7 @@ sealed class NetworkResults<out R> {
 data class UserLoginModel(
     @SerializedName("msg") val status: MessageModel,
 
-    @SerializedName("results") val datas: LoginModel
+    @SerializedName("results") val datas:LoginModel
 
 )
 
@@ -25,16 +25,62 @@ data class  RgetrationModel(
     @SerializedName("poet_data") val data: RigsterModel,
 )
 
-data class ViewUserLoginModel(
-    @SerializedName("uid") val uid: String,
-    @SerializedName("role") val role: String,
-    @SerializedName("mail") val mail: String,
-    @SerializedName("username") val username: String,
-    @SerializedName("user_picture") val user_picture: String,
-    @SerializedName("phone_number") val phone_number: String,
-    @SerializedName("profile_data") val profile_data: Pprofile_data,
-    @SerializedName("auther") val autherFoloower : AuthresFolow,
+//data class ViewUserLoginModel(
+//    @SerializedName("uid") val uid: String,
+//    @SerializedName("role") val role: String,
+//    @SerializedName("mail") val mail: String,
+//    @SerializedName("username") val username: String,
+//    @SerializedName("user_picture") val user_picture: String,
+//    @SerializedName("phone_number") val phone_number: String,
+//    @SerializedName("profile_data") val profile_data: Pprofile_data,
+//    @SerializedName("auther") val autherFoloower : AuthresFolow,
+//
+//)
 
+data class GetMyProfileResponse(
+    val msg: Msg,
+    val results: Results
+)
+data class Results(
+    val bio: Any,
+    val country_phone_id: String,
+    val date_of_birth: String,
+    val email: String,
+    val first_name: String,
+    val followers_count: String,
+    val following_count: String,
+    val id: Int,
+    val last_name: String,
+    val likes_count: String,
+    val live_status: String,
+    val my_videos: List<MyVideo>,
+    val my_videos_count: Int,
+    val my_videos_save: Any,
+    val phone: String,
+    val profile_image: Any,
+    val sex: String,
+    val token: String,
+    val upload_video_status: String,
+    val user_name: String
+)
+data class Msg(
+    val message: String,
+    val status: Int
+)
+data class MyVideo(
+    val comments_data: List<Any>,
+    val description: String,
+    val hashtagTitles: List<String>,
+    val hashtag_ids: List<String>,
+    val id: Int,
+    val number_of_comments: String,
+    val number_of_likes: String,
+    val number_of_save: String,
+    val number_of_share: Int,
+    val share_count: String,
+    val video: String,
+    val vimeo_id: Int,
+    val vimeo_transcode_status:String
 )
 data class UserUploadeDone(
     @SerializedName("msg") val status: MessageModel,
@@ -65,12 +111,21 @@ data class LoginModel(
     @SerializedName("id") val id: String,
     @SerializedName("uid") val uid: String,
     @SerializedName("token") val token: String,
-
-    @SerializedName("type") val type: String,
-    @SerializedName("phone_number") val phone_number: String,
+    @SerializedName("first_name") val first_name: String,
+    @SerializedName("last_name") val last_name: String,
     @SerializedName("user_name") val user_name: String,
     @SerializedName("email") val email: String,
-    @SerializedName("user_picture") val user_picture: String,
+    @SerializedName("phone") val phone: String,
+    @SerializedName("country_phone_id") val country_phone_id: String,
+    @SerializedName("date_of_birth") val date_of_birth: String,
+    @SerializedName("email_verified_at") val email_verified_at: String,
+    @SerializedName("profile_image") val profile_image: String,
+    @SerializedName("login_way") val login_way: String,
+    @SerializedName("sex") val sex: String,
+    @SerializedName("bio") val bio: String,
+    @SerializedName("live_status") val live_status: String,
+    @SerializedName("upload_video_status") val upload_video_status:String,
+
 
     )
 
@@ -98,12 +153,43 @@ data class FollowingList(
     )
 data class MessageModel(
     @SerializedName("status") val status: Int,
-    @SerializedName("message") val msg: String
+    @SerializedName("message") val msg: String,
+    @SerializedName("msg") val msgs:Int
 
 )
-data class MessageModelData(
-    @SerializedName("msg") val status: MessageModel,
-
+//data class MessageModelData(
+//    @SerializedName("msg") val status: MessageModel,
+//
+//)
+data class UpdateProfileResponse(
+    val msg: Msg,
+    val results: UpdateResults
+)
+data class UpdateResults(
+    val bio: Any,
+    val country_phone_id: String,
+    val date_of_birth: String,
+    val email: String,
+    val first_name: String,
+    val followers_count: String,
+    val following_count: String,
+    val id: Int,
+    val last_name: String,
+    val likes_count: String,
+    val live_status: String,
+    val my_videos: Any,
+    val my_videos_count: Int,
+    val my_videos_save: Any,
+    val phone: String,
+    val profile_image: Any,
+    val sex: String,
+    val token: String,
+    val upload_video_status: String,
+    val user_name:String
+)
+data class UserActionMessage(
+    @SerializedName("msg") val msg: Int,
+    @SerializedName("message") val message: String
 )
 data class Item(
     val id: String,
@@ -120,6 +206,23 @@ data class DropDownModel(
     val id: String,
     val hashtag: String,
 )
+
+data class CountriesDropDownModel(
+    val id: String,
+    val name: String,
+)
+
+data class MainJsonDropDownModel(
+    val msg: MessageModel,
+    val results: List<CountriesDropDownModel>
+)
+
+data class MainJsonDropDownModelHashTag(
+    val msg: MessageModel,
+    val results: List<DropDownModel>
+)
+
+
 data class VimeoVideoModelV2 (
 
     @SerializedName("uri") val uri : String,

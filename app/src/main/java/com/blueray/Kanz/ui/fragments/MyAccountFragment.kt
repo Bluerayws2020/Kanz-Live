@@ -14,6 +14,8 @@ import com.blueray.Kanz.R
 import com.blueray.Kanz.adapters.MyAccountPagerAdapter
 import com.blueray.Kanz.databinding.FragmentMyAccountBinding
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.model.Item
+import com.blueray.Kanz.model.MyVideo
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.activities.FollowingAndFollowersActivity
 import com.blueray.Kanz.ui.activities.Profile
@@ -27,7 +29,7 @@ class MyAccountFragment : Fragment() {
 
     private lateinit var binding: FragmentMyAccountBinding
     private val mainViewModel by viewModels<AppViewModel>()
-var userName = ""
+    var userName = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +50,7 @@ var userName = ""
         }
         binding.followersLayout.setOnClickListener {
             val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
-           intent.putExtra("user_id", HelperUtils.getUid(requireContext())) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("user_id", HelperUtils.getUid(requireContext())) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("userName",userName ) // Replace 'yourUserId' with the actual user ID
 
             startActivity(intent)
@@ -116,29 +118,23 @@ var userName = ""
         mainViewModel.getUserProfile().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResults.Success -> {
-
-                    val  data = result.data[0]
-                    Glide.with(this).load(result.data[0].user_picture).placeholder(R.drawable.logo2).into(binding.profileImage)
-                  binding.followersCount.text =  data.autherFoloower.numOfFollowers.toString()
-                    binding.followingCount.text =  data.autherFoloower.numOfFollowing.toString()
-                    binding.likesCount.text =  data.autherFoloower.numOfLikes.toString()
-
-                    binding.userName.text = data.username.toString()
-
-                    userName =  data.username
-
-
+                    val  data = result.data
+                    Glide.with(this).load(result.data.results.profile_image).placeholder(R.drawable.logo2).into(binding.profileImage)
+                    binding.followersCount.text =  data.results.followers_count
+                    binding.followingCount.text =  data.results.following_count
+                    binding.likesCount.text =  data.results.likes_count
+                    binding.userName.text = data.results.user_name
+                    userName =  data.results.user_name
                 }
 
                 is NetworkResults.Error -> {
-
-                    Log.d("ERRRRor",result.exception.toString())
+                    Log.d("sad error",result.exception.toString())
                 }
                 is NetworkResults.NoInternet -> TODO()
             }
-        }
+            }
 
-    }
+        }
 
 
 

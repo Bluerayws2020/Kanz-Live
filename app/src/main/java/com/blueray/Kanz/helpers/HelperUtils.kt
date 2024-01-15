@@ -27,6 +27,7 @@ object HelperUtils {
      const val UID_KEY = "UID"
     const val TOKEN_KEY = "TOKEN"
 
+
      const val USERNAME = "USERNAME"
      const val PASSWORD = "PASSWORD"
 
@@ -123,6 +124,11 @@ object HelperUtils {
         val sharedPreferences = context.getSharedPreferences(SHARED_PREF,Context.MODE_PRIVATE)
         return sharedPreferences.getString("img","0")!!
     }
+
+    fun getUserToken(context: Context):String{
+        val sharedPreferences = context.getSharedPreferences(SHARED_PREF,Context.MODE_PRIVATE)
+        return sharedPreferences.getString(TOKEN_KEY,"0")!!
+        }
 
 
 

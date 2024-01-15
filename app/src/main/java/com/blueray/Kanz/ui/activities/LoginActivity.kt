@@ -2,6 +2,7 @@ package com.blueray.Kanz.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -10,8 +11,8 @@ import com.blueray.Kanz.databinding.ActivityLoginBinding
 import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
+import com.blueray.Kanz.model.LoginModel
 import com.blueray.Kanz.model.NetworkResults
-import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 
 class LoginActivity : BaseActivity() {
@@ -41,7 +42,7 @@ class LoginActivity : BaseActivity() {
         binding.password.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
 
-HelperUtils.hideKeyBoard(this)
+                HelperUtils.hideKeyBoard(this)
                 true
             } else {
                 false
@@ -56,12 +57,15 @@ HelperUtils.hideKeyBoard(this)
 
             }else {
                 binding.progressBar.show()
-                viewmodel.retriveLogin(binding.userName.text.toString(),binding.password.text.toString())
+                viewmodel.retriveLogin(
+                    binding.userName.text.toString().trim(),
+                    binding.password.text.toString().trim()
+                )
 
             }
         }
 
-        
+
 //        binding.forgotPassword.setOnClickListener {
 //            startActivity(Intent(this,ForgetPasswordFirstActivity::class.java))
 //        }
@@ -76,20 +80,21 @@ HelperUtils.hideKeyBoard(this)
             when (result) {
                 is NetworkResults.Success -> {
 
-                    if (result.data.status.status == 200){
-                        saveUserData(result.data)
-
+                    if (result.data.status.msgs == 200){
+                        saveUserData(result.data.datas)
+                        //             Toast.makeText(this, result.data.datas.toString(), Toast.LENGTH_LONG).show()
+                        Log.d("wew" ,  result.data.datas.toString())
                     }else {
-                        Toast.makeText(this,result.data.status.msg.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, result.data.status.msg.toString(), Toast.LENGTH_LONG).show()
                     }
-
 
                 }
 
                 is NetworkResults.Error -> {
                     Toast.makeText(this, result.exception.printStackTrace().toString(), Toast.LENGTH_LONG).show()
-
+                    Log.d("jeff", result.exception.toString())
                     result.exception.printStackTrace()
+
                     hideProgress()
                 }
 
@@ -99,23 +104,19 @@ HelperUtils.hideKeyBoard(this)
     }
 
 
-    fun saveUserData(model: UserLoginModel){
+    fun saveUserData(model: LoginModel){
         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
 
         sharedPreferences.edit().apply {
-            putString(HelperUtils.UID_KEY, model.datas.uid)
-            putString(HelperUtils.TOKEN_KEY, model.datas.token)
-
-            putString("role", model.datas.id)
-
+            putString(HelperUtils.UID_KEY, model.id)
+            putString(HelperUtils.TOKEN_KEY, model.token)
+            putString("role", model.id)
             putString(HelperUtils.USERNAME, binding.userName.text?.trim().toString())
             putString(HelperUtils.PASSWORD, binding.password.text?.trim().toString())
-
-
-
         }.apply()
 
         binding.progressBar.hide()
+
         startActivity(Intent(this,HomeActivity::class.java))
         finish()
         //            prefManager = PrefManager(this)
@@ -141,9 +142,9 @@ HelperUtils.hideKeyBoard(this)
         if (appId == null || userId == null) {
             callback.invoke(false, null)
             return
-        }
+            }
 
 
-    }
+       }
 
 }
