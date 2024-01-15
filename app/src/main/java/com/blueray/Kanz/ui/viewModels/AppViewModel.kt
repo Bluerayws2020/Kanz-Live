@@ -11,6 +11,7 @@ import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetMyProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
+import com.blueray.Kanz.model.MainJsonFollowersFollowingData
 import com.blueray.Kanz.model.MessageModel
 
 import com.blueray.Kanz.model.NetworkResults
@@ -38,7 +39,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val repo = NetworkRepository
 
 
-    private val getFollowingLive = MutableLiveData<NetworkResults<FollowingResponse>>()
+    private val getFollowingFollowerLive = MutableLiveData<NetworkResults<MainJsonFollowersFollowingData>>()
     private val getFollowerLive = MutableLiveData<NetworkResults<FollowingResponse>>()
 
     private val loginUserMessageLiveData = MutableLiveData<NetworkResults<UserLoginModel>>()
@@ -139,28 +140,29 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getUplaodeVide() = userUplaodeLoive
-    fun retriveFollowing(
+
+    fun retriveFollowingFollower(
         targetUidBody: String
     ) {
-
+        val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getFollowingLive.value = repo.getFollowingFollower(userId, targetUidBody)
+            getFollowingFollowerLive.value = repo.getFollowingFollower(userId, targetUidBody, authToken)
         }
     }
 
-    fun getFollowing() = getFollowingLive
+    fun getFollowingFollowers() = getFollowingFollowerLive
 
 
     fun retriveFollower(
         targetUidBody: String
     ) {
 
-        viewModelScope.launch {
-            getFollowerLive.value = repo.getFollowingFollower(userId, targetUidBody)
-        }
+//        viewModelScope.launch {
+//            getFollowerLive.value = repo.getFollowingFollower(userId, targetUidBody)
+//        }
     }
 
-    fun getFollower() = getFollowerLive
+    fun getFollower() = getFollowingFollowerLive
 
 
     fun updateUserProfile(

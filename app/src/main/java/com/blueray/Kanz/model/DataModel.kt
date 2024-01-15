@@ -138,6 +138,16 @@ data class FollowingResponse(
 
     )
 
+data class FollowersFollowingResult(
+    val followers: List<FollowingList>,
+    val following: List<FollowingList>
+)
+
+data class MainJsonFollowersFollowingData(
+    val msg: UserActionMessage,
+    val results: FollowersFollowingResult
+)
+
 data class FollowType(
     @SerializedName("followers") val followers: List<FollowingList>,
     @SerializedName("following") val following: List<FollowingList>,

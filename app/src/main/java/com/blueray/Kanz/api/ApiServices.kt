@@ -5,6 +5,7 @@ import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetMyProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
+import com.blueray.Kanz.model.MainJsonFollowersFollowingData
 import com.blueray.Kanz.model.MessageModel
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.SearchDataModel
@@ -125,6 +126,15 @@ interface ApiServices {
         @Part("target_uid") target_uid:RequestBody
 
     ): FollowingResponse
+
+    @Multipart
+    @POST("user/getMyFollowersFollowingData")
+    suspend fun getMyFollowersFollowingData(
+        @Header("Authorization") bearerToken: String,
+        @Part("uid") uid: RequestBody,
+        @Part("target_uid") target_uid:RequestBody
+
+    ): MainJsonFollowersFollowingData
 
 
     @Multipart

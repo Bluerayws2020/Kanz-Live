@@ -7,6 +7,7 @@ import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetMyProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
+import com.blueray.Kanz.model.MainJsonFollowersFollowingData
 import com.blueray.Kanz.model.MessageModel
 
 import com.blueray.Kanz.model.NetworkResults
@@ -138,17 +139,18 @@ object NetworkRepository {
     suspend fun getFollowingFollower(
         uid: String,
         targetUid: String,
+        bearerToken: String
 
 
-        ): NetworkResults<FollowingResponse> {
+        ): NetworkResults<MainJsonFollowersFollowingData> {
         return withContext(Dispatchers.IO) {
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
             val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
             try {
-                val results = ApiClient.retrofitService.getUserFollowersFollowingData(
-                    uidBody, targetUidBody
+                val results = ApiClient.retrofitService.getMyFollowersFollowingData(
+                    bearerToken,uidBody, targetUidBody
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
