@@ -40,16 +40,8 @@ class FollowersFragment : Fragment() {
         Log.d("WERTYUIO", userId.toString())
         val tabPosition = arguments?.getString("tab_position", "0") ?: "0"
 
-        if (tabPosition == "0") {
 
-            mainViewModel.retriveFollower(userId.toString())
-
-            // Code for the Followers  tab
-        } else if (tabPosition == "1") {
-            mainViewModel.retriveFollowing(userId.toString())
-
-            // Code for the Following tab
-        }
+        mainViewModel.retriveFollowingFollower(userId.toString())
 
         Log.d("FollwersssUUUIIIIDDD", userId.toString())
         getFollowing()
@@ -63,17 +55,19 @@ class FollowersFragment : Fragment() {
     }
 
     fun getFollowing() {
-        mainViewModel.getFollowing().observe(viewLifecycleOwner) { result ->
+        mainViewModel.getFollowingFollowers().observe(viewLifecycleOwner) { result ->
+            Log.e("***Following", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
 
+                    var following = result.data.results.following
                     adapter = FollowersAdapter(
                         requireContext(),
-                        result.data.result.following,
+                        following,
                         object : FollowerClick {
                             override fun onFollowClikcs(pos: Int) {
                                 mainViewModel.retriveSetAction(
-                                    result.data.result.following[pos].uid,
+                                    following[pos].uid,
                                     "user",
                                     "following"
                                 )
@@ -99,11 +93,12 @@ class FollowersFragment : Fragment() {
     }
 
     fun getFollower() {
-        mainViewModel.getFollower().observe(viewLifecycleOwner) { result ->
+        mainViewModel.getFollowingFollowers().observe(viewLifecycleOwner) { result ->
+            Log.e("***Follower", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
 
-                    if (result.data.result.toString().isNullOrEmpty()) {
+                    if (result.data.results.following.isNullOrEmpty()) {
                         binding.noData.show()
                         binding.followersRv.hide()
                     } else {
@@ -111,15 +106,15 @@ class FollowersFragment : Fragment() {
                         binding.followersRv.show()
                     }
 
-                    var followrsList = result.data.result.followers
+                    var followers = result.data.results.following
 
                     adapter = FollowersAdapter(
                         requireContext(),
-                        followrsList,
+                        followers,
                         object : FollowerClick {
                             override fun onFollowClikcs(pos: Int) {
                                 mainViewModel.retriveSetAction(
-                                    followrsList[pos].uid,
+                                    followers[pos].uid,
                                     "user",
                                     "following"
                                 )
