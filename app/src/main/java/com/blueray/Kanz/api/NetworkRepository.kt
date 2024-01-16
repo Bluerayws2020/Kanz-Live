@@ -11,6 +11,8 @@ import com.blueray.Kanz.model.MessageModel
 
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
+import com.blueray.Kanz.model.RegisterModel
+import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
@@ -26,6 +28,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.IOException
 import java.lang.Exception
 
 
@@ -552,65 +555,23 @@ object NetworkRepository {
         }
     }
 
-    suspend fun addUser(
-        first_name: String,
-        last_name: String,
-        gender: String,
-        nationality: String,
-        country_of_residence: String,
-        types_of_activities: String,
-        user_name: String,
-        email: String,
-        phone: String,
-        password: String,
-        barth_of_date: String,
-    ): NetworkResults<UserLoginModel> {
+    suspend fun registerUser(
+    data:RegisterModel
+    ): NetworkResults<RgetrationModel> {
 
         return withContext(Dispatchers.IO) {
-            val first_nameBody = first_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val last_nameBody = last_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-            val genderBody = gender.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val nationalityBody =
-                nationality.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val country_of_residenceBody =
-                country_of_residence.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val types_of_activitiesBody =
-                types_of_activities.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val user_nameBody = user_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val emailBody = email.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val phoneBody = phone.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val barth_of_dateBody =
-                barth_of_date.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val passwordBody = password.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-
-
-
-
             try {
-                val results = ApiClient.retrofitService.addUser(
-                    first_nameBody,
-                    last_nameBody,
-                    genderBody,
-                    nationalityBody,
-                    country_of_residenceBody,
-                    types_of_activitiesBody,
-                    user_nameBody,
-                    emailBody,
-                    phoneBody,
-                    passwordBody,
-                    barth_of_dateBody
-
+                val results = ApiClient.retrofitService.registerUser(
+                    data
                 )
+                when(results.code()){
+                200 -> NetworkResults.Success(results.body()!!)
+                else -> NetworkResults.Error(IOException("Unexpected response code ${results.code()}"))
+                }
 
 
-                Log.d("DONE", results.toString())
-
-                NetworkResults.Success(results)
             } catch (e: Exception) {
                 Log.d("UnDONE", e.toString())
-
                 NetworkResults.Error(e)
             }
         }

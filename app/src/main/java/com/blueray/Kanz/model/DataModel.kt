@@ -20,10 +20,7 @@ data class UserLoginModel(
 
 )
 
-data class  RgetrationModel(
-    @SerializedName("msg") val status: MessageModel,
-    @SerializedName("poet_data") val data: RigsterModel,
-)
+
 
 //data class ViewUserLoginModel(
 //    @SerializedName("uid") val uid: String,
@@ -87,25 +84,54 @@ data class UserUploadeDone(
     @SerializedName("data") val datas: NidVideoUplaode
 
 )
+
 data class checkPermission(
     @SerializedName("data") val datas: NidVideoUplaode
 
 )
+
 data class NidVideoUplaode(
-    val nid:String
+    val nid: String
 )
-data class RigsterModel(
-    @SerializedName("uid") val uid: String,
+//this is the old register
 
-    @SerializedName("type") val type: String,
-    @SerializedName("phone_number") val phone_number: String,
-    @SerializedName("user_name") val user_name: String,
-    @SerializedName("email") val email: String,
-    @SerializedName("user_picture") val user_picture: String,
+//data class  RgetrationModel(
+//    @SerializedName("msg") val status: MessageModel,
+//@SerializedName("poet_data") val data: RigsterModel,
+//)
+//data class RigsterModel(
+//    @SerializedName("uid") val uid: String,
+//
+//    @SerializedName("type") val type: String,
+//    @SerializedName("phone_number") val phone_number: String,
+//    @SerializedName("user_name") val user_name: String,
+//    @SerializedName("email") val email: String,
+//    @SerializedName("user_picture") val user_picture: String,
+//
+//    )
 
-    )
+//this is the new one
+
+data class RgetrationModel(
+    val msg: MessageModel,
+    val data: String,
+    @SerializedName("results") val results: LoginModel
+)
+//todo make a response for the results
 
 
+data class RegisterModel(
+    val first_name: String,
+    val last_name: String,
+    val user_name: String,
+    val date_of_birth: String,
+    val sex: Int,
+    val hashtags_ids: MutableList<String>,
+    val password:String,
+    val country_phone_id: Int,
+    val phone: String,
+    val email: String
+)
 
 data class LoginModel(
     @SerializedName("id") val id: String,
@@ -154,7 +180,7 @@ data class FollowingList(
 data class MessageModel(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val msg: String,
-    @SerializedName("msg") val msgs:Int
+    @SerializedName("msg") var msgs:Int
 
 )
 //data class MessageModelData(

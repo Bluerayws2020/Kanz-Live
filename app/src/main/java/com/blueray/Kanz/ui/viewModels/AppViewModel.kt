@@ -15,6 +15,8 @@ import com.blueray.Kanz.model.MessageModel
 
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
+import com.blueray.Kanz.model.RegisterModel
+import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
@@ -64,7 +66,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val categroLive = MutableLiveData<NetworkResults<MainJsonDropDownModelHashTag>>()
 
 
-    private val createAccountLive = MutableLiveData<NetworkResults<UserLoginModel>>()
+    private val createAccountLive = MutableLiveData<NetworkResults<RgetrationModel>>()
     private val createAccountBandLive = MutableLiveData<NetworkResults<UserLoginModel>>()
 
 
@@ -300,32 +302,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun retriveCreateAccount(
-        first_name: String,
-        last_name: String,
-        gender: String,
-        nationality: String,
-        country_of_residence: String,
-        types_of_activities: String,
-        user_name: String,
-        email: String,
-        phone: String,
-        password: String,
-        barth_of_date: String
+        data: RegisterModel
     ) {
         viewModelScope.launch {
 
-            createAccountLive.value = repo.addUser(
-                first_name,
-                last_name,
-                gender,
-                nationality,
-                country_of_residence,
-                types_of_activities,
-                user_name,
-                email,
-                phone,
-                password,
-                barth_of_date
+            createAccountLive.value = repo.registerUser(
+            data
             )
         }
     }

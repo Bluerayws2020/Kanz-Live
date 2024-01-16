@@ -7,6 +7,8 @@ import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MessageModel
 import com.blueray.Kanz.model.NotfiMain
+import com.blueray.Kanz.model.RegisterModel
+import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
@@ -17,8 +19,11 @@ import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -26,26 +31,35 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiServices {
-    @Multipart
-    @POST("ar/app/poet-registration")
-    suspend fun addUser(
 
-        @Part("first_name") first_name: RequestBody,
-        @Part("last_name") last_name: RequestBody,
-        @Part("gender") gender: RequestBody,
-        @Part("nationality") nationality: RequestBody,
-        @Part("country_of_residence") country_of_residence: RequestBody,
-        @Part("types_of_activities") types_of_activities: RequestBody,
-        @Part("user_name") user_name: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("phone") phone: RequestBody,
-        @Part("password") password: RequestBody,
-        @Part("barth_of_date") barth_of_date: RequestBody,
+    //old register
+//    @Multipart
+//    @POST("ar/app/poet-registration")
+//    suspend fun addUser(
+//
+//        @Part("first_name") first_name: RequestBody,
+//        @Part("last_name") last_name: RequestBody,
+//        @Part("gender") gender: RequestBody,
+//        @Part("nationality") nationality: RequestBody,
+//        @Part("country_of_residence") country_of_residence: RequestBody,
+//        @Part("types_of_activities") types_of_activities: RequestBody,
+//        @Part("user_name") user_name: RequestBody,
+//        @Part("email") email: RequestBody,
+//        @Part("phone") phone: RequestBody,
+//        @Part("password") password: RequestBody,
+//        @Part("barth_of_date") barth_of_date: RequestBody,
+//
+//
+//
+//
+//        ): UserLoginModel
 
-
-
-
-        ): UserLoginModel
+        //new register
+    @POST("user/register")
+    @Headers("Accept:application/json","Content-Type: application/json")
+    suspend fun registerUser(
+        @Body data: RegisterModel
+    ): Response<RgetrationModel>
 
 
     @Multipart
