@@ -155,10 +155,11 @@ data class FollowType(
     )
 
 data class FollowingList(
-    @SerializedName("uid") val uid: String,
+    @SerializedName("id") val uid: String,
     @SerializedName("user_name") val user_name: String,
-    @SerializedName("picture") val picture: String,
+    @SerializedName("profile_image") val picture: String,
     @SerializedName("flag") var flag: Int,
+    @SerializedName("is_following") var is_following: String,
 
     )
 data class MessageModel(
@@ -201,6 +202,12 @@ data class UserActionMessage(
     @SerializedName("msg") val msg: Int,
     @SerializedName("message") val message: String
 )
+
+data class UserActionMessageModel(
+    @SerializedName("msg") val msg: UserActionMessage
+)
+
+
 data class Item(
     val id: String,
     val title: String,

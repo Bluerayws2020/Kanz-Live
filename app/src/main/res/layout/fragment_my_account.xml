@@ -135,11 +135,12 @@
                     android:gravity="center">
 
                     <LinearLayout
+                        android:id="@+id/followersLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="50dp"
                         android:orientation="vertical"
-                        app:layout_constraintEnd_toStartOf="@id/followersLayout"
+                        app:layout_constraintEnd_toStartOf="@id/followingLayout"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
@@ -148,7 +149,7 @@
                             android:layout_gravity="center"
                             android:fontFamily="@font/regular"
                             android:text="91"
-                            android:id="@+id/followingCount"
+                            android:id="@+id/followersCount"
                             android:textColor="@color/black"
                             android:textSize="@dimen/sb_size_16"
                             android:textStyle="bold" />
@@ -164,7 +165,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/followersLayout"
+                        android:id="@+id/followingLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -179,7 +180,7 @@
                             android:layout_gravity="center"
                             android:fontFamily="@font/regular"
                             android:text="34"
-                            android:id="@+id/followersCount"
+                            android:id="@+id/followingCount"
 
                             android:textColor="@color/black"
                             android:textSize="@dimen/sb_size_16"
@@ -200,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="50dp"
                         android:orientation="vertical"
-                        app:layout_constraintStart_toEndOf="@id/followersLayout"
+                        app:layout_constraintStart_toEndOf="@id/followingLayout"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView

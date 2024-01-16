@@ -15,6 +15,7 @@ import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
+import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
@@ -160,41 +161,40 @@ object NetworkRepository {
     }
 
     suspend fun setUserActionPost(
+        authToken: String,
         uid: String,          // my id
         entityId: String,     // video id or user id
         entity_type: String,  // node or user
         flag_id: String,
 
 
-        ): NetworkResults<UserActionMessage> {
+        ): NetworkResults<UserActionMessageModel> {
         return withContext(Dispatchers.IO) {
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val entityIdBody = entityId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val entity_typeBody =
-                entity_type.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val entity_typeBody = entity_type.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val flag_idBody = flag_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
 
             try {
-                var results =  ApiClient.retrofitService.likeOrUnlikeVideo(
-                    uidBody, entityIdBody, entity_typeBody
-                )
 
+                var results = UserActionMessageModel(UserActionMessage(-1 , "no result"))
 
-                if (flag_id == "like") {
-                    results = ApiClient.retrofitService.likeOrUnlikeVideo(
-                        uidBody, entityIdBody, entity_typeBody
-                    )
-                }
-                if (flag_id == "save") {
-                    results = ApiClient.retrofitService.saveOrCancelSaveVideo(
-                        uidBody, entityIdBody, entity_typeBody
-                    )
-                }
+//                if (flag_id == "like") {
+//                    results = ApiClient.retrofitService.likeOrUnlikeVideo(
+//                        uidBody, entityIdBody, entity_typeBody
+//                    )
+//                }
+//                if (flag_id == "save") {
+//                    results = ApiClient.retrofitService.saveOrCancelSaveVideo(
+//                        uidBody, entityIdBody, entity_typeBody
+//                    )
+//                }
+
 
                 if (flag_id == "following") {
                     results = ApiClient.retrofitService.followOrUnfollowUser(
-                        uidBody, entityIdBody, entity_typeBody
+                        authToken, entityIdBody
                     )
                 }
 

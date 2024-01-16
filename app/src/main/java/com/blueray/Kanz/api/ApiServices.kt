@@ -11,6 +11,7 @@ import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
+import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
@@ -169,11 +170,9 @@ interface ApiServices {
     @Multipart
     @POST("user/followOrUnfollowUser")
     suspend fun followOrUnfollowUser(
-        @Part("uid") uid: RequestBody,
-        @Part("entity_id") entity_id: RequestBody,
-        @Part("entity_type") entity_type: RequestBody,
-//        @Part("flag_id") flag_id: RequestBody,
-    ): UserActionMessage
+        @Header("Authorization") bearerToken: String,
+        @Part("follower_id") entity_id: RequestBody,
+    ): UserActionMessageModel
 
 
     @GET("app2/poetries")

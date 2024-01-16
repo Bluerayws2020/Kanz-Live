@@ -2,14 +2,14 @@ package com.blueray.Kanz.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.blueray.Kanz.adapters.FollowersPagerAdapter
+import com.blueray.Kanz.adapters.FollowersFollowingPagerAdapter
 import com.blueray.Kanz.databinding.ActivityFollowingAndFollowersBinding
 import com.blueray.Kanz.helpers.HelperUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FollowingAndFollowersActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityFollowingAndFollowersBinding
+    private lateinit var binding: ActivityFollowingAndFollowersBinding
     private var userId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,24 +19,30 @@ class FollowingAndFollowersActivity : AppCompatActivity() {
         userId = intent.getStringExtra("user_id") // Retrieve the user ID
 
         val userName = intent.getStringExtra("userName") // Retrieve the user ID
-if (HelperUtils.getUid(this) == userId){
-    binding.includeTab.title.text = "حسابي"
-}else {
-    binding.includeTab.title.text = "@$userName"
+        val flag = intent.getStringExtra("flag")
 
-}
+        if (HelperUtils.getUid(this) == userId) {
+            binding.includeTab.title.text = "حسابي"
+        } else {
+            binding.includeTab.title.text = "@$userName"
+
+        }
         binding.includeTab.back.setOnClickListener {
             onBackPressed()
         }
 
-        setUpViewPagerWithTapLayout()
+        if (flag != null) {
+            setUpViewPagerWithTapLayout(flag)
+        } else {
+            setUpViewPagerWithTapLayout("0")
+        }
     }
 
-    private fun setUpViewPagerWithTapLayout() {
-        val adapter = FollowersPagerAdapter(supportFragmentManager, lifecycle,userId)
+    private fun setUpViewPagerWithTapLayout(flag: String) {
+        val adapter = FollowersFollowingPagerAdapter(supportFragmentManager, lifecycle, userId)
         val tabListTitle: MutableList<String> = ArrayList()
 
-        val list = listOf("متابعون","يتابعون")
+        val list = listOf("متابعون", "يتابعون")
 
         for (i in list.indices) {
             val item = list[i]
@@ -46,6 +52,11 @@ if (HelperUtils.getUid(this) == userId){
         }
 
         binding.viewPager.adapter = adapter
+
+        if (flag == "1")
+            binding.viewPager.setCurrentItem(0, false)
+        else
+            binding.viewPager.setCurrentItem(1, false)
 
         for (item in tabListTitle) {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(item))

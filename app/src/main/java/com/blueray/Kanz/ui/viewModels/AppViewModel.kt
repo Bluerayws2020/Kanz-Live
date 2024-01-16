@@ -1,6 +1,7 @@
 package com.blueray.Kanz.ui.viewModels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,7 @@ import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
+import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
@@ -70,7 +72,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
 
     private val userUplaodeLoive = MutableLiveData<NetworkResults<UserUploadeDone>>()
-    private val setActions = MutableLiveData<NetworkResults<UserActionMessage>>()
+    private val setActions = MutableLiveData<NetworkResults<UserActionMessageModel>>()
     private val updateUserLive = MutableLiveData<NetworkResults<UpdateProfileResponse>>()
 
     private val deletVideoLive = MutableLiveData<NetworkResults<UpdateProfileResponse>>()
@@ -202,9 +204,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         entity_type: String,
         flag_id: String,
     ) {
-
+        val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            setActions.value = repo.setUserActionPost(userId, entityId, entity_type, flag_id)
+            setActions.value = repo.setUserActionPost(authToken,userId, entityId, entity_type, flag_id)
         }
     }
 
