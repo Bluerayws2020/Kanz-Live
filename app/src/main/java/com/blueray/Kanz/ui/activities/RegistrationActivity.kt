@@ -20,7 +20,9 @@ import com.blueray.Kanz.model.CountriesDropDownModel
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class RegistrationActivity : BaseActivity() {
     private val viewmodel by viewModels<AppViewModel>()
@@ -97,9 +99,9 @@ class RegistrationActivity : BaseActivity() {
             barithDate = binding.dateOfBirthDatePicker.text.toString()
             firstName = binding.firstNameEt.text.toString()
             if (binding.female.isChecked) {
-                genderId = "Female"
+                genderId = "1"
             } else {
-                genderId = "Male"
+                genderId = "2"
 
             }
             bandName = binding.squadNameEt.text.toString()
@@ -243,8 +245,12 @@ class RegistrationActivity : BaseActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val dpd = DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
-            // Display Selected date in EditText
-            binding.dateOfBirthDatePicker.setText("$dayOfMonth/${monthOfYear + 1}/$year")
+            // Format the selected date and update the EditText
+            val selectedCalendar = Calendar.getInstance()
+            selectedCalendar.set(year, monthOfYear, dayOfMonth)
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            binding.dateOfBirthDatePicker.setText(dateFormat.format(selectedCalendar.time))
         }, year, month, day)
 
         dpd.show()

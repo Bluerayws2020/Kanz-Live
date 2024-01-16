@@ -12,7 +12,7 @@ import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
-import com.blueray.Kanz.model.RigsterModel
+import com.blueray.Kanz.model.RegisterModel
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 
 
@@ -101,19 +101,35 @@ binding.includeTap.back.setOnClickListener {
                 }else {
 
                     showProgress()
-
-                    viewmodel.retriveCreateAccount(
+                    val data = RegisterModel(
                         RegistrationActivity.firstName.toString(),
                         RegistrationActivity.lastName.toString(),
-                        RegistrationActivity.genderId,
-                        RegistrationActivity.natonalId,
-                        RegistrationActivity.residantPlace,
-                        ActivitiesTypesAdapter.selected_items.joinToString(","),
-                        RegistrationActivity.userName.toString(),
-                        binding.email.text.toString(),
-                        binding.phoneNumber.text.toString(),
-                        RegistrationActivity.passwordTxt.toString(),
-                        RegistrationActivity.barithDate
+                       country_phone_id =  binding.countryCode.getSelectedCountryCode().toInt(),
+                        //todo check the birthdate format error
+                        date_of_birth = RegistrationActivity.barithDate,
+                        sex = RegistrationActivity.genderId.toInt(),
+                        phone =  binding.phoneNumber.text.toString(),
+                        email = binding.email.text.toString(),
+                        user_name = RegistrationActivity.userName.toString(),
+                        hashtags_ids =ActivitiesTypesAdapter.selected_items
+                        ,
+                        password = RegistrationActivity.passwordTxt.toString(),
+
+                    )
+                    viewmodel.retriveCreateAccount(
+
+                        data
+//                        RegistrationActivity.firstName.toString(),
+//                        RegistrationActivity.lastName.toString(),
+//                        RegistrationActivity.genderId,
+//                        RegistrationActivity.natonalId,
+//                        RegistrationActivity.residantPlace,
+//                        ActivitiesTypesAdapter.selected_items.joinToString(","),
+//                        RegistrationActivity.userName.toString(),
+//                        binding.email.text.toString(),
+//                        binding.phoneNumber.text.toString(),
+//                        RegistrationActivity.passwordTxt.toString(),
+//                        RegistrationActivity.barithDate
                     )
 
                 }
@@ -159,15 +175,13 @@ binding.includeTap.back.setOnClickListener {
 
             when (result) {
                 is NetworkResults.Success -> {
-                    if (result.data.status.status == 200) {
+                    if (result.data.msg.msgs == 200) {
 
-                        Log.d("ERTY3UI5",result.data.datas.toString())
                         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
-                        Log.d("TESTTTTLOOG",result.data.datas.uid)
 
                         sharedPreferences.edit().apply {
-                            putString(HelperUtils.UID_KEY, result.data.datas.uid)
-                            putString("role",result.data.datas.uid)
+                            putString(HelperUtils.UID_KEY, result.data.results.id)
+                            putString(HelperUtils.TOKEN_KEY , result.data.results.token)
 
                             putString(HelperUtils.USERNAME, RegistrationActivity.userName)
                             putString(HelperUtils.PASSWORD, RegistrationActivity.passwordTxt)
@@ -177,12 +191,12 @@ binding.includeTap.back.setOnClickListener {
                         }.apply()
 
 
-                        Log.d("wertyuiop",HelperUtils.getUid(this))
+                        Log.d("wertyuiop",HelperUtils.getUserToken(this))
                         startActivity(Intent(this,HomeActivity::class.java))
                         finish()
 
                     } else {
-                        Toast.makeText(this, result.data.status.msg.toString(), Toast.LENGTH_LONG)
+                        Toast.makeText(this, result.data.msg.msg.toString(), Toast.LENGTH_LONG)
                             .show()
                     }
 
@@ -207,17 +221,14 @@ binding.includeTap.back.setOnClickListener {
     private fun showProgress() {
         binding.progressBar.show()
     }
-    fun saveUserData(model: RigsterModel){
+    fun saveUserData(model: RegisterModel){
         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
 Log.d("TESTTTTLOOG",model.toString())
 
         sharedPreferences.edit().apply {
-            putString(HelperUtils.UID_KEY, model.uid)
-            putString("role", model.type)
 
             putString(HelperUtils.USERNAME, RegistrationActivity.userName)
             putString(HelperUtils.PASSWORD, RegistrationActivity.passwordTxt)
-
 
 
         }.apply()

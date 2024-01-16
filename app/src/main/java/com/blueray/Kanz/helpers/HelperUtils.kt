@@ -22,7 +22,7 @@ object HelperUtils {
     const val ROLE_KEY = "Role_Key"
     const val NAME_KEY = "Name_key"
     const val MAIL_KEY: String = "Mail_key"
-    const val BASE_URL = "https://siyam.br-ws.com/"
+    const val BASE_URL = "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/api/"
     const val SHARED_PREF = "Fares"
      const val UID_KEY = "UID"
     const val TOKEN_KEY = "TOKEN"
