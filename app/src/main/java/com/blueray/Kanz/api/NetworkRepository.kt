@@ -4,7 +4,7 @@ import android.util.Base64
 import android.util.Log
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
-import com.blueray.Kanz.model.GetMyProfileResponse
+import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
@@ -17,6 +17,7 @@ import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
+import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
@@ -153,7 +154,30 @@ object NetworkRepository {
 
             try {
                 val results = ApiClient.retrofitService.getMyFollowersFollowingData(
-                    bearerToken,uidBody, targetUidBody
+                    bearerToken //,uidBody, targetUidBody
+                )
+                NetworkResults.Success(results)
+            } catch (e: Exception) {
+                NetworkResults.Error(e)
+            }
+        }
+    }
+
+    suspend fun getUserFollowingFollower(
+        uid: String,
+        targetUid: String,
+        bearerToken: String
+
+
+    ): NetworkResults<MainJsonFollowersFollowingData> {
+        return withContext(Dispatchers.IO) {
+            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+            try {
+                val results = ApiClient.retrofitService.getUserFollowersFollowingData(
+                    bearerToken , targetUidBody
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
@@ -163,41 +187,37 @@ object NetworkRepository {
     }
 
     suspend fun setUserActionPost(
+        authToken: String,
         uid: String,          // my id
         entityId: String,     // video id or user id
         entity_type: String,  // node or user
         flag_id: String,
 
 
-        ): NetworkResults<UserActionMessage> {
+        ): NetworkResults<UserActionMessageModel> {
         return withContext(Dispatchers.IO) {
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val entityIdBody = entityId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val entity_typeBody =
-                entity_type.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val flag_idBody = flag_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
+            val entityIdBody = entityId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
             try {
-                var results =  ApiClient.retrofitService.likeOrUnlikeVideo(
-                    uidBody, entityIdBody, entity_typeBody
-                )
 
+                var results = UserActionMessageModel(UserActionMessage(-1 , "no result"))
 
                 if (flag_id == "like") {
                     results = ApiClient.retrofitService.likeOrUnlikeVideo(
-                        uidBody, entityIdBody, entity_typeBody
+                        authToken, entityIdBody
                     )
                 }
                 if (flag_id == "save") {
                     results = ApiClient.retrofitService.saveOrCancelSaveVideo(
-                        uidBody, entityIdBody, entity_typeBody
+                        authToken, entityIdBody
                     )
                 }
 
+
                 if (flag_id == "following") {
                     results = ApiClient.retrofitService.followOrUnfollowUser(
-                        uidBody, entityIdBody, entity_typeBody
+                        authToken, entityIdBody
                     )
                 }
 
@@ -210,8 +230,8 @@ object NetworkRepository {
 
 
     suspend fun getVideos(
+        bearerToken: String,
         uid: String,
-
         page: Int,
         pageLimit: Int,
         ishome: String
@@ -219,9 +239,9 @@ object NetworkRepository {
     ): NetworkResults<VideoDataModel> {
         return withContext(Dispatchers.IO) {
 
-
-            try {
-                val results = ApiClient.retrofitService.getPoetries(
+               try {
+                val results = ApiClient.retrofitService.getVideos(
+                    bearerToken,
                     uid,
                     page.toString(), pageLimit.toString(), ishome
                 )
@@ -334,7 +354,11 @@ object NetworkRepository {
 
 
     suspend fun getVideosForUser(
-        uid: String, state: String, pagesize: String, user_profile_uid: String,
+        bearerToken: String,
+        uid: String,
+        state: String,
+        page_limit: String,
+        user_profile_uid: String,
         is_home: String,
         page: String
 
@@ -345,13 +369,13 @@ object NetworkRepository {
 
 
             try {
-                val results = ApiClient.retrofitService.getPoetriesForuser(
+                val results = ApiClient.retrofitService.getVideosForUser(
+                    bearerToken,
                     uid,
-                    pagesize,
-                    state.toString(),
-                    user_profile_uid,
+                    page,
+                    page_limit,
                     is_home,
-                    page
+                    user_profile_uid
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
@@ -361,15 +385,15 @@ object NetworkRepository {
     }
 
 
-    suspend fun getUserProfile(
+    suspend fun getMyInfo(
         token: String
 
-    ): NetworkResults<GetMyProfileResponse> {
+    ): NetworkResults<GetProfileResponse> {
         return withContext(Dispatchers.IO) {
 
 
             try {
-                val results = ApiClient.retrofitService.getUserInfo(
+                val results = ApiClient.retrofitService.getMyInfo(
                     token
                 )
 

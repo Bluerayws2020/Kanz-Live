@@ -2,7 +2,7 @@ package com.blueray.Kanz.api
 
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
-import com.blueray.Kanz.model.GetMyProfileResponse
+import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
@@ -13,6 +13,7 @@ import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
+import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
@@ -55,9 +56,9 @@ interface ApiServices {
 //
 //        ): UserLoginModel
 
-        //new register
+    //new register
     @POST("user/register")
-    @Headers("Accept:application/json","Content-Type: application/json")
+    @Headers("Accept:application/json", "Content-Type: application/json")
     suspend fun registerUser(
         @Body data: RegisterModel
     ): Response<RgetrationModel>
@@ -76,8 +77,6 @@ interface ApiServices {
         @Part("phone") phone: RequestBody,
         @Part("password") password: RequestBody,
         @Part("number_of_band_members") barth_of_date: RequestBody,
-
-
 
 
         ): UserLoginModel
@@ -103,9 +102,6 @@ interface ApiServices {
         @Part("type_of_activity") type_of_activity: RequestBody,
 
         ): UserUploadeDone
-
-
-
 
 
     @Multipart
@@ -137,7 +133,7 @@ interface ApiServices {
     @POST("user/getUserFollowersFollowingData")
     suspend fun getUserFollowersFollowingData(
         @Part("uid") uid: RequestBody,
-        @Part("target_uid") target_uid:RequestBody
+        @Part("target_uid") target_uid: RequestBody
 
     ): FollowingResponse
 
@@ -145,8 +141,14 @@ interface ApiServices {
     @POST("user/getMyFollowersFollowingData")
     suspend fun getMyFollowersFollowingData(
         @Header("Authorization") bearerToken: String,
-        @Part("uid") uid: RequestBody,
-        @Part("target_uid") target_uid:RequestBody
+
+    ): MainJsonFollowersFollowingData
+
+    @Multipart
+    @POST("user/getUserFollowersFollowingData")
+    suspend fun getUserFollowersFollowingData(
+        @Header("Authorization") bearerToken: String,
+        @Part("target_uid") target_uid: RequestBody
 
     ): MainJsonFollowersFollowingData
 
@@ -164,64 +166,46 @@ interface ApiServices {
     @Multipart
     @POST("user/likeOrUnlikeVideo")
     suspend fun likeOrUnlikeVideo(
-        @Part("uid") uid: RequestBody,
-        @Part("entity_id") entity_id: RequestBody,
-        @Part("entity_type") entity_type: RequestBody,
-//        @Part("flag_id") flag_id: RequestBody,
-
-        ): UserActionMessage
+        @Header("Authorization") bearerToken: String,
+        @Part("video_id") entity_id: RequestBody,
+    ): UserActionMessageModel
 
     @Multipart
     @POST("user/saveOrCancelSaveVideo")
     suspend fun saveOrCancelSaveVideo(
-        @Part("uid") uid: RequestBody,
-        @Part("entity_id") entity_id: RequestBody,
-        @Part("entity_type") entity_type: RequestBody,
-//        @Part("flag_id") flag_id: RequestBody,
-    ): UserActionMessage
+        @Header("Authorization") bearerToken: String,
+        @Part("video_id") entity_id: RequestBody,
+    ): UserActionMessageModel
 
     @Multipart
     @POST("user/followOrUnfollowUser")
     suspend fun followOrUnfollowUser(
-        @Part("uid") uid: RequestBody,
-        @Part("entity_id") entity_id: RequestBody,
-        @Part("entity_type") entity_type: RequestBody,
-//        @Part("flag_id") flag_id: RequestBody,
-    ): UserActionMessage
+        @Header("Authorization") bearerToken: String,
+        @Part("follower_id") entity_id: RequestBody,
+    ): UserActionMessageModel
 
 
-    @GET("app2/poetries")
-    suspend fun getPoetries(
-                    @Query("uid")  uid:String,
-                    @Query("page")  page:String,
-                    @Query("page_limit")  page_limit:String,
-                    @Query("is_home")is_home:String,
-
+    @GET("frontend/getVideos")
+    suspend fun getVideos(
+        @Query("token") bearerToken: String,
+        @Query("uid") uid: String,
+        @Query("page") page: String,
+        @Query("Page_limit") page_limit: String,
+        @Query("Is_home") is_home: String,
 
         ): VideoDataModel
 
 
-
-
-
-
-    @GET("app2/poetries")
-    suspend fun getPoetriesForuser(
-        @Query("uid")  uid:String,
-        @Query("page_limit")  page_limit:String,
-
-        @Query("state")  state:String,
-        @Query("user_profile_uid")user_profile_uid:String,
-        @Query("is_home")is_home:String,
-        @Query("page")page:String
-
-
+    @GET("frontend/getVideos")
+    suspend fun getVideosForUser(
+        @Query("token") bearerToken: String,
+        @Query("uid") uid: String,
+        @Query("page") page: String,
+        @Query("Page_limit") page_limit: String,
+        @Query("Is_home") is_home: String,
+        @Query("user_profile_uid") user_profile_uid: String,
 
     ): VideoDataModel
-
-
-
-
 
 
     @Multipart
@@ -230,9 +214,9 @@ interface ApiServices {
 
 
         @Part("uid") uid: RequestBody,
-    @Part("flag_id") flag_id: RequestBody,
+        @Part("flag_id") flag_id: RequestBody,
 
-    ): VideoDataModel
+        ): VideoDataModel
 
 
     @Multipart
@@ -244,12 +228,13 @@ interface ApiServices {
         @Part("id") id: RequestBody,
 
         ): UpdateProfileResponse
-@Multipart
+
+    @Multipart
     @POST("app/notifications")
     suspend fun getNotfi(
         @Part("uid") uid: RequestBody,
 
-    ): NotfiMain
+        ): NotfiMain
 
 
     @Multipart
@@ -263,9 +248,6 @@ interface ApiServices {
         ): SearchDataModel
 
 
-
-
-
     @Multipart
     @POST("app/check-user-follow")
     suspend fun checkUserFollow(
@@ -277,11 +259,17 @@ interface ApiServices {
         ): checkUserFollowData
 
     @POST("user/getMyProfile")
+    suspend fun getMyInfo(
+        @Header("Authorization") bearerToken: String
+
+    ): GetProfileResponse
+
+
+    @POST("user/getUserProfile")
     suspend fun getUserInfo(
-        @Header("Authorization") bearerToken:String
+        @Header("Authorization") bearerToken: String
 
-    ):GetMyProfileResponse
-
+    ): GetProfileResponse
 
 
     @Multipart
@@ -298,23 +286,22 @@ interface ApiServices {
         @Part("email") email: RequestBody,
         @Part image_profile :MultipartBody.Part
     ): UpdateProfileResponse
+
     @GET("app/nationality-list")
-    suspend fun getNational( ): List<DropDownModel>
-
-
-
+    suspend fun getNational(): List<DropDownModel>
 
 
     @GET("app/country-list")
-    suspend fun getCitis(@Query("pid")  pid:String
+    suspend fun getCitis(
+        @Query("pid") pid: String
     ): List<DropDownModel>
 
 
     @POST("frontend/getCountries")
-    suspend fun getCountry  (): MainJsonDropDownModel
+    suspend fun getCountry(): MainJsonDropDownModel
 
     @GET("app/gender-list")
-    suspend fun getGender( ): List<DropDownModel>
+    suspend fun getGender(): List<DropDownModel>
 
 //
 //    @GET("app/activity-list")
@@ -322,27 +309,14 @@ interface ApiServices {
 
 
     @POST("frontend/getHashtags")
-    suspend fun getCategory(@Header("Authorization") authHeader: String ): MainJsonDropDownModelHashTag
+    suspend fun getCategory(@Header("Authorization") authHeader: String): MainJsonDropDownModelHashTag
 
 
     @GET
     suspend fun getVimeoVideo(
         @Url videoUrl: String,
-        @Header("Authorization") authorizationToken:String,
+        @Header("Authorization") authorizationToken: String,
     ): VimeoVideoModelV2
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

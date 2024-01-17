@@ -42,7 +42,7 @@ class MyAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViewPagerWithTapLayout()
-        mainViewModel.retriveViewUserProfile()
+        mainViewModel.retriveViewMyProfile()
         getUserProifle()
 
         binding.settings.setOnClickListener {
@@ -50,13 +50,25 @@ class MyAccountFragment : Fragment() {
             startActivity(intent)
 
         }
-        binding.followersLayout.setOnClickListener {
+        binding.followingLayout.setOnClickListener {
             val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
+            intent.putExtra("type","myAccount" )
             intent.putExtra("user_id", HelperUtils.getUid(requireContext())) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("userName",userName ) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("flag","0" )
 
             startActivity(intent)
 
+        }
+
+        binding.followersLayout.setOnClickListener {
+            val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
+            intent.putExtra("type","myAccount" )
+            intent.putExtra("user_id", HelperUtils.getUid(requireContext())) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("userName",userName ) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("flag","1" )
+
+            startActivity(intent)
 
         }
 
@@ -117,7 +129,8 @@ class MyAccountFragment : Fragment() {
     fun getUserProifle(){
 
 
-        mainViewModel.getUserProfile().observe(viewLifecycleOwner) { result ->
+        mainViewModel.getMyProfile().observe(viewLifecycleOwner) { result ->
+
             when (result) {
                 is NetworkResults.Success -> {
                     val  data = result.data

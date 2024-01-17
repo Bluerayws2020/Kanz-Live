@@ -69,7 +69,7 @@ class Profile : BaseActivity() {
 
         binding = EditProfilessBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mainViewModel.retriveViewUserProfile()
+        mainViewModel.retriveViewMyProfile()
         getUserProifle()
         binding.tollbars.back.setOnClickListener {
             onBackPressed()
@@ -190,7 +190,8 @@ class Profile : BaseActivity() {
     fun getUserProifle(){
 
 
-        mainViewModel.getUserProfile().observe(this) { result ->
+        mainViewModel.getMyProfile().observe(this) { result ->
+            Log.e("***getUserProifle", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
 

@@ -12,67 +12,62 @@ import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.model.FollowingList
 import com.bumptech.glide.Glide
 
-class FollowersAdapter (
+class FollowersFollowingAdapter(
     // todo change list model
-   var context: Context,
-    var list : List<FollowingList>,
-    var followClikc : FollowerClick
-)
-    : RecyclerView.Adapter<FollowersAdapter.MyViewHolder>() {
+    var context: Context,
+    var list: List<FollowingList>,
+    var followClikc: FollowerClick
+) : RecyclerView.Adapter<FollowersFollowingAdapter.MyViewHolder>() {
 
 
-    inner class MyViewHolder(val binding : FollowersItemBinding): RecyclerView.ViewHolder(binding.root)
+    inner class MyViewHolder(val binding: FollowersItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = FollowersItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            FollowersItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Glide.with(context).load(list[position].picture).placeholder(R.drawable.logo).into(holder.binding.profileImage)
+        Glide.with(context).load(list[position].picture).placeholder(R.drawable.logo)
+            .into(holder.binding.profileImage)
 
         holder.binding.name.text = list[position].user_name
         holder.binding.username.hide()
 
         holder.binding.username.setBackgroundColor(Color.alpha(R.color.lightGreen))
 
-if (list[position].flag == 1){
-    holder.binding.follow.text = "الغاء المتابعة"
-    holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
-    list[position].flag = 0
-}else {
-    holder.binding.follow.text = "متابعة"
-    holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
-    list[position].flag = 1
+        if (list[position].is_following == "true") {
+            holder.binding.follow.text = "الغاء المتابعة"
+            holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
+        } else {
+            holder.binding.follow.text = "متابعة"
+            holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
 
-
-}
+        }
         holder.binding.follow.setOnClickListener {
 
-            if (list[position].flag == 1){
+            if (list[position].is_following == "false") {
                 holder.binding.follow.text = "الغاء المتابعة"
                 holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
 
-                list[position].flag = 0
+                list[position].is_following = "true"
 
-            }else {
+            } else {
                 holder.binding.follow.text = "متابعة"
                 holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
-                list[position].flag = 1
-
+                list[position].is_following = "false"
 
             }
             followClikc.onFollowClikcs(position)
 
 
-
-
         }
 
     }
-
 
 
 }
