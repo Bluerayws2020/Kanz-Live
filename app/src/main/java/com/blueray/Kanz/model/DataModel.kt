@@ -355,8 +355,20 @@ val nodeId:String = "",
 data class VideoDataModel(
     @SerializedName("data") val datass: List<VideoResponse>,
    @SerializedName("target_user") val target_user : TargetUsers? = null,
+    @SerializedName("pagination") val pagination: Pagination
 
-
+)
+data class Pagination(
+    val first_page_url: String,
+    val from: Int,
+    val last_page: Int,
+    val last_page_url: String,
+    val next_page_url: String,
+    val path: String,
+    val per_page: Int,
+    val prev_page_url: Any,
+    val to: Int,
+    val total: Int
 )
 data class SearchDataModel(
     @SerializedName("data") val datass: List<SarchItem>,
@@ -404,7 +416,7 @@ data class VideoResponse(
     val moderation_state :String,
     val vimeo_detials: VimeoDetails,
     val auther: Author,
-val video_actions_per_user:Video_actions_per_user,
+    val video_actions_per_user:Video_actions_per_user,
     val video_counts:VideoCounts? = null
 
 )

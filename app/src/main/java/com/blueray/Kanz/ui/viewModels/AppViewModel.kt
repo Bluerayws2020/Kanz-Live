@@ -12,7 +12,6 @@ import com.blueray.Kanz.model.GetMyProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
-import com.blueray.Kanz.model.MessageModel
 
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
@@ -177,7 +176,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
         sex: String,
         barth_of_date: String,
-
+        profile_image: File
         ) {
         viewModelScope.launch {
             val authToken = "Bearer $userToken"
@@ -189,9 +188,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 email = email,
                 phone = phone,
                 country_phone_id = country_phone_id,
-                //todo check why this doesn't work
+                profile_image = profile_image,
                 sex = sex,
-                barth_of_date = barth_of_date,)
+                barth_of_date = barth_of_date,
+                )
 
 
         }
