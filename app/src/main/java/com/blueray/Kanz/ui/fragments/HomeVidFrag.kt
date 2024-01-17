@@ -76,7 +76,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        mainViewModel.retriveMainVideos(currentPage, 3, "1")
+//        mainViewModel.retriveMainVideos(currentPage, 3, "1")
 
         navController = findNavController()
         dialog = BottomSheetDialog(requireActivity())
@@ -314,6 +314,8 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
     fun getVideosView() {
         mainViewModel.getMainVideos().observe(viewLifecycleOwner) { result ->
 
+
+
             when (result) {
                 is NetworkResults.Success -> {
                     binding.img.hide()
@@ -341,6 +343,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                             vidLink = adaptiveFile?.link
                                 ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
 
+                            Log.e("***", "currentPage $currentPage  id " + item.id)
 
                             newArrVideoModel.add(
                                 NewAppendItItems(

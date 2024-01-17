@@ -457,7 +457,7 @@ data class Video_actions_per_user(
     )
 
 data class Pictures(
-    val base_link: String = ""
+    val base_link: String? = ""
 )
 
 data class VimeoDetails(

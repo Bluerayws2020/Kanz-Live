@@ -1,5 +1,6 @@
 package com.blueray.Kanz.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
@@ -36,7 +38,6 @@ class PartitionChannelFragment : Fragment() {
 
     private var lastFirstVisiblePosition = 0
 
-    private var isLoading = false
     private var isLastPage = false
     private var isUserInteraction = false
 
@@ -51,6 +52,11 @@ class PartitionChannelFragment : Fragment() {
     private var lastClickedPosition = 0
     var userIdes = ""
     var userName = ""
+
+    private var noMoreData = false
+    var count = 0
+    var previousTotalItemCount = 0
+
     private val mainViewModel by viewModels<AppViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -138,8 +144,9 @@ class PartitionChannelFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         binding.progressBar.show()
-
+        isLoading = true
         mainViewModel.retriveUserVideos("0", "9", userIdes, "1", currentPage.toString())
+        setRecyclerView()
         getMainVidos()
 
         Log.d("userIdesuserIdes", userIdes)
@@ -267,24 +274,59 @@ class PartitionChannelFragment : Fragment() {
         }
     }
 
+    var isLoading = false
+    var isScrolling = true
 
+    val onScrollViewListener = object : RecyclerView.OnScrollListener() {
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+
+                if (count == 0) {
+                    noMoreData = true
+                }
+
+                if (!noMoreData) {
+                    isScrolling = true
+
+                    val layoutManager = recyclerView.layoutManager as GridLayoutManager
+                    val totalItemCount = layoutManager.itemCount
+                    val lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition()
+
+
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 1) && totalItemCount > previousTotalItemCount && isScrolling) {
+
+                        previousTotalItemCount = totalItemCount
+                        loadMoreItems()
+                        isLoading = true
+                        isScrolling = false
+                    }
+
+                }
+
+            }
+        }
+
+    }
+    @SuppressLint("SuspiciousIndentation")
     fun getMainVidos() {
         mainViewModel.getUserVideos().observe(viewLifecycleOwner) { result ->
 
             when (result) {
                 is NetworkResults.Success -> {
-                    if (result.data.datass.isNullOrEmpty()) {
+                    Log.d("***", result.data.datass.toString())
+                    if (result.data.datass== null && count == 0) {
                         binding.noData.show()
                         binding.videosRv.hide()
-                        isLastPage = true
-                        isLoading = true // Reset loading flag here
+                        //isLoading = true // Reset loading flag here
 
 
                     } else {
                         binding.noData.hide()
                         binding.videosRv.show()
-                        isLoading = false // Reset loading flag here
 
+                        count += result.data.datass.count()
 
                     }
 
@@ -292,7 +334,7 @@ class PartitionChannelFragment : Fragment() {
 //                        target_user_follow_flag = result.data.target_user?.target_user_follow_flag.toString()
 
 
-                    Log.d("ertyui", target_user_follow_flag)
+
 
 
                     result.data.datass.forEach { item ->
@@ -318,7 +360,7 @@ class PartitionChannelFragment : Fragment() {
                                 item.auther.username,
                                 //item.vimeo_detials.duration,
                                 4,
-//                                item.vimeo_detials.pictures?.base_link.toString(),
+//                                item.vimeo_detials.pictures?.base_link?:"http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788245666559364.jpg",
 //                                firstName = item.auther.profile_data.first_name,
                                 lastName = item.auther.profile_data.last_name,
                                 type = item.auther.type,
@@ -333,69 +375,9 @@ class PartitionChannelFragment : Fragment() {
                         )
 
                     }
-                    binding.videosRv.layoutManager = GridLayoutManager(requireContext(), 3)
-                    //                    switchToGridLayout()
-                    videoAdapter = VideoItemAdapter(0, newArrVideoModel, object : VideoClick {
-                        override fun OnVideoClic(pos: List<NewAppendItItems>, position: Int) {
-                            //                if (!isLinearLayout) {
-                            //                    switchToLinearLayout(position)
-                            //                }
-                            // else, handle the video click in linear layout
-
-
-                        }
-
-                        override fun OnVideoClic(position: Int) {
-                            val intent = Intent(context, VidInnerPlay::class.java)
-//                                    .apply {
-//                                    putExtra("dataList", newArrVideoModel) // Assuming YourDataType is Serializable or Parcelable
-//                                    putExtra("position", position)
-//                                }
-
-                            DataHolder.itemsList = newArrVideoModel
-                            startActivity(intent)
-                        }
-                    }, requireContext())
-                    binding.videosRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            val layoutManager = recyclerView.layoutManager as GridLayoutManager
-                            val totalItemCount = layoutManager.itemCount
-                            val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-                            val firstVisibleItemPosition =
-                                layoutManager.findFirstVisibleItemPosition()
-
-                            if (firstVisibleItemPosition > lastFirstVisiblePosition && dy > 0) {
-                                // Scrolling down
-                                binding.container.hide()
-                            } else if (firstVisibleItemPosition < lastFirstVisiblePosition && dy < 0) {
-                                // Scrolling up
-                                binding.container.show()
-                            }
-
-
-                            if (firstVisibleItemPosition == 0) {
-                                // At the top of the list
-                                binding.container.show()
-                            }
-                            if (!isLoading && !isLastPage && lastVisibleItem + 1 >= totalItemCount) {
-//                                    loadMoreItems()
-                            }
-                        }
-                    })
-
-                    binding.videosRv.adapter = videoAdapter
+                    videoAdapter.notifyDataSetChanged()
                     binding.progressBar.hide()
-
-
-//                        updateRecyclerView(newArrVideoModel)
-//                        currentPage++
-
-
-                    val startPosition = newArrVideoModel.size
-                    newArrVideoModel.addAll(newArrVideoModel)
-//                        videoAdapter.notifyItemRangeInserted(startPosition, newArrVideoModel.size)
-                    binding.progressBar.hide()
+                    isLoading = false
 
                 }
 
@@ -413,11 +395,14 @@ class PartitionChannelFragment : Fragment() {
 
 
     private fun loadMoreItems() {
-        if (!isLastPage && !isLoading) {
-            isLoading = true
+        Log.d("****", "loadMoreItems")
+        if (noMoreData || count == 0) {
+            Log.d("****No MORE DATA ", "qwertyuiop[")
+        } else {
             currentPage++
             binding.progressBar.show()
-            mainViewModel.retriveUserVideos("0", "3", userIdes, "1", currentPage.toString())
+            isLoading = true
+            mainViewModel.retriveUserVideos("0", "6", userIdes, "1", currentPage.toString())
         }
     }
 
@@ -467,5 +452,37 @@ class PartitionChannelFragment : Fragment() {
 
     }
 
+    fun setRecyclerView() {
+        binding.videosRv.layoutManager = GridLayoutManager(requireContext(), 3)
+        //                    switchToGridLayout()
+        videoAdapter = VideoItemAdapter(0, newArrVideoModel, object : VideoClick {
+            override fun OnVideoClic(pos: List<NewAppendItItems>, position: Int) {
+                //                if (!isLinearLayout) {
+                //                    switchToLinearLayout(position)
+                //                }
+                // else, handle the video click in linear layout
+
+
+            }
+
+            override fun OnVideoClic(position: Int) {
+                val intent = Intent(context, VidInnerPlay::class.java)
+//                                    .apply {
+//                                    putExtra("dataList", newArrVideoModel) // Assuming YourDataType is Serializable or Parcelable
+//                                    putExtra("position", position)
+//                                }
+
+                DataHolder.itemsList = newArrVideoModel
+                startActivity(intent)
+            }
+        }, requireContext())
+
+
+        binding.videosRv.apply {
+            adapter = videoAdapter
+            layoutManager = GridLayoutManager(requireContext(), 3)
+            addOnScrollListener(this@PartitionChannelFragment.onScrollViewListener)
+        }
+    }
 
 }
