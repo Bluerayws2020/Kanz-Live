@@ -146,20 +146,23 @@ class PartitionChannelFragment : Fragment() {
 
         binding.followersLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
+            intent.putExtra("type","partition" )
             intent.putExtra("user_id", userIdes) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("userName", userName) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("followersLayout", "1") // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("flag","0" )
 
             startActivity(intent)
-
 
         }
 
         binding.followingLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
+            intent.putExtra("type","partition" )
             intent.putExtra("user_id", userIdes) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("userName", userName) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("followersLayout", "0") // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("flag","1" )
 
             startActivity(intent)
         }
@@ -267,6 +270,7 @@ class PartitionChannelFragment : Fragment() {
 
     fun getMainVidos() {
         mainViewModel.getUserVideos().observe(viewLifecycleOwner) { result ->
+
             when (result) {
                 is NetworkResults.Success -> {
                     if (result.data.datass.isNullOrEmpty()) {
@@ -293,28 +297,34 @@ class PartitionChannelFragment : Fragment() {
 
                     result.data.datass.forEach { item ->
                         var vidLink = ""
+                        if(!(item.vimeo_detials== null)) {
+
                         val adaptiveFile =
                             item.vimeo_detials.files.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
                         vidLink = adaptiveFile?.link ?: item.file
 
-                        Log.d("AdaptiveLink", vidLink)
+//                            Log.e("***", item.vimeo_detials.files.toString())
+                            Log.d("AdaptiveLink", vidLink)
+                        }
+
 
                         newArrVideoModel.add(
                             NewAppendItItems(
-                                item.title,
+                                "item.title",
                                 item.id.toString(),
-                                item.created,
+                                item.created_at,
                                 vidLink,
                                 item.auther.uid,
                                 item.auther.username,
-                                item.vimeo_detials.duration,
-                                item.vimeo_detials.pictures?.base_link.toString(),
-                                firstName = item.auther.profile_data.first_name,
+                                //item.vimeo_detials.duration,
+                                4,
+//                                item.vimeo_detials.pictures?.base_link.toString(),
+//                                firstName = item.auther.profile_data.first_name,
                                 lastName = item.auther.profile_data.last_name,
                                 type = item.auther.type,
                                 bandNam = item.auther.profile_data.band_name,
-                                userPic = item.auther.profile_data.user_picture,
-                                userFav = item.video_actions_per_user.favorites.toString(),
+//                                userPic = item.auther.profile_data.user_picture,
+                                favorites = item.video_actions_per_user.favorites.toString(),
                                 userSave = item.video_actions_per_user.save.toString(),
                                 target_user = result.data.target_user,
                                 video_counts = item.video_counts,

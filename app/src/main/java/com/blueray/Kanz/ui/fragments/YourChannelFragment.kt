@@ -51,7 +51,7 @@ class YourChannelFragment : Fragment() {
 
         setUpViewPagerWithTapLayout()
 getUserProifle()
-        mainViewModel.retriveViewUserProfile()
+        mainViewModel.retriveViewMyProfile()
 
 
         binding.textView.setOnClickListener {
@@ -133,7 +133,8 @@ getUserProifle()
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        mainViewModel.getUserProfile().observe(viewLifecycleOwner) { result ->
+        mainViewModel.getMyProfile().observe(viewLifecycleOwner) { result ->
+
             when (result) {
                 is NetworkResults.Success -> {
                     if(result.data.results.id ==null)

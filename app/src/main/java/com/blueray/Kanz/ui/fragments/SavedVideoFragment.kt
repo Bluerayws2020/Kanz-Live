@@ -132,7 +132,7 @@ class SavedVideoFragment : Fragment() {
                             NewAppendItItems(
                                 item.title,
                                 item.id.toString(),
-                                item.created,
+                                item.created_at,
                                 vidLink,
                                 item.auther.uid,
                                 item.auther.username,
@@ -144,7 +144,7 @@ class SavedVideoFragment : Fragment() {
                                 type = item.auther.type,
                                 bandNam = item.auther.profile_data.band_name,
                                 userPic = item.auther.profile_data.user_picture,
-                                userFav = item.video_actions_per_user.favorites.toString(),
+                                favorites = item.video_actions_per_user.favorites.toString(),
                                 userSave = item.video_actions_per_user.save.toString(),
                                 target_user = result.data.target_user,
                                 video_counts = item.video_counts,

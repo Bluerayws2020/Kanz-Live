@@ -53,7 +53,6 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
         binding = OneVidoShowBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         dialog = BottomSheetDialog(this)
 
 

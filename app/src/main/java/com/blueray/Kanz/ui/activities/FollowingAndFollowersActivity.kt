@@ -11,13 +11,15 @@ import com.google.android.material.tabs.TabLayoutMediator
 class FollowingAndFollowersActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFollowingAndFollowersBinding
     private var userId: String? = null
+    private var type: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFollowingAndFollowersBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        userId = intent.getStringExtra("user_id") // Retrieve the user ID
 
+        userId = intent.getStringExtra("user_id") // Retrieve the user ID
+        type = intent.getStringExtra("type")
         val userName = intent.getStringExtra("userName") // Retrieve the user ID
         val flag = intent.getStringExtra("flag")
 
@@ -39,7 +41,7 @@ class FollowingAndFollowersActivity : AppCompatActivity() {
     }
 
     private fun setUpViewPagerWithTapLayout(flag: String) {
-        val adapter = FollowersFollowingPagerAdapter(supportFragmentManager, lifecycle, userId)
+        val adapter = FollowersFollowingPagerAdapter(supportFragmentManager, lifecycle, userId , type)
         val tabListTitle: MutableList<String> = ArrayList()
 
         val list = listOf("متابعون", "يتابعون")

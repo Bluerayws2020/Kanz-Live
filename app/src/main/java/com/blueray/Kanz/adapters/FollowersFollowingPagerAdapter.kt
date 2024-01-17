@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.blueray.Kanz.ui.fragments.FollowersFollowingFragment
 
 class FollowersFollowingPagerAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle,
-                                      private val userId: String?
+                                      private val userId: String?, private val type: String?
 ) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
@@ -20,6 +20,7 @@ class FollowersFollowingPagerAdapter (fragmentManager: FragmentManager, lifecycl
         fragment.arguments = Bundle().apply {
             putString("tab_position", position.toString())
             putString("user_id", userId)
+            putString("type", type)
 
         }
             return fragment

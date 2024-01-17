@@ -113,12 +113,12 @@ class VideoFeedAdapter(
 //
         // Save button
         holder.binding.saveBtn.setOnClickListener {
-            item.userSave = if (item.userSave == "1") "0" else "1"
+            item.userSave = if (item.userSave == "true") "false" else "true"
             updateSaveButtonUI(holder, item)
             onProfileClick.onProfileSaved(item.nodeId.toInt())
         }
 
-        if (videoUrls[position].userFav == "1") {
+        if (videoUrls[position].favorites == "true") {
             holder.binding.likeBtn.setImageResource(R.drawable.heartss)
 
         } else {
@@ -132,14 +132,14 @@ class VideoFeedAdapter(
         }
         holder.binding.likeBtn.setOnClickListener {
             val item = videoUrls[position]
-            if (item.userFav == "1") {
-                item.userFav = "0"
+            if (item.favorites == "true") {
+                item.favorites = "false"
                 // Decrease like count if it's greater than 0
                 if (item.video_counts?.like_count ?: 0 > 0) {
                     item.video_counts?.like_count = item.video_counts?.like_count?.minus(1)!!
                 }
             } else {
-                item.userFav = "1"
+                item.favorites = "true"
                 // Increase like count
                 item.video_counts?.like_count = item.video_counts?.like_count?.plus(1)!!
             }
@@ -171,14 +171,13 @@ class VideoFeedAdapter(
         likeCount = videoUrls[position].video_counts?.like_count!!
         commintCount = videoUrls[position].video_counts?.like_count ?: 0
 
-        holder.binding.commentsCount.text = commintCount.toString()
+     //   holder.binding.commentsCount.text = commintCount.toString()
 
         holder.binding.likesCount.text = likeCount.toString()
 
         // Like button logic
 
-
-        if (videoUrls[position].userSave == "1") {
+        if (videoUrls[position].userSave == "true") {
             holder.binding.saveBtn.setImageResource(R.drawable.baseline_bookmark_24)
 
         } else {
@@ -257,14 +256,14 @@ class VideoFeedAdapter(
 
 
     private fun updateLikeButtonUI(holder: VideoViewHolder, item: NewAppendItItems) {
-        // Update heart icon based on userFav
-        holder.binding.likeBtn.setImageResource(if (item.userFav == "1") R.drawable.heartss else R.drawable.heart)
+        // Update heart icon based on favorites
+        holder.binding.likeBtn.setImageResource(if (item.favorites == "true") R.drawable.heartss else R.drawable.heart)
         // Update like count text
         holder.binding.likesCount.text = item.video_counts?.like_count.toString()
     }
 
     private fun updateSaveButtonUI(holder: VideoViewHolder, item: NewAppendItItems) {
-        holder.binding.saveBtn.setImageResource(if (item.userSave == "1") R.drawable.baseline_bookmark_24 else R.drawable.save)
+        holder.binding.saveBtn.setImageResource(if (item.userSave == "true") R.drawable.baseline_bookmark_24 else R.drawable.save)
         holder.binding.commentsCount.text = item.video_counts?.save_count.toString()
     }
 

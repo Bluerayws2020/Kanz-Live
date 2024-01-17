@@ -16,10 +16,9 @@ sealed class NetworkResults<out R> {
 data class UserLoginModel(
     @SerializedName("msg") val status: MessageModel,
 
-    @SerializedName("results") val datas:LoginModel
+    @SerializedName("results") val datas: LoginModel
 
 )
-
 
 
 //data class ViewUserLoginModel(
@@ -34,10 +33,11 @@ data class UserLoginModel(
 //
 //)
 
-data class GetMyProfileResponse(
+data class GetProfileResponse(
     val msg: Msg,
     val results: Results
 )
+
 data class Results(
     val bio: Any,
     val country_phone_id: String,
@@ -60,10 +60,12 @@ data class Results(
     val upload_video_status: String,
     val user_name: String
 )
+
 data class Msg(
     val message: String,
     val status: Int
 )
+
 data class MyVideo(
     val comments_data: List<Any>,
     val description: String,
@@ -77,18 +79,16 @@ data class MyVideo(
     val share_count: String,
     val video: String,
     val vimeo_id: Int,
-    val vimeo_transcode_status:String
+    val vimeo_transcode_status: String
 )
+
 data class UserUploadeDone(
     @SerializedName("msg") val status: MessageModel,
     @SerializedName("data") val datas: NidVideoUplaode
 
 )
 
-data class checkPermission(
-    @SerializedName("data") val datas: NidVideoUplaode
 
-)
 
 data class NidVideoUplaode(
     val nid: String
@@ -127,7 +127,7 @@ data class RegisterModel(
     val date_of_birth: String,
     val sex: Int,
     val hashtags_ids: MutableList<String>,
-    val password:String,
+    val password: String,
     val country_phone_id: Int,
     val phone: String,
     val email: String
@@ -150,7 +150,7 @@ data class LoginModel(
     @SerializedName("sex") val sex: String,
     @SerializedName("bio") val bio: String,
     @SerializedName("live_status") val live_status: String,
-    @SerializedName("upload_video_status") val upload_video_status:String,
+    @SerializedName("upload_video_status") val upload_video_status: String,
 
 
     )
@@ -159,7 +159,7 @@ data class LoginModel(
 data class FollowingResponse(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val msg: String,
-  //  @SerializedName("data") val data: List<FollowingList>,
+    //  @SerializedName("data") val data: List<FollowingList>,
     @SerializedName("result") val result: FollowType,
 
     )
@@ -188,12 +188,14 @@ data class FollowingList(
     @SerializedName("is_following") var is_following: String,
 
     )
+
 data class MessageModel(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val msg: String,
-    @SerializedName("msg") var msgs:Int
+    @SerializedName("msg") var msgs: Int
 
 )
+
 //data class MessageModelData(
 //    @SerializedName("msg") val status: MessageModel,
 //
@@ -202,6 +204,7 @@ data class UpdateProfileResponse(
     val msg: Msg,
     val results: UpdateResults
 )
+
 data class UpdateResults(
     val bio: Any,
     val country_phone_id: String,
@@ -222,8 +225,9 @@ data class UpdateResults(
     val sex: String,
     val token: String,
     val upload_video_status: String,
-    val user_name:String
+    val user_name: String
 )
+
 data class UserActionMessage(
     @SerializedName("msg") val msg: Int,
     @SerializedName("message") val message: String
@@ -241,7 +245,7 @@ data class Item(
     val created: String,
     val uuid: String,
     val token: String,
-    val vimeo_detials:VimeoVideoModelV2
+    val vimeo_detials: VimeoVideoModelV2
 )
 
 
@@ -266,25 +270,25 @@ data class MainJsonDropDownModelHashTag(
 )
 
 
-data class VimeoVideoModelV2 (
+data class VimeoVideoModelV2(
 
-    @SerializedName("uri") val uri : String,
-    @SerializedName("name") val name : String,
-    @SerializedName("description") val description : String,
-    @SerializedName("type") val type : String,
-    @SerializedName("link") val link : String,
-    @SerializedName("player_embed_url") val player_embed_url : String,
-    @SerializedName("duration") val duration : Int,
-    @SerializedName("width") val width : Int,
-    @SerializedName("language") val language : String,
-    @SerializedName("height") val height : Int,
-    @SerializedName("created_time") val created_time : String,
-    @SerializedName("modified_time") val modified_time : String,
-    @SerializedName("release_time") val release_time : String,
-    @SerializedName("files") val files : List<VimeoFileModel>,
-    @SerializedName("status") val status : String,
-    @SerializedName("is_playable") val is_playable : Boolean,
-    @SerializedName("has_audio") val has_audio : Boolean
+    @SerializedName("uri") val uri: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("type") val type: String,
+    @SerializedName("link") val link: String,
+    @SerializedName("player_embed_url") val player_embed_url: String,
+    @SerializedName("duration") val duration: Int,
+    @SerializedName("width") val width: Int,
+    @SerializedName("language") val language: String,
+    @SerializedName("height") val height: Int,
+    @SerializedName("created_time") val created_time: String,
+    @SerializedName("modified_time") val modified_time: String,
+    @SerializedName("release_time") val release_time: String,
+    @SerializedName("files") val files: List<VimeoFileModel>,
+    @SerializedName("status") val status: String,
+    @SerializedName("is_playable") val is_playable: Boolean,
+    @SerializedName("has_audio") val has_audio: Boolean
 )
 
 
@@ -292,23 +296,23 @@ data class NotfiMain(
     @SerializedName("data") val datass: List<NofiItem>,
 
     )
+
 data class NofiItem(
-    @SerializedName("title") val title : String,
-    @SerializedName("body") val body : String,
-    @SerializedName("entity_id") val entity_id : String? = null,
-    @SerializedName("flag_id") val flag_id : String? = null,
-    @SerializedName("created") val created : String? = null,
+    @SerializedName("title") val title: String,
+    @SerializedName("body") val body: String,
+    @SerializedName("entity_id") val entity_id: String? = null,
+    @SerializedName("flag_id") val flag_id: String? = null,
+    @SerializedName("created") val created: String? = null,
 
 
     )
 
 
+data class VimeoFileModel(
 
-data class VimeoFileModel (
-
-    @SerializedName("rendition") val rendition : String,
-    @SerializedName("height") val height : Int,
-    @SerializedName("link") val link : String? = null,
+    @SerializedName("rendition") val rendition: String,
+    @SerializedName("height") val height: Int,
+    @SerializedName("link") val link: String? = null,
 
     ) {
     override fun toString(): String {
@@ -316,39 +320,39 @@ data class VimeoFileModel (
     }
 }
 
-    data class NewAppendItItems (
+data class NewAppendItItems(
 
-val videoTitle : String,
-val videoDesc : String,
-val date : String,
+    val videoTitle: String,
+    val videoDesc: String,
+    val date: String,
 
-val videoUrl : String,
-val userId : String,
-val userName : String,
-val duration : Int,
-val imageThum : String = "",
-val firstName : String = "",
-val lastName : String = "",
-val bandNam : String = "",
-val type : String = "",
-val userPic : String = "",
-val status : String = "",
-var userFav : String = "",
-var userSave : String = "",
-        var target_user: TargetUsers? = null,
-        var  video_counts: VideoCounts? = null,
+    val videoUrl: String,
+    val userId: String,
+    val userName: String,
+    val duration: Int,
+    val imageThum: String = "",
+    val firstName: String = "",
+    val lastName: String = "",
+    val bandNam: String = "",
+    val type: String = "",
+    val userPic: String = "",
+    val status: String = "",
+    var favorites: String = "",
+    var userSave: String = "",
+    var target_user: TargetUsers? = null,
+    var video_counts: VideoCounts? = null,
 
-val numOfFollowers: Int = 0,
-val numOfFollowing: Int = 0,
-val numOfLikes: Int =  0,
-val nodeId:String = "",
+    val numOfFollowers: Int = 0,
+    val numOfFollowing: Int = 0,
+    val numOfLikes: Int = 0,
+    val nodeId: String = "",
 
 
-):Serializable
+    ) : Serializable
 //    {
 //        // Toggle the like status
 //        fun toggleLike() {
-//            userFav = if (userFav == "1") "0" else "1"
+//            favorites = if (favorites == "1") "0" else "1"
 //        }
 //
 //        // Toggle the save status
@@ -358,13 +362,13 @@ val nodeId:String = "",
 //    }
 
 
-
 data class VideoDataModel(
     @SerializedName("data") val datass: List<VideoResponse>,
-   @SerializedName("target_user") val target_user : TargetUsers? = null,
+    @SerializedName("target_user") val target_user: TargetUsers? = null,
 
 
-)
+    )
+
 data class SearchDataModel(
     @SerializedName("data") val datass: List<SarchItem>,
 
@@ -383,46 +387,61 @@ data class CheckUserFollow(
     @SerializedName("this_is_me") val this_is_me: String,
 
     )
-data class  SarchItem(
+
+data class SarchItem(
     @SerializedName("uid") val uid: String,
     @SerializedName("user_name") val user_name: String,
     @SerializedName("picture") val picture: String,
 
     @SerializedName("profile_data") val profile_data: Pprofile_data,
-    
-    @SerializedName("auther") val autherFoloower : AuthresFolow,
+
+    @SerializedName("auther") val autherFoloower: AuthresFolow,
 
 
     )
 
-data class  AuthresFolow(
+data class AuthresFolow(
 
     val numOfFollowers: Int,
     val numOfFollowing: Int,
     val numOfLikes: Int,
 )
+//data class VideoResponse(
+//    val id: String,
+//    val title: String,
+//    val created: String,
+//    val file: String,
+//    val uuid: String,
+//    val token: String,
+//    val moderation_state :String,
+//    val vimeo_detials: VimeoDetails,
+//    val auther: Author,
+//val video_actions_per_user:Video_actions_per_user,
+//    val video_counts:VideoCounts? = null
+//
+//)
+
 data class VideoResponse(
     val id: String,
     val title: String,
-    val created: String,
+    val created_at: String,
     val file: String,
-    val uuid: String,
-    val token: String,
-    val moderation_state :String,
+    val moderation_state: String,
     val vimeo_detials: VimeoDetails,
     val auther: Author,
-val video_actions_per_user:Video_actions_per_user,
-    val video_counts:VideoCounts? = null
+    val video_actions_per_user: Video_actions_per_user,
+    val video_counts: VideoCounts? = null
 
 )
 
-data class  VideoCounts(
+data class VideoCounts(
 
     var like_count: Int,
-    val  save_count: Int,
+    val save_count: Int,
 
 
     )
+
 data class TargetUsers(
     val im_in_user_profile: Int,
     val target_user_follow_flag: Int,
@@ -430,14 +449,17 @@ data class TargetUsers(
     val im_blocked: Int,
 
     )
+
 data class Video_actions_per_user(
     val save: String,
-    @SerializedName("like") val  favorites: Int,
+    @SerializedName("like") val favorites: Boolean,
 
     )
+
 data class Pictures(
-    val base_link:String = ""
+    val base_link: String = ""
 )
+
 data class VimeoDetails(
     val uri: String,
     val name: String,
@@ -452,13 +474,15 @@ data class VimeoDetails(
     val files: List<VideoFile>,
 
 
-    val transcode:Transcode? = null,
-    val pictures:Pictures? = null
+    val transcode: Transcode? = null,
+    val pictures: Pictures? = null
     // Add other fields as necessary...
 )
+
 data class Transcode(
-    val status:String
+    val status: String
 )
+
 data class VideoFile(
 
     val quality: String,
@@ -480,7 +504,7 @@ data class Author(
     val numOfLikes: Int,
 
 
-    val profile_data  :Pprofile_data
+    val profile_data: Pprofile_data
 )
 
 data class Pprofile_data(
@@ -488,11 +512,11 @@ data class Pprofile_data(
     val last_name: String,
     val user_picture: String,
     val band_name: String,
-    val mail:    String,
-    val birth_date:String? = null ,
-   @SerializedName("gender") val gender:String?
+    val mail: String,
+    val birth_date: String? = null,
+    @SerializedName("gender") val gender: String?
 
-    )
+)
 
 
 data class MeetingItem(
@@ -505,23 +529,25 @@ data class MeetingItem(
     val links: JSONObject,
     val id: String
 )
-data class  AutoCloseConfig(
+
+data class AutoCloseConfig(
     val type: String
 
 )
 
 
-data class  Links(
+data class Links(
     val get_room: String,
     val get_session: String
 
 )
-data class Grid(
-    val image :Int ,
-    val sounds :Int ,
 
-    val name:String,
-    val price:String
+data class Grid(
+    val image: Int,
+    val sounds: Int,
+
+    val name: String,
+    val price: String
 )
 
 data class ApiResponse(
