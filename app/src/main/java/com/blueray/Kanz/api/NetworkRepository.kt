@@ -481,7 +481,7 @@ object NetworkRepository {
         country_phone_id: String,
         sex: String,
         barth_of_date: String,
-
+        profile_image: File
 
         ): NetworkResults<UpdateProfileResponse> {
         return withContext(Dispatchers.IO) {
@@ -495,9 +495,9 @@ object NetworkRepository {
             val barth_of_dateBody =
                 barth_of_date.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             // TODO: dont forget to add the image edit
-//            val commercial_recordBody =
-//                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image)
-//            val commercial_record_part  =  MultipartBody.Part.createFormData("profile_image", profile_image.name, commercial_recordBody)
+            val commercial_recordBody =
+                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image)
+            val commercial_record_part  =  MultipartBody.Part.createFormData("profile_image", profile_image.name, commercial_recordBody)
 
             try {
                 val results = ApiClient.retrofitService.editProfile(
@@ -510,7 +510,7 @@ object NetworkRepository {
                     phoneBody,
                     country_phone_idBody,
                     emailBody ,
-
+                    commercial_record_part
                     )
                 NetworkResults.Success(results)
             } catch (e: Exception){

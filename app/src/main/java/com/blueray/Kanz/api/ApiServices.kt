@@ -284,7 +284,7 @@ interface ApiServices {
         @Part("phone") phone: RequestBody,
         @Part("country_phone_id") country_phone_id: RequestBody,
         @Part("email") email: RequestBody,
-//        @Part image_profile :MultipartBody.Part
+        @Part image_profile :MultipartBody.Part
     ): UpdateProfileResponse
 
     @GET("app/nationality-list")

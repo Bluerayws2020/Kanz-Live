@@ -46,7 +46,9 @@ class MyAccountFragment : Fragment() {
         getUserProifle()
 
         binding.settings.setOnClickListener {
-            startActivity(Intent(requireContext(),Profile::class.java))
+          val intent =  Intent(requireContext(),Profile::class.java)
+            startActivity(intent)
+
         }
         binding.followingLayout.setOnClickListener {
             val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
