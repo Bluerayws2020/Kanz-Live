@@ -6,30 +6,27 @@
     android:layout_height="match_parent"
 
     tools:context=".ui.activities.UploadeVedio">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
 
-    <include
-        layout="@layout/registration_new_app_bar"
-        android:id="@+id/include_tap"
-        />
+        <include
+            android:id="@+id/include_tap"
+            layout="@layout/registration_new_app_bar" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <androidx.cardview.widget.CardView
-                android:layout_margin="@dimen/sb_size_12"
                 android:layout_width="@dimen/sb_size_100"
-                app:cardCornerRadius="@dimen/sb_size_12"
-                android:layout_height="match_parent">
-
-
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/sb_size_12"
+                app:cardCornerRadius="@dimen/sb_size_12">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/uploades"
@@ -41,7 +38,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
 
-
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/upl_l"
@@ -51,22 +47,21 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/sb_size_12"
-                >
+                android:layout_marginEnd="@dimen/sb_size_12">
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/txt"
+                    style="@style/SignInEditTextStyles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
+                    android:background="@color/white"
                     android:hint="اضف بعض المعلومات عن الفيديو الخاص بك
 الحد الاقصى 40000 حرف
 "
-                    android:textColorHint="@color/green"
-
-                    style="@style/SignInEditTextStyles"
-                    android:id="@+id/txt"
                     android:textColor="@color/green"
+                    android:textColorHint="@color/green"
                     android:textSize="14sp"
-                    android:background="@color/white"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -75,54 +70,108 @@
                     android:id="@+id/activities"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginBottom="@dimen/sb_size_5"
                     app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:spanCount="3"
-                    android:layout_marginBottom="@dimen/sb_size_5"
                     tools:listitem="@layout/list_uploade" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="#BEBEBE"/>
+
+
+
+        <LinearLayout
+            android:id="@+id/progressSection"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="@dimen/sb_size_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/progressText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center_horizontal"
+                android:textSize="25sp"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/videoLayout"
+                tools:text="Progress" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:max="100"
+                android:progress="0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/newSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress"
+                tools:text="Size after compression" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BEBEBE" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/nextBtn"
                 android:layout_width="@dimen/sb_size_100"
                 android:layout_height="60dp"
-                android:backgroundTint="@color/green"
-                android:text="تحميل"
                 android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/sb_size_12"
+                android:backgroundTint="@color/green"
                 android:gravity="center"
+                android:text="تحميل"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:cornerRadius="18dp"
                 app:icon="@drawable/ic_baseline_upload"
-                app:iconGravity="textEnd"
 
-                android:layout_marginEnd="@dimen/sb_size_12"
+                app:iconGravity="textEnd"
                 app:iconSize="10dp" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/notNow"
                 android:layout_width="@dimen/sb_size_100"
                 android:layout_height="60dp"
-                android:text="المسودة"
-                android:backgroundTint="#C7CCE5"
-                android:textAllCaps="false"
                 android:layout_gravity="center"
+                android:backgroundTint="#C7CCE5"
                 android:gravity="center"
+                android:text="المسودة"
+                android:textAllCaps="false"
                 app:cornerRadius="18dp"
                 app:iconGravity="textEnd"
                 app:iconSize="15dp" />
@@ -131,21 +180,18 @@
     </LinearLayout>
 
 
-
-
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:background="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
-        android:background="@color/white"
         app:lottie_loop="true"
-        android:visibility="gone"
         app:lottie_rawRes="@raw/horse" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-

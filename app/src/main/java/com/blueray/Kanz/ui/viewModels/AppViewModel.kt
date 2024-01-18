@@ -25,6 +25,7 @@ import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
+import com.blueray.Kanz.model.VideoUploadeDone
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import kotlinx.coroutines.launch
@@ -73,7 +74,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val createAccountBandLive = MutableLiveData<NetworkResults<UserLoginModel>>()
 
 
-    private val userUplaodeLoive = MutableLiveData<NetworkResults<UserUploadeDone>>()
+    private val userUplaodeLoive = MutableLiveData<NetworkResults<VideoUploadeDone>>()
     private val setActions = MutableLiveData<NetworkResults<UserActionMessageModel>>()
     private val updateUserLive = MutableLiveData<NetworkResults<UpdateProfileResponse>>()
 
@@ -133,13 +134,13 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         title: String,
         description: String,
 
-        viemo_link: String,
+        viemo_link: File,
         type_of_activity: String,
     ) {
-
+        val authToken = "Bearer $userToken"
         viewModelScope.launch {
             userUplaodeLoive.value =
-                repo.userUplaodeVideo(title, description, viemo_link, userId, type_of_activity)
+                repo.userUplaodeVideo(authToken, title, description, viemo_link, userId, type_of_activity)
         }
     }
 

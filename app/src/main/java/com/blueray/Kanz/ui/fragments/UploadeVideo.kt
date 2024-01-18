@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ActivityNotFoundException
@@ -28,7 +29,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.abedelazizshe.lightcompressorlibrary.CompressionListener
+import com.abedelazizshe.lightcompressorlibrary.VideoCompressor
+import com.abedelazizshe.lightcompressorlibrary.VideoQuality
+import com.abedelazizshe.lightcompressorlibrary.config.Configuration
+import com.abedelazizshe.lightcompressorlibrary.config.SaveLocation
+import com.abedelazizshe.lightcompressorlibrary.config.SharedStorageConfiguration
 import com.blueray.Kanz.R
 import com.blueray.Kanz.adapters.ActivitiesTypesAdapterForUploade
 import com.blueray.Kanz.api.OnCategroryChose
@@ -38,7 +46,9 @@ import com.blueray.Kanz.helpers.HelperUtils.showMessage
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
+import com.blueray.Kanz.ui.fragments.getFileSize
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import kotlinx.coroutines.launch
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -49,26 +59,33 @@ import java.io.File
 import java.io.IOException
 
 class UploadeVedio : AppCompatActivity() {
-    private lateinit var binding : ActivityUploadeVedioBinding
+    private lateinit var binding: ActivityUploadeVedioBinding
     private val viewmodel by viewModels<AppViewModel>()
     private val VIDEO_REQUEST_CODE = 3
     private val IMAGE_REQUEST_CODE = 4
-    private lateinit var adapter : ActivitiesTypesAdapterForUploade
-var categoryId = ""
+    private lateinit var adapter: ActivitiesTypesAdapterForUploade
+    var categoryId = ""
     var viemoLink = ""
-    private var image_Video=true
-    private val REQUEST_CODE =100
-    private val NotfiCode =101
+    private var image_Video = true
+    private val REQUEST_CODE = 100
+    private val NotfiCode = 101
 
     private var videoUri: Uri? = null
+    private val uris = mutableListOf<Uri>()
     private val client = OkHttpClient()
+
+    var playableVideoPath: String? = ""
+    lateinit var uri: Uri
+    var newSize: String = ""
+    var progressPercent: Float = 0F
+    var isCompressing = false
 
     // Register the permissions callback, which handles the user's response to the
     // system permissions dialog.
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (HelperUtils.getUid(this@UploadeVedio) == "0") {
-                Toast.makeText(this,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             } else {
@@ -90,8 +107,10 @@ var categoryId = ""
 //                videoUri = result.data?.data
 //                prepareVideoUpload(videoUri!!)
                 videoUri = result.data?.data
+                uris.add(videoUri!!)
+                processVideo()
                 displayVideoThumbnail(videoUri)
-            }else {
+            } else {
 //            startActivity(Intent(this,HomeActivity::class.java))
             }
         }
@@ -102,7 +121,7 @@ var categoryId = ""
         setContentView(binding.root)
         // Initialize your views
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-binding.includeTap.title.text =  "رفع مقطع"
+        binding.includeTap.title.text = "رفع مقطع"
 
         binding.includeTap.back.setOnClickListener {
 
@@ -111,7 +130,7 @@ binding.includeTap.title.text =  "رفع مقطع"
         }
 
         if (HelperUtils.getUid(this@UploadeVedio) == "0") {
-            Toast.makeText(this,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
 
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
@@ -120,11 +139,21 @@ binding.includeTap.title.text =  "رفع مقطع"
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 // Request permission
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), NotfiCode)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    NotfiCode
+                )
             }
         }
+
+        resetProgress()
 
         binding.uploades.playAnimation()
         binding.uploades.setOnClickListener {
@@ -133,7 +162,7 @@ binding.includeTap.title.text =  "رفع مقطع"
 
         }
         // Set the click listener for the record button
-            // Check if we have permission to record
+        // Check if we have permission to record
 
 
 //        // Set the click listener for the upload button
@@ -155,13 +184,17 @@ binding.includeTap.title.text =  "رفع مقطع"
 //
 //            }else {
 
-            if (videoUri == null){
-                                Toast.makeText(this,"يرجى رفع مقطع",Toast.LENGTH_LONG).show()
+            if (videoUri == null) {
+                Toast.makeText(this, "يرجى رفع مقطع", Toast.LENGTH_LONG).show()
 
-            }else {
-                binding.progressBar.show()
+            } else {
+                if(!isCompressing) {
+                    binding.progressBar.show()
 
-                prepareVideoUpload(videoUri!!)
+                    prepareVideoUpload(videoUri!!)
+                } else{
+                    Toast.makeText(this, "يتم ضغط المقطع", Toast.LENGTH_LONG).show()
+                }
             }
 //            }
         }
@@ -172,10 +205,6 @@ binding.includeTap.title.text =  "رفع مقطع"
         }
 
     }
-
-
-
-
 
 
     private fun displayVideoThumbnail(videoUri: Uri?) {
@@ -196,17 +225,11 @@ binding.includeTap.title.text =  "رفع مقطع"
             val byteArray = byteArrayOutputStream.toByteArray()
             val base64String = Base64.encodeToString(byteArray, Base64.DEFAULT)
 
-            HelperUtils.setLastImageUplaode(this,base64String)
-
-
+            HelperUtils.setLastImageUplaode(this, base64String)
 
 
         }
     }
-
-
-
-
 
 
 //    private fun getPathFromUri(uri: Uri): String {
@@ -246,6 +269,7 @@ binding.includeTap.title.text =  "رفع مقطع"
         }
         builder.show()
     }
+
     private fun requestCameraPermissionAndLaunch() {
         // Check for camera permission and launch camera
         // Similar to your existing permission check and launchCamera() call
@@ -253,6 +277,7 @@ binding.includeTap.title.text =  "رفع مقطع"
             ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) -> {
                 launchCamera()
             }
+
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
@@ -264,17 +289,25 @@ binding.includeTap.title.text =  "رفع مقطع"
 //        val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
 //        startForResult.launch(intent)
 
-        image_Video=false
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2){
+        image_Video = false
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2) {
 
-            if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_MEDIA_VIDEO ) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.READ_MEDIA_VIDEO
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 // Permission is not granted, request it
                 Log.e("ayham", "permission denied")
-                requestPermissions( arrayOf(android.Manifest.permission.READ_MEDIA_VIDEO), REQUEST_CODE)
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.READ_MEDIA_VIDEO),
+                    REQUEST_CODE
+                )
             } else {
-                video()}
+                video()
+            }
 
-        }else {
+        } else {
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -288,24 +321,29 @@ binding.includeTap.title.text =  "رفع مقطع"
             }
         }
     }
+
     private fun getCategory() {
         hideProgress()
 
         viewmodel.getCategory().observe(this) { result ->
-            Log.e("****" , result.toString())
+
             when (result) {
                 is NetworkResults.Success -> {
 
-                    adapter = ActivitiesTypesAdapterForUploade(1,result.data.results,object :OnCategroryChose{
-                        override fun onCategroyChose(id: String) {
-                            categoryId  = id
-                        }
+                    adapter = ActivitiesTypesAdapterForUploade(
+                        1,
+                        result.data.results,
+                        object : OnCategroryChose {
+                            override fun onCategroyChose(id: String) {
+                                categoryId = id
+                            }
 
-                    })
-                    val gridLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
+                        })
+                    val gridLayoutManager =
+                        LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
                     binding.activities.adapter = adapter
-                    binding.activities.layoutManager =gridLayoutManager
+                    binding.activities.layoutManager = gridLayoutManager
 
                 }
 
@@ -318,35 +356,40 @@ binding.includeTap.title.text =  "رفع مقطع"
             }
         }
     }
-
 
 
     private fun getUplaodeVideo() {
         hideProgress()
 
-        viewmodel.getUplaodeVide().observe(this) { result ->
+        viewmodel.getUplaodeVide().observe(this) { result -> // هون المشكلة
 
+            Log.e("***", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
                     hideProgress()
 
-                  if (result.data.status.status == 200 ){
+                    if (!result.data.success ) {
 
-                      Toast.makeText(this,result.data.status.msg.toString(),Toast.LENGTH_LONG).show()
-                      startActivity(Intent(this,HomeActivity::class.java))
-                      showUploadSuccessNotification()
+                        Toast.makeText(this, result.data.message.file.toString(), Toast.LENGTH_LONG)
+                            .show()
+                        startActivity(Intent(this, HomeActivity::class.java))
+                        showUploadSuccessNotification()
 
 
-                  }else{
-                      Toast.makeText(this,result.data.status.msg.toString(),Toast.LENGTH_LONG).show()
-
-                  }
+                    } else {
+                        Toast.makeText(this, result.data.message.file.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
                 }
 
                 is NetworkResults.Error -> {
                     result.exception.printStackTrace()
-                    Toast.makeText(this,result.exception.localizedMessage.toString() ,Toast.LENGTH_LONG).show()
-Log.d("ertyu",result.exception.toString())
+                    Toast.makeText(
+                        this,
+                        result.exception.localizedMessage.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Log.d("ertyu", result.exception.toString())
                     hideProgress()
                 }
 
@@ -354,22 +397,29 @@ Log.d("ertyu",result.exception.toString())
             }
         }
     }
+
     private fun hideProgress() {
-        binding.progressBar.hide()
+      //  binding.progressBar.hide()
 
     }
 
     private fun showProgress() {
         binding.progressBar.show()
     }
+
     private fun prepareVideoUpload(videoUri: Uri) {
         // First, create a video object on Vimeo and get the upload URL
         createVideoObject(videoUri)
 
         // Then, proceed with uploading the video to the received URL
     }
+
     private fun launchCamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             Intent(MediaStore.ACTION_VIDEO_CAPTURE).also { takeVideoIntent ->
                 takeVideoIntent.resolveActivity(packageManager)?.also {
                     startForResult.launch(takeVideoIntent)
@@ -381,73 +431,106 @@ Log.d("ertyu",result.exception.toString())
         }
     }
 
-    private fun uploadVideoToVimeo(videoUri: Uri,link:String,systemLink:String) {
+    private fun uploadVideoToVimeo(videoUri: Uri, link: String, systemLink: String) {
         // Convert Uri to File
-        val videoFile = File(getPathFromUri(videoUri))
+        var videoFile: File
 
-        // Prepare the file to be uploaded
-        val requestBody = videoFile.asRequestBody("video/*".toMediaType())
-        val multipartBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("file_data", videoFile.name, requestBody)
-            .build()
-        // Prepare the request
-        val request = Request.Builder()
-            .url(link) // Replace with the upload URL provided by Vimeo API
-            .addHeader("Authorization", "Bearer cb9661c5c0ecc54dc35089b21047de84") // Replace with your actual access token
-            .addHeader("Content-Type", "multipart/form-data")
+        if(playableVideoPath != ""){
+            videoFile = File(playableVideoPath)
+        }else {
+            // Convert Uri to File
+            videoFile = File(getPathFromUri(videoUri))
+        }
 
-            .post(multipartBody)
-            .build()
+//        // Prepare the file to be uploaded
+//        val requestBody = videoFile.asRequestBody("video/*".toMediaType())
+//        val multipartBody = MultipartBody.Builder()
+//            .setType(MultipartBody.FORM)
+//            .addFormDataPart("file_data", videoFile.name, requestBody)
+//            .build()
+//        // Prepare the request
+//        val request = Request.Builder()
+//            .url(link) // Replace with the upload URL provided by Vimeo API
+//            .addHeader(
+//                "Authorization",
+//                "Bearer cb9661c5c0ecc54dc35089b21047de84"
+//            ) // Replace with your actual access token
+//            .addHeader("Content-Type", "multipart/form-data")
+//
+//            .post(multipartBody)
+//            .build()
 
 
+        viewmodel.retriveUserUplaode(
+            binding.txt.text.toString(),
+            binding.txt.text.toString(),
+            videoFile,
+            "1"
+        )
 
-        // Execute the request
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    binding.progressBar.visibility = View.GONE
-//                    binding.btnUploadVideo.isEnabled = true
-                    // Handle the error, update UI if needed
-                    Toast.makeText(this@UploadeVedio,"Error\t"+ e.message.toString(),Toast.LENGTH_LONG).show()
+        getUplaodeVideo()
 
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                // Log the response or handle it as necessary
-                response.use { res ->
-                    if (res.isSuccessful) {
-                        // Handle the successful response
-                        val responseBody = res.body?.string()
-                        runOnUiThread {
-                            // Here you could update UI with details from the response if needed
+//        // Execute the request
+//        client.newCall(request).enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {
+//                runOnUiThread {
+//                    binding.progressBar.visibility = View.GONE
+////                    binding.btnUploadVideo.isEnabled = true
+//                    // Handle the error, update UI if needed
+//                    Toast.makeText(
+//                        this@UploadeVedio,
+//                        "Error\t" + e.message.toString(),
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//
+//                }
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                // Log the response or handle it as necessary
+//                response.use { res ->
+//                    if (res.isSuccessful) {
+//                        // Handle the successful response
+//                        val responseBody = res.body?.string()
+//                        runOnUiThread {
+//                            // Here you could update UI with details from the response if needed
+////                            binding.progressBar.visibility = View.GONE
+////                            binding.btnUploadVideo.isEnabled = true
+//
+//                            viewmodel.retriveUserUplaode(
+//                                binding.txt.text.toString(),
+//                                binding.txt.text.toString(),
+//                                systemLink,
+//                                "1"
+//                            )
+//
+//
+//                            getUplaodeVideo()
+//
+//                        }
+//
+//
+//                        Log.d("UploadSSSSAAAAA", "Response: $responseBody")
+//                    } else {
+//                        // Handle the error
+//                        val responseBody = res.body?.string()
+//                        runOnUiThread {
+////                            Toast.makeText(this@UploadeVedio, "Upload failed: ${res.message}", Toast.LENGTH_LONG).show()
 //                            binding.progressBar.visibility = View.GONE
-//                            binding.btnUploadVideo.isEnabled = true
-
-                            viewmodel.retriveUserUplaode(binding.txt.text.toString(),binding.txt.text.toString(),systemLink,"1")
-                            getUplaodeVideo()
-
-                        }
-
-
-                        Log.d("UploadSSSSAAAAA", "Response: $responseBody")
-                    } else {
-                        // Handle the error
-                        val responseBody = res.body?.string()
-                        runOnUiThread {
-//                            Toast.makeText(this@UploadeVedio, "Upload failed: ${res.message}", Toast.LENGTH_LONG).show()
-                            binding.progressBar.visibility = View.GONE
-//                            binding.btnUploadVideo.isEnabled = true
-                        }
-                        Log.e("Upload", "Error: $responseBody")
-                    }
-                }
-            }
-        })
+////                            binding.btnUploadVideo.isEnabled = true
+//                        }
+//                        Log.e("Upload", "Error: $responseBody")
+//                    }
+//                }
+//            }
+//        })
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -461,11 +544,11 @@ Log.d("ertyu",result.exception.toString())
                 }
 
                 return
-
-            }NotfiCode->{
-
             }
 
+            NotfiCode -> {
+
+            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
@@ -478,8 +561,10 @@ Log.d("ertyu",result.exception.toString())
 
     private fun showRotationalDialogForPermission() {
         AlertDialog.Builder(this)
-            .setMessage("It looks like you have turned off permissions"
-                    + "required for this feature. It can be enable under App settings!!!")
+            .setMessage(
+                "It looks like you have turned off permissions"
+                        + "required for this feature. It can be enable under App settings!!!"
+            )
 
             .setPositiveButton("Go TO SETTINGS") { _, _ ->
 
@@ -500,12 +585,11 @@ Log.d("ertyu",result.exception.toString())
     }
 
 
-
-
     // Step 2: Create a video object on Vimeo
-    fun createVideoObject(vid:Uri) {
+    fun createVideoObject(vid: Uri) {
         val jsonMediaType = "application/json; charset=utf-8".toMediaType()
-        val requestBody = "".toRequestBody(jsonMediaType) // You may need to provide parameters in the request body as JSON
+        val requestBody =
+            "".toRequestBody(jsonMediaType) // You may need to provide parameters in the request body as JSON
 
         val request = Request.Builder()
             .url("https://api.vimeo.com/me/videos")
@@ -518,7 +602,11 @@ Log.d("ertyu",result.exception.toString())
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace() // Handle the error
-                Toast.makeText(this@UploadeVedio,"Error\t"+ e.message.toString(),Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@UploadeVedio,
+                    "Error\t" + e.message.toString(),
+                    Toast.LENGTH_LONG
+                ).show()
 
             }
 
@@ -533,12 +621,10 @@ Log.d("ertyu",result.exception.toString())
                     val uploadLink = uploadObject.getString("upload_link")
 
 
+                    val link = jsonObject.getString("link")
 
-                   val link =  jsonObject.getString("link")
 
-
-                    uploadVideoToVimeo(vid,uploadLink,link)
-
+                    uploadVideoToVimeo(vid, uploadLink, link)
 
 
                     // Proceed with the upload using this upload link
@@ -568,8 +654,8 @@ Log.d("ertyu",result.exception.toString())
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
-            IMAGE_REQUEST_CODE->{
+        when (requestCode) {
+            IMAGE_REQUEST_CODE -> {
 //                if(data != null){
 //                    val uri=data?.data
 //                    imageData=get(uri)
@@ -580,25 +666,122 @@ Log.d("ertyu",result.exception.toString())
 //                    showMessage(this,"لم يتم اختيار اي صورة")
 //                }
             }
-            VIDEO_REQUEST_CODE ->{
-                if ( data != null) {
+
+            VIDEO_REQUEST_CODE -> {
+                if (data != null) {
                     val uri = data?.data
 //                    videoUri = getPathFromUri(uri)
 //                    videoUri = File(videoData)
 
 
-                    videoUri =  data?.data
+                    videoUri = data?.data
+
+                    uris.add(videoUri!!)
+                    processVideo()
+
                     displayVideoThumbnail(videoUri)
 
 //                    binding.uploadVideo.text = "تم اختيار فيديو"
                     Log.d("ayhamVideo", videoUri.toString())
-                }else{
-                    showMessage(this,"لم يتم اختير اي فيديو")
+                } else {
+                    showMessage(this, "لم يتم اختير اي فيديو")
                 }
             }
         }
     }
 
+
+    @SuppressLint("SetTextI18n")
+    private fun processVideo() {
+
+        isCompressing = true
+        Log.d("ayhamVideo2", uris.toString())
+        lifecycleScope.launch {
+            VideoCompressor.start(
+                context = applicationContext,
+                uris,
+                isStreamable = false,
+                sharedStorageConfiguration = SharedStorageConfiguration(
+                    saveAt = SaveLocation.movies,
+                    subFolderName = "my-demo-videos"
+                ),
+                configureWith = Configuration(
+                    quality = VideoQuality.LOW,
+                    videoNames = uris.map { uri -> uri.pathSegments.last() },
+                    isMinBitrateCheckEnabled = true,
+                ),
+                listener = object : CompressionListener {
+                    override fun onProgress(index: Int, percent: Float) {
+                        //Update UI
+                        if (percent <= 100)
+                            runOnUiThread {
+
+                                playableVideoPath = ""
+                                uri = uris[index]
+                                newSize = ""
+                                progressPercent = percent
+
+                                 Log.d("ayhamVideo3", uris[index].toString())
+                                resetProgress()
+
+                            }
+                    }
+
+                    override fun onStart(index: Int) {
+
+                    }
+
+                    override fun onSuccess(index: Int, size: Long, path: String?) {
+
+                        playableVideoPath = path
+                        uri = uris[index]
+                        newSize = getFileSize(size)
+                        progressPercent = 100F
+
+                        runOnUiThread {
+
+                            resetProgress()
+                        }
+                        isCompressing = false
+                        Log.d("ayhamVideo4", videoUri.toString())
+                        videoUri = uris[index]
+                    }
+
+                    override fun onFailure(index: Int, failureMessage: String) {
+                        Log.wtf("failureMessage", failureMessage)
+                    }
+
+                    override fun onCancelled(index: Int) {
+                        Log.wtf("TAG", "compression has been cancelled")
+                        // make UI changes, cleanup, etc
+                    }
+                },
+            )
+        }
+    }
+
+    fun resetProgress(){
+
+        if (progressPercent > 0 && progressPercent <= 100) {
+
+            binding.progressText.visibility = View.VISIBLE
+            binding.progressText.text = "${progressPercent.toInt()} %"
+
+            binding.progress.visibility = View.VISIBLE
+            binding.progress.progress = progressPercent.toInt()
+        } else {
+            binding.progressText.visibility = View.VISIBLE
+            binding.progress.visibility = View.GONE
+        }
+
+        if (newSize.isNotBlank()) {
+            binding.newSize.text = " Size after compression : $newSize"
+            binding.newSize.visibility = View.VISIBLE
+        } else {
+            binding.newSize.visibility = View.GONE
+        }
+
+    }
 
     private fun showUploadSuccessNotification() {
         val notificationId = 1
@@ -615,7 +798,8 @@ Log.d("ertyu",result.exception.toString())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(channelId, channelName, importance)
-            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 
@@ -648,6 +832,7 @@ Log.d("ertyu",result.exception.toString())
                     action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
                     putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
                 }
+
                 else -> {
                     action = "android.settings.APP_NOTIFICATION_SETTINGS"
                     putExtra("app_package", packageName)

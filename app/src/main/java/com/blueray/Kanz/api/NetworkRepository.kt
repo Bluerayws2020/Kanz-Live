@@ -21,13 +21,16 @@ import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
+import com.blueray.Kanz.model.VideoUploadeDone
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.IOException
@@ -66,28 +69,30 @@ object NetworkRepository {
 
 
     suspend fun userUplaodeVideo(
+        bearerToken: String,
         title: String,
         description: String,
 
-        viemo_link: String,
+        viemo_link: File,
         uid: String,
         type_of_activity: String,
 
 
-        ): NetworkResults<UserUploadeDone> {
+        ): NetworkResults<VideoUploadeDone> {
         return withContext(Dispatchers.IO) {
             val titleBody = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val descriptionBody =
-                description.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val viemo_linkBody = viemo_link.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val descriptionBody = description.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+            val viemo_linkBody = viemo_link.asRequestBody("multipart/form-data".toMediaType())
+
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val type_of_activityBody =
                 type_of_activity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
 
             try {
-                val results = ApiClient.retrofitService.userUplaodeVideo(
-                    titleBody, descriptionBody, viemo_linkBody, uidBody, type_of_activityBody
+                val results = ApiClient.retrofitService.uploadVideoOrImage(
+                    bearerToken, titleBody, descriptionBody, viemo_linkBody, uidBody, type_of_activityBody
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
@@ -95,50 +100,6 @@ object NetworkRepository {
             }
         }
     }
-
-//    suspend fun getFollowing(
-//        uid: String,
-//        targetUid: String,
-//
-//
-//        ): NetworkResults<FollowingResponse> {
-//        return withContext(Dispatchers.IO) {
-//            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//
-//            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//
-//            try {
-//                val results = ApiClient.retrofitService.getFollowing(
-//                    uidBody, targetUidBody
-//                )
-//                NetworkResults.Success(results)
-//            } catch (e: Exception) {
-//                NetworkResults.Error(e)
-//            }
-//        }
-//    }
-//
-//    suspend fun getFollower(
-//        uid: String,
-//        targetUid: String,
-//
-//
-//        ): NetworkResults<FollowingResponse> {
-//        return withContext(Dispatchers.IO) {
-//            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//
-//            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//
-//            try {
-//                val results = ApiClient.retrofitService.getFollowers(
-//                    uidBody, targetUidBody
-//                )
-//                NetworkResults.Success(results)
-//            } catch (e: Exception) {
-//                NetworkResults.Error(e)
-//            }
-//        }
-//    }
 
     suspend fun getFollowingFollower(
         uid: String,

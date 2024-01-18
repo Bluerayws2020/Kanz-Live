@@ -88,6 +88,15 @@ data class UserUploadeDone(
 
 )
 
+data class VideoUploadeDone(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("message") val message: VideoUploadeDoneMessage
+
+)
+
+data class VideoUploadeDoneMessage(
+    @SerializedName("file") val file: List<String>
+)
 
 
 data class NidVideoUplaode(

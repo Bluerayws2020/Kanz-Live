@@ -17,6 +17,7 @@ import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
+import com.blueray.Kanz.model.VideoUploadeDone
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import okhttp3.MultipartBody
@@ -102,6 +103,18 @@ interface ApiServices {
         @Part("type_of_activity") type_of_activity: RequestBody,
 
         ): UserUploadeDone
+
+    @Multipart
+    @POST("user/uploadVideoOrImage")
+    suspend fun uploadVideoOrImage(
+        @Header("Authorization") bearerToken: String,
+        @Part("title") title: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("file") viemo_link: RequestBody,
+        @Part("uid") uid: RequestBody,
+        @Part("hashtag_ids[]") type_of_activity: RequestBody,
+
+        ): VideoUploadeDone
 
 
     @Multipart
