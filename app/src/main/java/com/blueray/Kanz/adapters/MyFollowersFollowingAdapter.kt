@@ -40,7 +40,7 @@ class MyFollowersFollowingAdapter(
 
         holder.binding.username.setBackgroundColor(Color.alpha(R.color.lightGreen))
 
-        if (list[position].flag == 1) {
+        if (list[position].flag == 0) {
             holder.binding.follow.text = "الغاء المتابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
         } else {

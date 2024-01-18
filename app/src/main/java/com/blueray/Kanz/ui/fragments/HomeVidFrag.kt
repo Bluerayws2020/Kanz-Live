@@ -322,14 +322,16 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                     binding.img.hide()
 
 //                        result.data.f
-                    //                    append new Items
+                    // append new Items
                     isLoading = false
                     if (result.data.datass.isNullOrEmpty()) {
                         noMoreData = true
                         binding.progg.hide()
+                        binding.img.hide()
 
                     } else {
                         binding.progg.hide()
+                        binding.img.hide()
                         val startPosition = newArrVideoModel.size
                         // Iterate over each item and add to newArrVideoModel
                         mainArrVideoModel = result.data.datass.toMutableList()
@@ -337,6 +339,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                             result.data.datass.sortedBy { it.created_at.toDate() } // Assuming 'created' is a valid date string
 
                         sortedList.forEach { item ->
+
                             var vidLink = ""
                             val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
                                 it.rendition == "adaptive" || it.rendition == "360p" || it.rendition == "240p" || it.rendition == "540p" || it.rendition == "720p" || it.rendition == "1080p"
@@ -412,6 +415,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
         if (HelperUtils.getUid(requireContext()) == "0") {
             isUser = 0
         }
+
         Log.d("ERTYUIO", newArrVideoModel.size.toString())
         videoAdapter = VideoFeedAdapter(newArrVideoModel, object : OnProfileClick {
 

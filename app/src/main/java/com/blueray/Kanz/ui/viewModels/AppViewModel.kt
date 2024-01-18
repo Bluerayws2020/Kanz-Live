@@ -12,7 +12,6 @@ import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
-
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.RegisterModel
@@ -21,7 +20,6 @@ import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
-import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
 import com.blueray.Kanz.model.VideoUploadeDone
 import com.blueray.Kanz.model.VimeoVideoModelV2
@@ -41,8 +39,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val repo = NetworkRepository
 
 
-    private val getFollowingFollowerLive = MutableLiveData<NetworkResults<MainJsonFollowersFollowingData>>()
-    private val getUserFollowingFollowerLive = MutableLiveData<NetworkResults<MainJsonFollowersFollowingData>>()
+    private val getMyFollowingFollowerLive =
+        MutableLiveData<NetworkResults<MainJsonFollowersFollowingData>>()
+    private val getUserFollowingFollowerLive =
+        MutableLiveData<NetworkResults<MainJsonFollowersFollowingData>>()
     private val getFollowerLive = MutableLiveData<NetworkResults<FollowingResponse>>()
 
     private val loginUserMessageLiveData = MutableLiveData<NetworkResults<UserLoginModel>>()
@@ -150,19 +150,22 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     ) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getFollowingFollowerLive.value = repo.getMyFollowingFollower(authToken)
+            getMyFollowingFollowerLive.value = repo.getMyFollowingFollower(authToken)
         }
     }
 
-    fun getMyFollowingFollowers() = getFollowingFollowerLive
+    fun getMyFollowingFollowers() = getMyFollowingFollowerLive
 
 
     fun retriveUserFollowingFollower(
-        targetUidBody: String
+        user_id: String
     ) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getUserFollowingFollowerLive.value = repo.getUserFollowingFollower(userId, targetUidBody, authToken)
+            getUserFollowingFollowerLive.value = repo.getUserFollowingFollower(
+                user_id = user_id,
+                bearerToken = authToken
+            )
         }
     }
 
@@ -178,7 +181,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 //        }
     }
 
-    fun getFollower() = getFollowingFollowerLive
 
 
     fun updateUserProfile(

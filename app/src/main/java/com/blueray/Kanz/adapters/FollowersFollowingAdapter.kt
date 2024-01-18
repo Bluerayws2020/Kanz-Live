@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blueray.Kanz.R
 import com.blueray.Kanz.api.FollowerClick
 import com.blueray.Kanz.databinding.FollowersItemBinding
+import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.model.FollowingList
 import com.bumptech.glide.Glide
@@ -40,6 +41,9 @@ class FollowersFollowingAdapter(
 
         holder.binding.username.setBackgroundColor(Color.alpha(R.color.lightGreen))
 
+        if (list[position].uid == HelperUtils.getUid(holder.itemView.context)){
+            holder.binding.follow.hide()
+        }
         if (list[position].is_following == "true") {
             holder.binding.follow.text = "الغاء المتابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
