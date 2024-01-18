@@ -204,7 +204,7 @@ binding.videosRv.adapter = null
                         binding.videosRv.show()
                         binding.progressBar.hide()
 
-                        val safeData = data.mapNotNull { item ->
+                        val safeData = data?.mapNotNull { item ->
                             val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
                                 it.rendition == "adaptive" || it.rendition == "360"
                             }
@@ -246,7 +246,9 @@ binding.videosRv.adapter = null
 //                        newArrVideoModel.addAll(safeData)
 //                        videoAdapter.notifyItemRangeInserted(startPosition, data.size)
 
-                        updateRecyclerView(safeData)
+                        if (safeData != null) {
+                            updateRecyclerView(safeData)
+                        }
                         currentPage++
 
 

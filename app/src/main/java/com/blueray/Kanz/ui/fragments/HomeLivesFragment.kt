@@ -52,7 +52,7 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
         super.onViewCreated(view, savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-
+        Log.e("***" , "here")
         navController = Navigation.findNavController(view)
         binding.includeTap.profile.setOnClickListener {
 
@@ -93,7 +93,7 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        Log.e("***" , "here")
 
         binding = FragmentHomeLivesBinding.inflate(layoutInflater)
 
@@ -194,7 +194,7 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
 
                     //                    append new Items
                     isLoading = false
-                    if (result.data.datass.isEmpty()) {
+                    if (result.data.datass.isNullOrEmpty()) {
                         noMoreData = true
                         binding.progg.hide()
 

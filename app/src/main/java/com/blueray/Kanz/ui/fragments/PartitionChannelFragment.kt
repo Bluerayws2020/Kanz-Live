@@ -145,6 +145,8 @@ class PartitionChannelFragment : Fragment() {
         navController = Navigation.findNavController(view)
         binding.progressBar.show()
         isLoading = true
+
+        binding.shimmerView.startShimmer()
         mainViewModel.retriveUserVideos("0", "9", userIdes, "1", currentPage.toString())
         setRecyclerView()
         getMainVidos()
@@ -153,11 +155,11 @@ class PartitionChannelFragment : Fragment() {
 
         binding.followersLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
-            intent.putExtra("type","partition" )
+            intent.putExtra("type", "partition")
             intent.putExtra("user_id", userIdes) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("userName", userName) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("followersLayout", "1") // Replace 'yourUserId' with the actual user ID
-            intent.putExtra("flag","0" )
+            intent.putExtra("flag", "0")
 
             startActivity(intent)
 
@@ -165,11 +167,11 @@ class PartitionChannelFragment : Fragment() {
 
         binding.followingLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
-            intent.putExtra("type","partition" )
+            intent.putExtra("type", "partition")
             intent.putExtra("user_id", userIdes) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("userName", userName) // Replace 'yourUserId' with the actual user ID
             intent.putExtra("followersLayout", "0") // Replace 'yourUserId' with the actual user ID
-            intent.putExtra("flag","1" )
+            intent.putExtra("flag", "1")
 
             startActivity(intent)
         }
@@ -309,14 +311,17 @@ class PartitionChannelFragment : Fragment() {
         }
 
     }
+
     @SuppressLint("SuspiciousIndentation")
     fun getMainVidos() {
         mainViewModel.getUserVideos().observe(viewLifecycleOwner) { result ->
+            binding.shimmerView.stopShimmer()
+            binding.shimmerView.hide()
 
             when (result) {
                 is NetworkResults.Success -> {
                     Log.d("***", result.data.datass.toString())
-                    if (result.data.datass== null && count == 0) {
+                    if (result.data.datass == null && count == 0) {
                         binding.noData.show()
                         binding.videosRv.hide()
                         //isLoading = true // Reset loading flag here
@@ -326,7 +331,7 @@ class PartitionChannelFragment : Fragment() {
                         binding.noData.hide()
                         binding.videosRv.show()
 
-                        count += result.data.datass.count()
+                        count += result.data.datass?.count() ?: 0
 
                     }
 
@@ -334,18 +339,15 @@ class PartitionChannelFragment : Fragment() {
 //                        target_user_follow_flag = result.data.target_user?.target_user_follow_flag.toString()
 
 
-
-
-
-                    result.data.datass.forEach { item ->
+                    result.data.datass?.forEach { item ->
                         var vidLink = ""
-                        if(!(item.vimeo_detials== null)) {
+                        if (!(item.vimeo_detials == null)) {
 
-                        val adaptiveFile =
-                            item.vimeo_detials.files.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
-                        vidLink = adaptiveFile?.link ?: item.file
+                            val adaptiveFile =
+                                item.vimeo_detials.files.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
+                            vidLink = adaptiveFile?.link ?: item.file
 
-//                            Log.e("***", item.vimeo_detials.files.toString())
+                            //                            Log.e("***", item.vimeo_detials.files.toString())
                             Log.d("AdaptiveLink", vidLink)
                         }
 
@@ -360,12 +362,13 @@ class PartitionChannelFragment : Fragment() {
                                 item.auther.username,
                                 //item.vimeo_detials.duration,
                                 4,
-//                                item.vimeo_detials.pictures?.base_link?:"http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788245666559364.jpg",
-//                                firstName = item.auther.profile_data.first_name,
+                                item.vimeo_detials?.pictures?.base_link
+                                    ?: "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788245666559364.jpg",
+                                //                                firstName = item.auther.profile_data.first_name,
                                 lastName = item.auther.profile_data.last_name,
                                 type = item.auther.type,
                                 bandNam = item.auther.profile_data.band_name,
-//                                userPic = item.auther.profile_data.user_picture,
+                                //                                userPic = item.auther.profile_data.user_picture,
                                 favorites = item.video_actions_per_user.favorites.toString(),
                                 userSave = item.video_actions_per_user.save.toString(),
                                 target_user = result.data.target_user,

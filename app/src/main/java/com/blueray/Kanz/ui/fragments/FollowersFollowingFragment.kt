@@ -77,7 +77,7 @@ class FollowersFollowingFragment : Fragment() {
 
                     list.mapIndexed { index, listItem ->
 
-                        if (listItem.is_following.isNullOrEmpty()) {
+                        if (type == "myAccount") {
 
                             adapter = MyFollowersFollowingAdapter(
                                 requireContext(),

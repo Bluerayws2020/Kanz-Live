@@ -76,7 +76,9 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//        mainViewModel.retriveMainVideos(currentPage, 3, "1")
+
+
+        mainViewModel.retriveMainVideos(currentPage, 3, "1")
 
         navController = findNavController()
         dialog = BottomSheetDialog(requireActivity())
@@ -148,6 +150,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
         getVideosView()
         getUserAction()
         if (!isLoading) {
+
             mainViewModel.retriveMainVideos(currentPage + 1, 3, "1")
             Log.d("HOOOOMEEEEE", currentPage.toString())
 
@@ -314,8 +317,6 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
     fun getVideosView() {
         mainViewModel.getMainVideos().observe(viewLifecycleOwner) { result ->
 
-
-
             when (result) {
                 is NetworkResults.Success -> {
                     binding.img.hide()
@@ -323,7 +324,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 //                        result.data.f
                     //                    append new Items
                     isLoading = false
-                    if (result.data.datass.isEmpty()) {
+                    if (result.data.datass.isNullOrEmpty()) {
                         noMoreData = true
                         binding.progg.hide()
 
@@ -343,7 +344,6 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                             vidLink = adaptiveFile?.link
                                 ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
 
-                            Log.e("***", "currentPage $currentPage  id " + item.id)
 
                             newArrVideoModel.add(
                                 NewAppendItItems(
@@ -601,6 +601,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
             isLoading = true
             currentPage++
             binding.progg.show()
+            Log.e("***3", "currentPage $currentPage  count 3 ")
             mainViewModel.retriveMainVideos(page = currentPage, pageLimit = pageSize, ishome = "1")
         }
     }
@@ -609,7 +610,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
     private fun getUserAction() {
 
         mainViewModel.getSetAction().observe(viewLifecycleOwner) { result ->
-            Log.e("***", result.toString())
+           // Log.e("***", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
                     if (result.data.msg.msg == 200) {

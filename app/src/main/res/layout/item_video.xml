@@ -6,14 +6,14 @@
     android:background="@color/colorBlack"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <VideoView-->
-<!--        android:id="@+id/videoView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+    <!--    <VideoView-->
+    <!--        android:id="@+id/videoView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
 
     <com.google.android.exoplayer2.ui.PlayerView
@@ -150,32 +150,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/profileBtn"-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:layout_gravity="end"-->
-<!--            android:layout_margin="12dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent">-->
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/profileBtn"-->
+        <!--            android:layout_width="30dp"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:layout_gravity="end"-->
+        <!--            android:layout_margin="12dp"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="5dp"
-                android:layout_gravity="end"
-                    android:layout_margin="12dp"
-android:id="@+id/menu"
-                android:visibility="gone"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:layout_gravity="end"
+            android:layout_margin="12dp"
+            android:id="@+id/menu"
+            android:visibility="gone"
 
-                android:src="@drawable/menu_icon" />
-<!--        </androidx.cardview.widget.CardView>-->
+            android:src="@drawable/menu_icon" />
+        <!--        </androidx.cardview.widget.CardView>-->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/profiless"
             android:layout_width="30dp"
             android:layout_height="30dp"
-android:visibility="gone"
+            android:visibility="gone"
             android:layout_margin="12dp"
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -193,15 +193,15 @@ android:visibility="gone"
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-android:background="@color/white"
+            android:background="@color/white"
             android:layout_margin="12dp"
             android:id="@+id/loginitems"
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:padding="3dp"
 
                 android:textColor="@color/green"
@@ -213,28 +213,30 @@ android:background="@color/white"
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="@dimen/sb_size_35"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/sb_size_20"
+        android:layout_width="85dp"
+        android:layout_height="350dp"
         android:layout_marginBottom="@dimen/sb_size_20"
+        android:gravity="center|bottom"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/profiel"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/likeBtn"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:src="@drawable/heart" />
-
-<!--        <androidx.appcompat.widget.AppCompatCheckBox-->
-<!--            android:id="@+id/likeBtn"-->
-<!--            android:layout_width="35dp"-->
-<!--            android:layout_height="35dp"-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/likeBtn"-->
+        <!--            android:layout_width="@dimen/sb_size_35"-->
+        <!--            android:layout_height="35dp"-->
+        <!--            android:src="@drawable/heart" />-->
 
 
-<!--            android:button="@drawable/favourite_selector"-->
-<!--    />-->
+        <com.like.LikeButton
+            app:icon_type="heart"
+            app:icon_size="10dp"
+            app:like_drawable="@drawable/star"
+            app:unlike_drawable="@drawable/star_white"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/likeBtn"/>
+
         <TextView
             android:id="@+id/likesCount"
             android:layout_width="match_parent"
@@ -252,7 +254,7 @@ android:background="@color/white"
 
         <ImageView
             android:id="@+id/commentBtn"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/sb_size_35"
             android:layout_height="35dp"
             android:layout_marginTop="@dimen/sb_size_10"
             android:src="@drawable/comments" />
@@ -273,22 +275,22 @@ android:background="@color/white"
 
         <ImageView
             android:id="@+id/saveBtn"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/sb_size_35"
             android:layout_height="35dp"
             android:layout_marginTop="@dimen/sb_size_10"
             android:src="@drawable/save" />
-<!--        <androidx.appcompat.widget.AppCompatCheckBox-->
-<!--            android:id="@+id/saveBtn"-->
-<!--            android:layout_width="35dp"-->
-<!--            android:layout_height="35dp"-->
+        <!--        <androidx.appcompat.widget.AppCompatCheckBox-->
+        <!--            android:id="@+id/saveBtn"-->
+        <!--            android:layout_width="35dp"-->
+        <!--            android:layout_height="35dp"-->
 
-<!--            android:layout_marginTop="@dimen/sb_size_10"-->
-<!--            android:button="@drawable/save_selected"-->
-<!--       />-->
+        <!--            android:layout_marginTop="@dimen/sb_size_10"-->
+        <!--            android:button="@drawable/save_selected"-->
+        <!--       />-->
 
         <ImageView
             android:id="@+id/shareBtn"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/sb_size_35"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:shadowColor="@color/colorBlack"
@@ -310,10 +312,26 @@ android:background="@color/white"
             android:textColor="@color/white" />
         <ImageView
             android:id="@+id/deltBtn"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/sb_size_35"
             android:layout_height="35dp"
             android:layout_marginTop="@dimen/sb_size_12"
             android:layout_marginBottom="@dimen/sb_size_12"
             android:src="@drawable/icon_more" />
     </LinearLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/star_like_lottie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="60dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/star_lottie" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

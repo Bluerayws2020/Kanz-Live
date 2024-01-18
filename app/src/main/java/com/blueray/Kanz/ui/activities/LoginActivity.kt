@@ -80,7 +80,7 @@ class LoginActivity : BaseActivity() {
             when (result) {
                 is NetworkResults.Success -> {
 
-                    if (result.data.status.msgs == 200){
+                    if (result.data.status.status == 200){
                         saveUserData(result.data.datas)
                         //             Toast.makeText(this, result.data.datas.toString(), Toast.LENGTH_LONG).show()
                         Log.d("wew" ,  result.data.datas.toString())

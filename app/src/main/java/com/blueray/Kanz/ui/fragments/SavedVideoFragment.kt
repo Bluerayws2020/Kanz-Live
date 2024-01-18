@@ -122,7 +122,7 @@ class SavedVideoFragment : Fragment() {
 
                         binding.progressBar.hide()
 
-                        val safeData = data.mapNotNull { item ->
+                        val safeData = data?.mapNotNull { item ->
                             val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
                                 it.rendition == "adaptive" || it.rendition == "360"
                             }
@@ -158,14 +158,18 @@ class SavedVideoFragment : Fragment() {
                         // Convert each item to NewAppendItItems
                         // (Your existing logic here)
 
+                        if (safeData != null) {
+                            if (newArrVideoModel.isEmpty()) {
 
-                        if (newArrVideoModel.isEmpty()) {
-                            newArrVideoModel.addAll(safeData)
-                            setupRecyclerView(safeData)
-                        } else {
-                            val startPosition = newArrVideoModel.size
-                            newArrVideoModel.addAll(safeData)
-                            videoAdapter.notifyItemRangeInserted(startPosition, safeData.size)
+                                newArrVideoModel.addAll(safeData)
+                                setupRecyclerView(safeData)
+
+
+                            } else {
+                                val startPosition = newArrVideoModel.size
+                                newArrVideoModel.addAll(safeData)
+                                videoAdapter.notifyItemRangeInserted(startPosition, safeData.size)
+                            }
                         }
                     }
 

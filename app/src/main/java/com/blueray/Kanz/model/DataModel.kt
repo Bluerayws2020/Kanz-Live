@@ -363,7 +363,7 @@ data class NewAppendItItems(
 
 
 data class VideoDataModel(
-    @SerializedName("data") val datass: List<VideoResponse>,
+    @SerializedName("data") val datass: List<VideoResponse>? = null,
     @SerializedName("target_user") val target_user: TargetUsers? = null,
 
 
@@ -457,7 +457,7 @@ data class Video_actions_per_user(
     )
 
 data class Pictures(
-    val base_link: String? = ""
+    val base_link: String? = null
 )
 
 data class VimeoDetails(

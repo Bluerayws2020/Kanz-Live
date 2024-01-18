@@ -2,6 +2,7 @@ package com.blueray.Kanz.adapters
 
 import android.content.Context
 import android.net.Uri
+import android.os.Handler
 import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -19,6 +20,8 @@ import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.like.LikeButton
+import com.like.OnLikeListener
 
 
 class VideoFeedAdapter(
@@ -30,6 +33,7 @@ class VideoFeedAdapter(
 ) : RecyclerView.Adapter<VideoFeedAdapter.VideoViewHolder>() {
     var likeCount = 0
     var commintCount = 0
+    var doubleClick = false
 
     class VideoViewHolder(val binding: ItemVideoBinding) : RecyclerView.ViewHolder(binding.root) {
         var player: ExoPlayer? = null
@@ -119,34 +123,36 @@ class VideoFeedAdapter(
         }
 
         if (videoUrls[position].favorites == "true") {
-            holder.binding.likeBtn.setImageResource(R.drawable.heartss)
+            holder.binding.likeBtn.setLiked(true)
 
         } else {
-            holder.binding.likeBtn.setImageResource(R.drawable.heart)
-
+            holder.binding.likeBtn.setLiked(false)
         }
-
 
         holder.binding.deltBtn.setOnClickListener {
             onProfileClick.onProfileDeletVideo(position)
         }
-        holder.binding.likeBtn.setOnClickListener {
-            val item = videoUrls[position]
-            if (item.favorites == "true") {
-                item.favorites = "false"
-                // Decrease like count if it's greater than 0
-                if (item.video_counts?.like_count ?: 0 > 0) {
-                    item.video_counts?.like_count = item.video_counts?.like_count?.minus(1)!!
-                }
-            } else {
+
+
+        holder.binding.likeBtn.setOnLikeListener(object : OnLikeListener {
+            override fun liked(likeButton: LikeButton) {
                 item.favorites = "true"
                 // Increase like count
                 item.video_counts?.like_count = item.video_counts?.like_count?.plus(1)!!
+                holder.binding.likesCount.text = item.video_counts?.like_count.toString()
+                onProfileClick.onProfileLike(pos = item.nodeId.toInt())
             }
-            updateLikeButtonUI(holder, item)
-            onProfileClick.onProfileLike(pos = item.nodeId.toInt())
 
-        }
+            override fun unLiked(likeButton: LikeButton) {
+                item.favorites = "false"
+                if (item.video_counts?.like_count ?: 0 > 0) {
+                    item.video_counts?.like_count = item.video_counts?.like_count?.minus(1)!!
+                    holder.binding.likesCount.text = item.video_counts?.like_count.toString()
+                    onProfileClick.onProfileLike(pos = item.nodeId.toInt())
+                }
+            }
+
+        })
 
         holder.binding.loginitems.hide()
 
@@ -224,17 +230,51 @@ class VideoFeedAdapter(
         Glide.with(context).load(videoUrls[position].userPic).into(holder.binding.profielImage)
 
         holder.binding.videoView.setOnClickListener {
-            if (holder.player?.isPlaying == true) {
-                holder.player?.pause()
-                holder.binding.placeHolderBackground.show()
+            if (doubleClick) {
+                celebrateLike(holder, item)
+                doubleClick = false
 
             } else {
-                videoPlaybackControl.pauseAllVideos()
-                holder.player?.play()
-                holder.binding.placeHolderBackground.hide()
+                doubleClick = true
+
+                if (holder.player?.isPlaying == true) {
+                    holder.player?.pause()
+                    holder.binding.placeHolderBackground.show()
+
+                } else {
+                    videoPlaybackControl.pauseAllVideos()
+                    holder.player?.play()
+                    holder.binding.placeHolderBackground.hide()
+
+                }
+
+                Handler().postDelayed({
+                    doubleClick = false
+                }, 500)
 
             }
         }
+    }
+
+    fun celebrateLike(holder: VideoViewHolder, item: NewAppendItItems) {
+        if (item.favorites != "true") {
+            holder.binding.starLikeLottie.progress = 0f
+            holder.binding.starLikeLottie.show()
+            Handler().postDelayed({
+                holder.binding.starLikeLottie.hide()
+            }, 1000)
+
+            item.favorites = "false"
+            item.video_counts?.like_count = item.video_counts?.like_count?.plus(1)!!
+            holder.binding.likeBtn.setLiked(true)
+            holder.binding.likesCount.text = item.video_counts?.like_count.toString()
+            onProfileClick.onProfileLike(pos = item.nodeId.toInt())
+        }
+        // to keep video playing
+        videoPlaybackControl.pauseAllVideos()
+        holder.player?.play()
+        holder.binding.placeHolderBackground.hide()
+
     }
 
     override fun onViewRecycled(holder: VideoViewHolder) {
@@ -254,13 +294,6 @@ class VideoFeedAdapter(
         holder.player?.playWhenReady = false
     }
 
-
-    private fun updateLikeButtonUI(holder: VideoViewHolder, item: NewAppendItItems) {
-        // Update heart icon based on favorites
-        holder.binding.likeBtn.setImageResource(if (item.favorites == "true") R.drawable.heartss else R.drawable.heart)
-        // Update like count text
-        holder.binding.likesCount.text = item.video_counts?.like_count.toString()
-    }
 
     private fun updateSaveButtonUI(holder: VideoViewHolder, item: NewAppendItItems) {
         holder.binding.saveBtn.setImageResource(if (item.userSave == "true") R.drawable.baseline_bookmark_24 else R.drawable.save)
