@@ -63,7 +63,7 @@ class VideoFeedAdapter(
                                 binding.placeHolderImg.show()
                             } else {
                                 binding.progressBar.hide()
-                                binding.placeHolderImg.hide()
+                                binding.placeHolderImg.show()
                                 binding.placeHolderBackground.hide()
                             }
                         }
@@ -107,13 +107,14 @@ class VideoFeedAdapter(
         holder.bind(videoUrls[position].videoUrl)
         val item = videoUrls[position]
 
-
         holder.itemView.setOnTouchListener { _, event ->
             holder.gestureDetector.onTouchEvent(event)
             true
         }
         holder.binding.username.text = videoUrls[position].userName
         holder.binding.description.text = videoUrls[position].videoTitle
+    Log.d("useeeerPPPIICC" , videoUrls[position].userName.toString())
+        Glide.with(holder.itemView.context).load(videoUrls[position].userPic).placeholder(R.drawable.logo).into(holder.binding.profielImage)
 //
         // Save button
         holder.binding.saveBtn.setOnClickListener {

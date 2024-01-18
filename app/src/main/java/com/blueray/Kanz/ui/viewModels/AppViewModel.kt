@@ -1,7 +1,6 @@
 package com.blueray.Kanz.ui.viewModels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -20,7 +19,6 @@ import com.blueray.Kanz.model.RegisterModel
 import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
 import com.blueray.Kanz.model.UpdateProfileResponse
-import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
@@ -57,6 +55,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private val getUserVideosLive = MutableLiveData<NetworkResults<VideoDataModel>>()
     private val viewMyPrfofile = MutableLiveData<NetworkResults<GetProfileResponse>>()
+    private val viewUserPrfofile = MutableLiveData<NetworkResults<GetProfileResponse>>()
 
     private val vimeoVideoLiveData = MutableLiveData<NetworkResults<VimeoVideoModelV2>>()
 
@@ -145,16 +144,16 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getUplaodeVide() = userUplaodeLoive
 
-    fun retriveFollowingFollower(
-        targetUidBody: String
+    fun retriveMyFollowingFollower(
+
     ) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getFollowingFollowerLive.value = repo.getFollowingFollower(userId, targetUidBody, authToken)
+            getFollowingFollowerLive.value = repo.getMyFollowingFollower(authToken)
         }
     }
 
-    fun getFollowingFollowers() = getFollowingFollowerLive
+    fun getMyFollowingFollowers() = getFollowingFollowerLive
 
 
     fun retriveUserFollowingFollower(
@@ -229,20 +228,22 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun retriveUserVideos(
-        state: String, pagesize: String, user_profile_uid: String,
+         pagesize: String, user_profile_uid: String,
         is_home: String,
         page: String
     ) {
         val authToken = userToken
         viewModelScope.launch {
             getUserVideosLive.value =
-                repo.getVideosForUser(authToken,userId, state, pagesize, user_profile_uid, is_home, page)
+                repo.getVideosForUser(authToken, pagesize, user_profile_uid, is_home, page)
         }
     }
 
     fun getUserVideos() = getUserVideosLive
 
-    fun retriveViewMyProfile () {
+    fun retriveViewMyProfile (
+
+    ) {
 
         viewModelScope.launch {
             val authToken = "Bearer $userToken"
@@ -251,6 +252,18 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             }}
 
     fun getMyProfile() = viewMyPrfofile
+
+    fun retriveUserProfile(
+        user_id:String
+    ){
+
+        val authToken = "Bearer $userToken"
+        viewModelScope.launch {
+            viewUserPrfofile.postValue(repo.getUserInfo(authToken , user_id = user_id))
+        }
+
+    }
+    fun getUserProfile() = viewUserPrfofile
 
     fun retrieveVideoOption(videoUrl: String, vimeoToken: String) {
 

@@ -359,7 +359,6 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                                     lastName = item.auther.profile_data.last_name,
                                     type = item.auther.type,
                                     bandNam = item.auther.profile_data.band_name,
-//                                        userPic = item.auther.profile_data.user_picture,
                                     favorites = item.video_actions_per_user.favorites.toString(),
                                     userSave = item.video_actions_per_user.save.toString(),
                                     target_user = result.data.target_user,
@@ -368,7 +367,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                                     numOfFollowing = item.auther.numOfFollowing,
                                     numOfLikes = item.auther.numOfLikes,
                                     nodeId = item.id,
-
+                                    userPic = item.auther.profile_data.user_picture
                                     )
                             )
 
@@ -461,7 +460,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
                     putString(
                         "isUserFollower",
-                        swipedItem.target_user?.target_user_follow_flag.toString()
+                        swipedItem.target_user.toString()
                     ) // Use your item's unique identifier
 
 

@@ -3,12 +3,10 @@ package com.blueray.Kanz.api
 import android.util.Base64
 import android.util.Log
 import com.blueray.Kanz.model.DropDownModel
-import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
-import com.blueray.Kanz.model.MessageModel
 
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
@@ -31,7 +29,8 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
+
+import kotlin.Exception
 
 
 object NetworkRepository {
@@ -140,21 +139,16 @@ object NetworkRepository {
 //        }
 //    }
 
-    suspend fun getFollowingFollower(
-        uid: String,
-        targetUid: String,
+    suspend fun getMyFollowingFollower(
         bearerToken: String
 
 
         ): NetworkResults<MainJsonFollowersFollowingData> {
         return withContext(Dispatchers.IO) {
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
             try {
                 val results = ApiClient.retrofitService.getMyFollowersFollowingData(
-                    bearerToken //,uidBody, targetUidBody
+                    bearerToken
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
@@ -355,8 +349,6 @@ object NetworkRepository {
 
     suspend fun getVideosForUser(
         bearerToken: String,
-        uid: String,
-        state: String,
         page_limit: String,
         user_profile_uid: String,
         is_home: String,
@@ -371,7 +363,6 @@ object NetworkRepository {
             try {
                 val results = ApiClient.retrofitService.getVideosForUser(
                     bearerToken,
-                    uid,
                     page,
                     page_limit,
                     is_home,
@@ -405,6 +396,22 @@ object NetworkRepository {
 
                 NetworkResults.Error(e)
 
+            }
+        }
+    }
+    suspend fun getUserInfo(
+        token: String,
+        user_id:String
+    ):NetworkResults<GetProfileResponse>{
+        return withContext(Dispatchers.IO){
+            try {
+                val results = ApiClient.retrofitService.getUserInfo(
+                    token,
+                    user_id = user_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                )
+                NetworkResults.Success(results)
+            }catch (e:Exception){
+                NetworkResults.Error(e)
             }
         }
     }

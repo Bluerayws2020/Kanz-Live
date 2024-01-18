@@ -52,7 +52,7 @@ class VideoListFragment : Fragment() {
 
 binding.progressBar.show()
 
-            mainViewModel.retriveUserVideos("1", "9", userIdes, "0", currentPage.toString())
+            mainViewModel.retriveUserVideos( "9", userIdes, "0", currentPage.toString())
 
         binding.progressBar.show()
         setupRecyclerView()
@@ -162,7 +162,7 @@ binding.progressBar.show()
         if (!isLoading && !isLastPage) {
             isLoading = true
             binding.progressBar.show()
-            mainViewModel.retriveUserVideos("1", "6", userIdes, "0", currentPage.toString())
+            mainViewModel.retriveUserVideos( "6", userIdes, "0", currentPage.toString())
         }
     }
 

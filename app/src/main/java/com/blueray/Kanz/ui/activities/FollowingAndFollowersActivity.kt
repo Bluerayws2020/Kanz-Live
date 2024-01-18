@@ -2,6 +2,7 @@ package com.blueray.Kanz.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.blueray.Kanz.adapters.FollowersFollowingPagerAdapter
 import com.blueray.Kanz.databinding.ActivityFollowingAndFollowersBinding
 import com.blueray.Kanz.helpers.HelperUtils
