@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -28,7 +28,6 @@ import com.blueray.Kanz.model.NewAppendItItems
 import com.blueray.Kanz.ui.activities.FollowingAndFollowersActivity
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.bumptech.glide.Glide
-import java.util.ArrayList
 
 
 class PartitionChannelFragment : Fragment() {
@@ -52,11 +51,11 @@ class PartitionChannelFragment : Fragment() {
     private var lastClickedPosition = 0
     var userIdes = ""
     var userName = ""
-
+    var followFlag = ""
     private var noMoreData = false
     var count = 0
     var previousTotalItemCount = 0
-
+    var userImg = ""
     private val mainViewModel by viewModels<AppViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,7 +70,7 @@ class PartitionChannelFragment : Fragment() {
         // Retrieve the passed data
         userName = arguments?.getString("usernName").toString()
         userIdes = arguments?.getString("userIdes").toString()
-        val userImg = arguments?.getString("userImg").toString()
+        userImg = arguments?.getString("userImg").toString()
         val fullname = arguments?.getString("fullname")
 
         val numOfLikes = arguments?.getString("numOfLikes")
@@ -79,35 +78,27 @@ class PartitionChannelFragment : Fragment() {
         val numOfFollowers = arguments?.getString("numOfFollowers")
         target_user_follow_flag = arguments?.getString("isUserFollower").toString()
 
-        binding.numFolloweing.text = numOfFollowing ?: "0"
+      //  binding.numFolloweing.text = numOfFollowing ?: "0"
 
-        binding.numFollowers.text = numOfFollowers ?: "0"
+     //   binding.numFollowers.text = numOfFollowers ?: "0"
         binding.numOfLike.text = numOfLikes ?: "0"
         binding.includeTap.title.text = fullname
         getUserAction()
-
-        mainViewModel.retriveCheckUserFolow(userIdes)
-        getCheckFollowId()
+        getUserProfile()
+        //  mainViewModel.retriveCheckUserFolow(userIdes)
+        //      getCheckFollowId()
 
 /// inistial State
 
-        Log.d("TEEEEES", userIdes)
 
 
+
+        Log.d("isFollowing?", followFlag.toString())
         // Revert changes for "Follow" state
 
 
-        binding.btnUnfollow.setOnClickListener {
-            mainViewModel.retriveSetAction(userIdes, "user", "following")
 
-            binding.btnFollow.show()
-            it.hide()
-        }
-        binding.btnFollow.setOnClickListener {
-            mainViewModel.retriveSetAction(userIdes, "user", "following")
-            binding.btnUnfollow.show()
-            it.hide()
-        }
+
         binding.includeTap.back.hide()
 
 
@@ -145,12 +136,13 @@ class PartitionChannelFragment : Fragment() {
         navController = Navigation.findNavController(view)
         binding.progressBar.show()
         isLoading = true
-
         binding.shimmerView.startShimmer()
-        mainViewModel.retriveUserVideos("0", "9", userIdes, "1", currentPage.toString())
+        mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
+        mainViewModel.retriveUserProfile(userIdes)
         setRecyclerView()
         getMainVidos()
 
+        Log.d("TEEEEES", userIdes)
         Log.d("userIdesuserIdes", userIdes)
 
         binding.followersLayout.setOnClickListener {
@@ -182,37 +174,44 @@ class PartitionChannelFragment : Fragment() {
 
     }
 
-    private fun getCheckFollowId() {
-
-        mainViewModel.getFollowCheckUser().observe(viewLifecycleOwner) { result ->
-
-            when (result) {
-                is NetworkResults.Success -> {
-                    Log.d("ERTYUI", result.data.datass.toString())
-
-
-                    if (result.data.datass.im_follow_him == "1") {
-                        binding.btnFollow.hide()
-                        binding.btnUnfollow.show()
-
-                    } else {
+    private fun getUserProfile(){
+        mainViewModel.getUserProfile().observe(viewLifecycleOwner){
+            result ->
+            when(result){
+                is NetworkResults.Success ->{
+                    followFlag = result.data.results.is_following
+                    binding.numFollowers.text = result.data.results.followers_count
+                    binding.numFolloweing.text = result.data.results.following_count
+                    if (followFlag == "false") {
                         binding.btnFollow.show()
-                        binding.btnUnfollow.hide()
+                        binding.btnFollow.setOnClickListener {
+                            mainViewModel.retriveSetAction(userIdes, "user", "following")
+                            binding.btnUnfollow.show()
+                            it.hide()
+                            binding.btnUnfollow.setOnClickListener {
+                                mainViewModel.retriveSetAction(userIdes, "user", "following")
+                                binding.btnFollow.show()
+                                it.hide()
+                            }
+                        }
+                    } else {
+                        binding.btnUnfollow.show()
+                        binding.btnUnfollow.setOnClickListener {
+                            mainViewModel.retriveSetAction(userIdes, "user", "following")
+                            binding.btnFollow.show()
+                            it.hide()
+                            binding.btnFollow.setOnClickListener {
+                                mainViewModel.retriveSetAction(userIdes, "user", "following")
+                                binding.btnUnfollow.show()
+
+                                it.hide()
+                            }
+                        }
 
                     }
-
-
                 }
-
-
-                is NetworkResults.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        result.exception.printStackTrace().toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-
-                    result.exception.printStackTrace()
+                is NetworkResults.Error->{
+                    Toast.makeText(requireContext() , "Hello Error" , Toast.LENGTH_LONG).show()
                 }
 
                 else -> {}
@@ -233,6 +232,9 @@ class PartitionChannelFragment : Fragment() {
                             result.data.msg.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
+                        Log.d("TEEEEES", userIdes)
+                        Log.d("TEEEEES", userImg.toString())
+
 
 //                        if(result.data.msg == "unfollowing success"){
 //                            binding.followCheckbox.isChecked =  true
@@ -322,6 +324,7 @@ class PartitionChannelFragment : Fragment() {
                 is NetworkResults.Success -> {
                     Log.d("***", result.data.datass.toString())
                     if (result.data.datass == null && count == 0) {
+
                         binding.noData.show()
                         binding.videosRv.hide()
                         //isLoading = true // Reset loading flag here
@@ -330,7 +333,7 @@ class PartitionChannelFragment : Fragment() {
                     } else {
                         binding.noData.hide()
                         binding.videosRv.show()
-
+                        followFlag = result.data.target_user?.target_user_follow_flag.toString()
                         count += result.data.datass?.count() ?: 0
 
                     }
@@ -354,7 +357,7 @@ class PartitionChannelFragment : Fragment() {
 
                         newArrVideoModel.add(
                             NewAppendItItems(
-                                "item.title",
+                                item.title,
                                 item.id.toString(),
                                 item.created_at,
                                 vidLink,
@@ -368,7 +371,7 @@ class PartitionChannelFragment : Fragment() {
                                 lastName = item.auther.profile_data.last_name,
                                 type = item.auther.type,
                                 bandNam = item.auther.profile_data.band_name,
-                                //                                userPic = item.auther.profile_data.user_picture,
+                                userPic = item.auther.profile_data.user_picture,
                                 favorites = item.video_actions_per_user.favorites.toString(),
                                 userSave = item.video_actions_per_user.save.toString(),
                                 target_user = result.data.target_user,
@@ -405,7 +408,7 @@ class PartitionChannelFragment : Fragment() {
             currentPage++
             binding.progressBar.show()
             isLoading = true
-            mainViewModel.retriveUserVideos("0", "6", userIdes, "1", currentPage.toString())
+            mainViewModel.retriveUserVideos("6", userIdes, "1", currentPage.toString())
         }
     }
 

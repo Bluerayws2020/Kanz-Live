@@ -44,10 +44,10 @@ class FollowersFollowingFragment : Fragment() {
         userId = arguments?.getString("user_id")
         type = arguments?.getString("type")
         tabPosition = arguments?.getString("tab_position").toString()
-        Log.d("***", userId.toString())
-        Log.d("***", type.toString())
+        Log.d("##$$%%", userId.toString())
+        Log.d("##$$%%", type.toString())
         if (type == "myAccount")
-            mainViewModel.retriveFollowingFollower(userId.toString())
+            mainViewModel.retriveMyFollowingFollower()
         else
             mainViewModel.retriveUserFollowingFollower(userId.toString())
 
@@ -56,17 +56,18 @@ class FollowersFollowingFragment : Fragment() {
     }
 
     fun getFollowersFollowing() {
-        mainViewModel.getFollowingFollowers().observe(viewLifecycleOwner) { result ->
+        mainViewModel.getMyFollowingFollowers().observe(viewLifecycleOwner) { result ->
             Log.e("***getFollowersFollowing", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
                     Log.e("***getFollowersFollowing", result.data.results.toString())
-                    if (result.data.results.following.isNullOrEmpty()) {
+                    if (result.data.results.following == null) {
                         binding.noData.show()
                         binding.followersRv.hide()
                     } else {
                         binding.noData.hide()
                         binding.followersRv.show()
+
                     }
 
                     var list = result.data.results.followers
@@ -89,8 +90,7 @@ class FollowersFollowingFragment : Fragment() {
                                             "user",
                                             "following"
                                         )
-
-                                        mainViewModel.retriveFollowingFollower(userId.toString())
+                                        mainViewModel.retriveMyFollowingFollower()
                                         getFollowersFollowing()
                                     }
                                 })
@@ -110,10 +110,12 @@ class FollowersFollowingFragment : Fragment() {
                                             "user",
                                             "following"
                                         )
-                                        mainViewModel.retriveFollowingFollower(userId.toString())
+                                        Log.d("list missing !!!!" , list.toString())
+                                        mainViewModel.retriveMyFollowingFollower()
                                         getFollowersFollowing()
                                     }
                                 })
+                            Log.d("list missing !!!!" , list.toString())
                             val lm = LinearLayoutManager(requireContext())
                             binding.followersRv.adapter = adapter2
                             binding.followersRv.layoutManager = lm
@@ -127,7 +129,7 @@ class FollowersFollowingFragment : Fragment() {
 
                 is NetworkResults.Error -> {
 
-                    Log.d("ERRRRor", result.exception.toString())
+                    Log.d("ERRRRososr", result.exception.toString())
                 }
 
                 is NetworkResults.NoInternet -> TODO()

@@ -126,8 +126,8 @@ isMyProfile = intent.getStringExtra("isMyProfile").toString()
 
 
             override fun onProfileClikc(pos: Int) {
-                Log.d("TEEEESSSSTTT11", newArrVideoModel[pos].videoUrl)
 
+                Log.d("TEEEESSSSTTT1122", newArrVideoModel[pos].userPic)
             }
 
             override fun onProfileShare(pos: Int) {
@@ -138,6 +138,7 @@ isMyProfile = intent.getStringExtra("isMyProfile").toString()
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, newArrVideoModel[pos].videoUrl)
+                    Log.d("TEEEESSSSTTT1122", newArrVideoModel[pos].userPic)
                     type = "text/plain"
                 }
 

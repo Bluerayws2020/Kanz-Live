@@ -245,7 +245,7 @@ class SavedVideoFragment : Fragment() {
         isLoading = true
         currentPage++
         binding.progressBar.show()
-        mainViewModel.retriveUserVideos("1", "3", HelperUtils.getUid(requireContext()), "0", currentPage.toString())
+        mainViewModel.retriveUserVideos( "3", HelperUtils.getUid(requireContext()), "0", currentPage.toString())
     }
 
 

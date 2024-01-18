@@ -58,7 +58,8 @@ data class Results(
     val sex: String,
     val token: String,
     val upload_video_status: String,
-    val user_name: String
+    val user_name: String,
+    val is_following: String
 )
 
 data class Msg(
@@ -344,7 +345,7 @@ data class NewAppendItItems(
     val lastName: String = "",
     val bandNam: String = "",
     val type: String = "",
-    val userPic: String = "",
+    val userPic:  String,
     val status: String = "",
     var favorites: String = "",
     var userSave: String = "",

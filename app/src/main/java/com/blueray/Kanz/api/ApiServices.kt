@@ -150,7 +150,7 @@ interface ApiServices {
 
     ): FollowingResponse
 
-    @Multipart
+
     @POST("user/getMyFollowersFollowingData")
     suspend fun getMyFollowersFollowingData(
         @Header("Authorization") bearerToken: String,
@@ -212,7 +212,6 @@ interface ApiServices {
     @GET("frontend/getVideos")
     suspend fun getVideosForUser(
         @Query("token") bearerToken: String,
-        @Query("uid") uid: String,
         @Query("page") page: String,
         @Query("Page_limit") page_limit: String,
         @Query("Is_home") is_home: String,
@@ -278,9 +277,11 @@ interface ApiServices {
     ): GetProfileResponse
 
 
+    @Multipart
     @POST("user/getUserProfile")
     suspend fun getUserInfo(
-        @Header("Authorization") bearerToken: String
+        @Header("Authorization") bearerToken: String,
+        @Part("user_id") user_id:RequestBody
 
     ): GetProfileResponse
 
