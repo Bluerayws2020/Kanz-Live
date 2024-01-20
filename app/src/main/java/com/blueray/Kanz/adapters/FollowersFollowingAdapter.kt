@@ -54,7 +54,7 @@ class FollowersFollowingAdapter(
         }
         holder.binding.follow.setOnClickListener {
 
-            if (list[position].is_following == "false") {
+            if (list[position].is_following == "true") {
                 holder.binding.follow.text = "الغاء المتابعة"
                 holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
 
