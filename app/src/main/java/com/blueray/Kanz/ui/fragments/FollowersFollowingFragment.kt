@@ -2,17 +2,18 @@ package com.blueray.Kanz.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blueray.Kanz.adapters.FollowersFollowingAdapter
 import com.blueray.Kanz.adapters.MyFollowersFollowingAdapter
 import com.blueray.Kanz.api.FollowerClick
 import com.blueray.Kanz.databinding.FragmentFollowersBinding
+import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
@@ -46,12 +47,18 @@ class FollowersFollowingFragment : Fragment() {
         tabPosition = arguments?.getString("tab_position").toString()
         Log.d("##$$%%", userId.toString())
         Log.d("##$$%%", type.toString())
-        if (type == "myAccount")
+        if (type == "myAccount"){
             mainViewModel.retriveMyFollowingFollower()
-        else
+            Log.e("THISLISTTT22" , type.toString())
+        }
+        else{
             mainViewModel.retriveUserFollowingFollower(userId.toString())
+            Log.e("THISLISTTT" , type.toString())
+        }
+
 
         getFollowersFollowing()
+        getUserFollowersFollowing()
         getUserAction()
     }
 
@@ -72,9 +79,11 @@ class FollowersFollowingFragment : Fragment() {
 
                     var list = result.data.results.followers
 
-                    if (tabPosition == "1")
+                    if (tabPosition == "1") {
                         list = result.data.results.following
-
+                    }else{
+                        list = result.data.results.followers
+                    }
 
                     list.mapIndexed { index, listItem ->
 
@@ -90,35 +99,37 @@ class FollowersFollowingFragment : Fragment() {
                                             "user",
                                             "following"
                                         )
-                                        mainViewModel.retriveMyFollowingFollower()
-                                        getFollowersFollowing()
+                                       mainViewModel.retriveMyFollowingFollower()
+                                    getFollowersFollowing()
                                     }
                                 })
-
+                            Log.d("typetype" , type.toString())
+                            Log.d("list missing !!!!", list.toString())
                             val lm = LinearLayoutManager(requireContext())
                             binding.followersRv.adapter = adapter
                             binding.followersRv.layoutManager = lm
                         } else {
 
-                            adapter2 = FollowersFollowingAdapter(
-                                requireContext(),
-                                list,
-                                object : FollowerClick {
-                                    override fun onFollowClikcs(pos: Int) {
-                                        mainViewModel.retriveSetAction(
-                                            list[pos].uid,
-                                            "user",
-                                            "following"
-                                        )
-                                        Log.d("list missing !!!!" , list.toString())
-                                        mainViewModel.retriveMyFollowingFollower()
-                                        getFollowersFollowing()
-                                    }
-                                })
-                            Log.d("list missing !!!!" , list.toString())
-                            val lm = LinearLayoutManager(requireContext())
-                            binding.followersRv.adapter = adapter2
-                            binding.followersRv.layoutManager = lm
+//                            adapter2 = MyFollowersFollowingAdapter(
+//                                requireContext(),
+//                                list,
+//                                object : FollowerClick {
+//                                    override fun onFollowClikcs(pos: Int) {
+//                                        mainViewModel.retriveSetAction(
+//                                            list[pos].uid,
+//                                            "user",
+//                                            "following"
+//                                        )
+//                                        Log.d("list missing !!!!", list.toString())
+//                                       mainViewModel.retriveUserFollowingFollower(userId.toString())
+//                                       getFollowersFollowing()
+//                                    }
+//                                })
+//                            Log.d("typetype" , type.toString())
+//                            Log.d("list missing !!!!" , list.toString())
+//                            val lm = LinearLayoutManager(requireContext())
+//                            binding.followersRv.adapter = adapter2
+//                            binding.followersRv.layoutManager = lm
                         }
 
 
@@ -174,6 +185,66 @@ class FollowersFollowingFragment : Fragment() {
                 }
 
                 else -> {}
+            }
+        }
+    }
+    private fun getUserFollowersFollowing(){
+        mainViewModel.getUserFollowingFollowers().observe(viewLifecycleOwner){
+            result ->
+            when(result){
+                is NetworkResults.Success->{
+                    Log.d("THISLISTTT" , result.data.results.toString())
+                    if (result.data.results.following == null) {
+                        binding.noData.show()
+                        binding.followersRv.hide()
+                    } else {
+                        binding.noData.hide()
+                        binding.followersRv.show()
+
+                    }
+                    var list = result.data.results.followers
+
+                    if (tabPosition == "1") {
+                        list = result.data.results.following
+                    }else{
+                        list = result.data.results.followers
+                    }
+
+                    list.mapIndexed { index, listItem ->
+
+                        if (type == "partition") {
+
+                            adapter2 = FollowersFollowingAdapter(
+                                requireContext(),
+                                list,
+
+                                object : FollowerClick {
+                                    override fun onFollowClikcs(pos: Int) {
+                                        mainViewModel.retriveSetAction(
+                                            list[pos].uid,
+                                            "user",
+                                            "following"
+                                        )
+                                        mainViewModel.retriveUserFollowingFollower(userId.toString())
+                                        getFollowersFollowing()
+                                    }
+                                })
+                            Log.d("typetype" , type.toString())
+                            Log.d("list missing !!!!", list.toString())
+                            val lm = LinearLayoutManager(requireContext())
+                            binding.followersRv.adapter = adapter2
+                            binding.followersRv.layoutManager = lm
+                        }
+                    }
+
+
+                }
+                is NetworkResults.Error->{
+
+                }
+                else->{
+
+                }
             }
         }
     }

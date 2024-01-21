@@ -162,7 +162,7 @@ interface ApiServices {
     @POST("user/getUserFollowersFollowingData")
     suspend fun getUserFollowersFollowingData(
         @Header("Authorization") bearerToken: String,
-        @Part("target_uid") target_uid: RequestBody
+        @Part("user_id") user_id: RequestBody
 
     ): MainJsonFollowersFollowingData
 

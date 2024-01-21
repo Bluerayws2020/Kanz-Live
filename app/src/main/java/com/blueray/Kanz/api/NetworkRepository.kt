@@ -111,9 +111,7 @@ object NetworkRepository {
         }
     }
 
-    suspend fun getFollowingFollower(
-        uid: String,
-        targetUid: String,
+    suspend fun getMyFollowingFollower(
         bearerToken: String
 
 
@@ -132,20 +130,20 @@ object NetworkRepository {
     }
 
     suspend fun getUserFollowingFollower(
-        uid: String,
-        targetUid: String,
+
+        user_id: String,
         bearerToken: String
 
 
     ): NetworkResults<MainJsonFollowersFollowingData> {
         return withContext(Dispatchers.IO) {
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-            val targetUidBody = targetUid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val user_idBody = user_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
             try {
                 val results = ApiClient.retrofitService.getUserFollowersFollowingData(
-                    bearerToken , targetUidBody
+                     bearerToken = bearerToken,
+                    user_id = user_idBody
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {

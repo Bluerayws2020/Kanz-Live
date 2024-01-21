@@ -40,31 +40,31 @@ class MyFollowersFollowingAdapter(
 
         holder.binding.username.setBackgroundColor(Color.alpha(R.color.lightGreen))
 
-        if (list[position].flag == 1) {
+        if (list[position].is_following == "true") {
             holder.binding.follow.text = "الغاء المتابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
         } else {
             holder.binding.follow.text = "متابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
-            list[position].flag = 1
+
         }
 
+       //todo check why the text doesn't change correctly and there is a problem with the api response
+         holder.binding.follow.setOnClickListener {
 
-        holder.binding.follow.setOnClickListener {
+            if (list[position].is_following == "true") {
+                holder.binding.follow.text = "الغاء المتابعة"
+                holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
 
-//            if (list[position].flag == 1) {
-//                holder.binding.follow.text = "الغاء المتابعة"
-//                holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
-//
-//                list[position].flag = 0
-//
-//            } else {
-//                holder.binding.follow.text = "متابعة"
-//                holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
-//                list[position].flag = 1
-//
-//
-//            }
+                list[position].is_following = "true"
+
+            } else {
+                holder.binding.follow.text = "متابعة"
+                holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
+                list[position].is_following = "false"
+
+            }
+
             followClikc.onFollowClikcs(position)
 
 
