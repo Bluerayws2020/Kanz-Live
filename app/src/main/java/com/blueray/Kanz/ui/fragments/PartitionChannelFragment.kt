@@ -288,7 +288,7 @@ class PartitionChannelFragment : Fragment() {
             if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
 
                 if (count == 0) {
-                    noMoreData = true
+                    noMoreData = false
                 }
 
                 if (!noMoreData) {
@@ -322,7 +322,7 @@ class PartitionChannelFragment : Fragment() {
 
             when (result) {
                 is NetworkResults.Success -> {
-                    Log.d("***", result.data.datass.toString())
+
                     if (result.data.datass == null && count == 0) {
 
                         binding.noData.show()
@@ -331,6 +331,7 @@ class PartitionChannelFragment : Fragment() {
 
 
                     } else {
+
                         binding.noData.hide()
                         binding.videosRv.show()
                         followFlag = result.data.target_user?.target_user_follow_flag.toString()
@@ -401,7 +402,7 @@ class PartitionChannelFragment : Fragment() {
 
 
     private fun loadMoreItems() {
-        Log.d("****", "loadMoreItems")
+        Log.d("****", "loadMoreItems  $noMoreData   $count")
         if (noMoreData || count == 0) {
             Log.d("****No MORE DATA ", "qwertyuiop[")
         } else {

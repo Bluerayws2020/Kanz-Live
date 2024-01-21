@@ -82,20 +82,11 @@ object NetworkRepository {
         return withContext(Dispatchers.IO) {
             val titleBody = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val descriptionBody = description.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
             val viemo_linkBody = viemo_link.asRequestBody("multipart/form-data".toMediaType())
-
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val type_of_activityBody =
                 type_of_activity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-
-
-            val requestBody = viemo_link.asRequestBody("video/*".toMediaType())
-//            val multipartBody = MultipartBody.Builder()
-//                .setType(MultipartBody.FORM)
-//                .addFormDataPart("multipart/file_data", viemo_link.name, requestBody)
-//                .build()
 
 
             try {
