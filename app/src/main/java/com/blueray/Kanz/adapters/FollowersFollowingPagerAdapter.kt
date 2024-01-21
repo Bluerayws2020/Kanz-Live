@@ -16,13 +16,13 @@ class FollowersFollowingPagerAdapter (fragmentManager: FragmentManager, lifecycl
 
     override fun createFragment(position: Int): Fragment {
         val fragment = FollowersFollowingFragment()
-
         fragment.arguments = Bundle().apply {
             putString("tab_position", position.toString())
             putString("user_id", userId)
             putString("type", type)
 
         }
-            return fragment
+
+        return fragment
     }
 }

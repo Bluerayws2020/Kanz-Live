@@ -2,6 +2,7 @@ package com.blueray.Kanz.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -47,22 +48,23 @@ class FollowersFollowingAdapter(
         if (list[position].is_following == "true") {
             holder.binding.follow.text = "الغاء المتابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
+
         } else {
             holder.binding.follow.text = "متابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
-
+            Log.d("wewewewe2" , list[position].uid + list[position].is_following)
         }
         holder.binding.follow.setOnClickListener {
 
             if (list[position].is_following == "true") {
-                holder.binding.follow.text = "الغاء المتابعة"
-                holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
+//                holder.binding.follow.text = "الغاء المتابعة"
+//                holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
 
                 list[position].is_following = "true"
 
             } else {
-                holder.binding.follow.text = "متابعة"
-                holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
+                //              holder.binding.follow.text = "متابعة"
+//                holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
                 list[position].is_following = "false"
 
             }
