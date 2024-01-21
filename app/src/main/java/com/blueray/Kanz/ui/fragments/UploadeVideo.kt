@@ -191,7 +191,9 @@ class UploadeVedio : AppCompatActivity() {
                 if(!isCompressing) {
                     binding.progressBar.show()
 
-                    prepareVideoUpload(videoUri!!)
+//                    prepareVideoUpload(videoUri!!)
+                    uploadVideoToVimeoDirectlly(videoUri!!)
+
                 } else{
                     Toast.makeText(this, "يتم ضغط المقطع", Toast.LENGTH_LONG).show()
                 }
@@ -368,16 +370,16 @@ class UploadeVedio : AppCompatActivity() {
                 is NetworkResults.Success -> {
                     hideProgress()
 
-                    if (!result.data.success ) {
+                    if (result.data.msg.status != 200) {
 
-                        Toast.makeText(this, result.data.message.file.toString(), Toast.LENGTH_LONG)
+                        Toast.makeText(this, result.data.msg.message, Toast.LENGTH_LONG)
                             .show()
                         startActivity(Intent(this, HomeActivity::class.java))
                         showUploadSuccessNotification()
 
 
                     } else {
-                        Toast.makeText(this, result.data.message.file.toString(), Toast.LENGTH_LONG)
+                        Toast.makeText(this, result.data.msg.message, Toast.LENGTH_LONG)
                             .show()
                     }
                 }
@@ -431,6 +433,54 @@ class UploadeVedio : AppCompatActivity() {
         }
     }
 
+    private fun uploadVideoToVimeoDirectlly(videoUri: Uri){
+        // Convert Uri to File
+        var videoFile: File
+
+        if(playableVideoPath != ""){
+            videoFile = File(playableVideoPath)
+        }else {
+            // Convert Uri to File
+            videoFile = File(getPathFromUri(videoUri))
+        }
+
+
+
+
+//        viewmodel.retriveUserUplaode(binding.txt.text.toString(), binding.txt.text.toString(), videoFile, "1")
+//        getUplaodeVideo()
+
+
+        val viemo_linkBody = videoFile.asRequestBody("multipart/form-data".toMediaType())
+        val userToken = HelperUtils.getUserToken(application.applicationContext)
+
+        val request = Request.Builder()
+            .url("http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/api/user/uploadVideoOrImage")
+            .addHeader("Authorization",
+                "Bearer $userToken")
+            .addHeader("Content-Type", "multipart/form-data")
+            .post(viemo_linkBody)
+            .build()
+
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                // Handle error
+                Log.e("***1", e.toString())
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (!response.isSuccessful) {
+                    // Handle error
+                    Log.e("***2", response.toString())
+                } else {
+                    // Handle successful response
+                    Log.e("***3", response.toString())
+                }
+            }
+        })
+    }
+
     private fun uploadVideoToVimeo(videoUri: Uri, link: String, systemLink: String) {
         // Convert Uri to File
         var videoFile: File
@@ -442,23 +492,24 @@ class UploadeVedio : AppCompatActivity() {
             videoFile = File(getPathFromUri(videoUri))
         }
 
-//        // Prepare the file to be uploaded
-//        val requestBody = videoFile.asRequestBody("video/*".toMediaType())
-//        val multipartBody = MultipartBody.Builder()
-//            .setType(MultipartBody.FORM)
-//            .addFormDataPart("file_data", videoFile.name, requestBody)
-//            .build()
-//        // Prepare the request
-//        val request = Request.Builder()
-//            .url(link) // Replace with the upload URL provided by Vimeo API
-//            .addHeader(
-//                "Authorization",
-//                "Bearer cb9661c5c0ecc54dc35089b21047de84"
-//            ) // Replace with your actual access token
-//            .addHeader("Content-Type", "multipart/form-data")
-//
-//            .post(multipartBody)
-//            .build()
+        // Prepare the file to be uploaded
+        val requestBody = videoFile.asRequestBody("video/*".toMediaType())
+        val multipartBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file_data", videoFile.name, requestBody)
+            .build()
+        // Prepare the request
+        val userToken = HelperUtils.getUserToken(application.applicationContext)
+        val request = Request.Builder()
+            .url(link) // Replace with the upload URL provided by Vimeo API
+            .addHeader(
+                "Authorization",
+                "Bearer $userToken"
+            ) // Replace with your actual access token
+            .addHeader("Content-Type", "multipart/form-data")
+
+            .post(multipartBody)
+            .build()
 
 
         viewmodel.retriveUserUplaode(
@@ -470,60 +521,60 @@ class UploadeVedio : AppCompatActivity() {
 
         getUplaodeVideo()
 
-//        // Execute the request
-//        client.newCall(request).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {
-//                runOnUiThread {
-//                    binding.progressBar.visibility = View.GONE
-////                    binding.btnUploadVideo.isEnabled = true
-//                    // Handle the error, update UI if needed
-//                    Toast.makeText(
-//                        this@UploadeVedio,
-//                        "Error\t" + e.message.toString(),
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//
-//                }
-//            }
-//
-//            override fun onResponse(call: Call, response: Response) {
-//                // Log the response or handle it as necessary
-//                response.use { res ->
-//                    if (res.isSuccessful) {
-//                        // Handle the successful response
-//                        val responseBody = res.body?.string()
-//                        runOnUiThread {
-//                            // Here you could update UI with details from the response if needed
-////                            binding.progressBar.visibility = View.GONE
-////                            binding.btnUploadVideo.isEnabled = true
-//
+        // Execute the request
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    binding.progressBar.visibility = View.GONE
+//                    binding.btnUploadVideo.isEnabled = true
+                    // Handle the error, update UI if needed
+                    Toast.makeText(
+                        this@UploadeVedio,
+                        "Error\t" + e.message.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Log the response or handle it as necessary
+                response.use { res ->
+                    if (res.isSuccessful) {
+                        // Handle the successful response
+                        val responseBody = res.body?.string()
+                        runOnUiThread {
+                            // Here you could update UI with details from the response if needed
+//                            binding.progressBar.visibility = View.GONE
+//                            binding.btnUploadVideo.isEnabled = true
+
 //                            viewmodel.retriveUserUplaode(
 //                                binding.txt.text.toString(),
 //                                binding.txt.text.toString(),
 //                                systemLink,
 //                                "1"
 //                            )
-//
-//
-//                            getUplaodeVideo()
-//
-//                        }
-//
-//
-//                        Log.d("UploadSSSSAAAAA", "Response: $responseBody")
-//                    } else {
-//                        // Handle the error
-//                        val responseBody = res.body?.string()
-//                        runOnUiThread {
-////                            Toast.makeText(this@UploadeVedio, "Upload failed: ${res.message}", Toast.LENGTH_LONG).show()
-//                            binding.progressBar.visibility = View.GONE
-////                            binding.btnUploadVideo.isEnabled = true
-//                        }
-//                        Log.e("Upload", "Error: $responseBody")
-//                    }
-//                }
-//            }
-//        })
+
+
+                            getUplaodeVideo()
+
+                        }
+
+
+                        Log.d("UploadSSSSAAAAA", "Response: $responseBody")
+                    } else {
+                        // Handle the error
+                        val responseBody = res.body?.string()
+                        runOnUiThread {
+//                            Toast.makeText(this@UploadeVedio, "Upload failed: ${res.message}", Toast.LENGTH_LONG).show()
+                            binding.progressBar.visibility = View.GONE
+//                            binding.btnUploadVideo.isEnabled = true
+                        }
+                        Log.e("Upload", "Error: $responseBody")
+                    }
+                }
+            }
+        })
     }
 
     override fun onRequestPermissionsResult(
@@ -682,7 +733,7 @@ class UploadeVedio : AppCompatActivity() {
                     displayVideoThumbnail(videoUri)
 
 //                    binding.uploadVideo.text = "تم اختيار فيديو"
-                    Log.d("ayhamVideo", videoUri.toString())
+//                    Log.d("ayhamVideo", videoUri.toString())
                 } else {
                     showMessage(this, "لم يتم اختير اي فيديو")
                 }
@@ -695,7 +746,7 @@ class UploadeVedio : AppCompatActivity() {
     private fun processVideo() {
 
         isCompressing = true
-        Log.d("ayhamVideo2", uris.toString())
+//        Log.d("ayhamVideo2", uris.toString())
         lifecycleScope.launch {
             VideoCompressor.start(
                 context = applicationContext,
@@ -721,7 +772,7 @@ class UploadeVedio : AppCompatActivity() {
                                 newSize = ""
                                 progressPercent = percent
 
-                                 Log.d("ayhamVideo3", uris[index].toString())
+//                                 Log.d("ayhamVideo3", uris[index].toString())
                                 resetProgress()
 
                             }
@@ -749,10 +800,12 @@ class UploadeVedio : AppCompatActivity() {
 
                     override fun onFailure(index: Int, failureMessage: String) {
                         Log.wtf("failureMessage", failureMessage)
+                        isCompressing = false
                     }
 
                     override fun onCancelled(index: Int) {
                         Log.wtf("TAG", "compression has been cancelled")
+                        isCompressing = false
                         // make UI changes, cleanup, etc
                     }
                 },

@@ -1,6 +1,7 @@
 package com.blueray.Kanz.ui.viewModels
 
 import android.app.Application
+import android.view.PixelCopy.Request
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -24,6 +25,7 @@ import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
 import com.blueray.Kanz.model.VideoUploadeDone
+import com.blueray.Kanz.model.VideoUploadeDoneMessage
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import kotlinx.coroutines.launch
@@ -73,7 +75,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val createAccountBandLive = MutableLiveData<NetworkResults<UserLoginModel>>()
 
 
-    private val userUplaodeLoive = MutableLiveData<NetworkResults<VideoUploadeDone>>()
+    private val userUplaodeLoive = MutableLiveData<NetworkResults<VideoUploadeDoneMessage>>()
     private val setActions = MutableLiveData<NetworkResults<UserActionMessageModel>>()
     private val updateUserLive = MutableLiveData<NetworkResults<UpdateProfileResponse>>()
 
@@ -150,7 +152,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     ) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getFollowingFollowerLive.value = repo.getMyFollowingFollower(authToken)
+          //  getFollowingFollowerLive.value = repo.getMyFollowingFollower(authToken)
         }
     }
 

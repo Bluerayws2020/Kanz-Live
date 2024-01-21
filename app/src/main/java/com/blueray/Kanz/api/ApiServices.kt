@@ -18,6 +18,7 @@ import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
 import com.blueray.Kanz.model.VideoUploadeDone
+import com.blueray.Kanz.model.VideoUploadeDoneMessage
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import okhttp3.MultipartBody
@@ -114,7 +115,7 @@ interface ApiServices {
         @Part("uid") uid: RequestBody,
         @Part("hashtag_ids[]") type_of_activity: RequestBody,
 
-        ): VideoUploadeDone
+        ): VideoUploadeDoneMessage
 
 
     @Multipart
