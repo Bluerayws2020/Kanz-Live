@@ -20,6 +20,7 @@ import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
 import com.blueray.Kanz.model.VideoUploadeDone
+import com.blueray.Kanz.model.VideoUploadeDoneMessage
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import kotlinx.coroutines.Dispatchers
@@ -77,24 +78,25 @@ object NetworkRepository {
         type_of_activity: String,
 
 
-        ): NetworkResults<VideoUploadeDone> {
+        ): NetworkResults<VideoUploadeDoneMessage> {
         return withContext(Dispatchers.IO) {
             val titleBody = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val descriptionBody = description.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
             val viemo_linkBody = viemo_link.asRequestBody("multipart/form-data".toMediaType())
-
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val type_of_activityBody =
                 type_of_activity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
 
 
             try {
                 val results = ApiClient.retrofitService.uploadVideoOrImage(
                     bearerToken, titleBody, descriptionBody, viemo_linkBody, uidBody, type_of_activityBody
                 )
+                Log.e("***", results.toString())
                 NetworkResults.Success(results)
             } catch (e: Exception) {
+                Log.e("***", e.toString())
                 NetworkResults.Error(e)
             }
         }
