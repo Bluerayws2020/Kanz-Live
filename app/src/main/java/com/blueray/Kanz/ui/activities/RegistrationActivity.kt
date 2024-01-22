@@ -1,15 +1,20 @@
 package com.blueray.Kanz.ui.activities
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+
 import androidx.appcompat.app.AppCompatDelegate
 import com.blueray.Kanz.R
 import com.blueray.Kanz.databinding.ActivityRegisterationBinding
@@ -54,15 +59,17 @@ class RegistrationActivity : BaseActivity() {
 
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         binding = ActivityRegisterationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.dateOfBirthDatePicker.setOnClickListener {
-            showDatePickerDialog()
-        }
+//        binding.dateOfBirthDatePicker.setOnClickListener {
+//            showDatePickerDialog()
+//        }
 
 
         binding.incluedeTab.back.setOnClickListener {
@@ -89,6 +96,13 @@ class RegistrationActivity : BaseActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         HelperUtils.setDefaultLanguage(this, "ar")
 
+
+        binding.datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+            val selectedDate = formatDate(year, monthOfYear + 1, dayOfMonth)
+            barithDate = selectedDate
+        }
+
+
         binding.signInBtn.setOnClickListener {
 
             startActivity(Intent(this, LoginActivity::class.java))
@@ -96,7 +110,7 @@ class RegistrationActivity : BaseActivity() {
         binding.nextBtn.setOnClickListener {
             firstName = binding.firstNameEt.text.toString() + binding.lastNameEt.text.toString()
             lastName = binding.lastNameEt.text.toString()
-            barithDate = binding.dateOfBirthDatePicker.text.toString()
+          //  barithDate = binding.dateOfBirthDatePicker.text.toString()
             firstName = binding.firstNameEt.text.toString()
             if (binding.female.isChecked) {
                 genderId = "1"
@@ -114,10 +128,18 @@ class RegistrationActivity : BaseActivity() {
                 } else if (binding.lastNameEt.text?.isEmpty() == true) {
                     binding.lastNameEt.setError("حقل ضروري ")
 
-                } else if (binding.dateOfBirthDatePicker.text?.isEmpty() == true) {
-                    binding.dateOfBirthDatePicker.setError("حقل ضروري ")
+               }
+                else if(binding.female.isChecked == false && binding.male.isChecked == false){
+                    showToast("يجب اختيار الجنس")
 
-                } else {
+                }
+                else if (binding.password.text?.isEmpty() == true){
+                    binding.password.setError("حقل ضروري ")
+                }
+                else if (binding.password.text?.length!! < 8){
+                    binding.password.setError("كلمة السر يجب ان تتكون على الاقل من 8 خانات")
+                }
+                else {
                     passwordTxt = binding.password.text.toString()
                     userName = binding.userNameEt.text.toString()
                     startActivity(Intent(this, SecondRegistrationActivity::class.java))
@@ -238,23 +260,23 @@ class RegistrationActivity : BaseActivity() {
 
     }
 
-    private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val dpd = DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
-            // Format the selected date and update the EditText
-            val selectedCalendar = Calendar.getInstance()
-            selectedCalendar.set(year, monthOfYear, dayOfMonth)
-
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-            binding.dateOfBirthDatePicker.setText(dateFormat.format(selectedCalendar.time))
-        }, year, month, day)
-
-        dpd.show()
-    }
+//    private fun showDatePickerDialog() {
+//        val calendar = Calendar.getInstance()
+//        val year = calendar.get(Calendar.YEAR)
+//        val month = calendar.get(Calendar.MONTH)
+//        val day = calendar.get(Calendar.DAY_OF_MONTH)
+//
+//        val dpd = DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
+//            // Format the selected date and update the EditText
+//            val selectedCalendar = Calendar.getInstance()
+//            selectedCalendar.set(year, monthOfYear, dayOfMonth)
+//
+//            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+//            binding.dateOfBirthDatePicker.setText(dateFormat.format(selectedCalendar.time))
+//        }, year, month, day)
+//
+//        dpd.show()
+//    }
 
     private fun getNatonal() {
         viewmodel.getNatonal().observe(this) { result ->
@@ -496,6 +518,12 @@ class RegistrationActivity : BaseActivity() {
             }
         }
     }
-
+    private fun formatDate(year: Int, month: Int, day: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month - 1, day) // Month is 0-based in Calendar
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        return dateFormat.format(calendar.time)
+    }
 
 }
+

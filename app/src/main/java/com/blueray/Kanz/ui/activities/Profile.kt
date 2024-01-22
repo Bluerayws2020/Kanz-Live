@@ -88,6 +88,7 @@ class Profile : BaseActivity() {
 
                 sharedPreferences.edit().apply {
                     putString(HelperUtils.UID_KEY, "0")
+                    putString(HelperUtils.TOKEN_KEY, "0")
                 }.apply()            // go to home activity
                 startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
             }

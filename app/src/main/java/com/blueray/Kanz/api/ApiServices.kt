@@ -291,8 +291,9 @@ interface ApiServices {
     @POST("user/updateMyProfile")
     suspend fun editProfile(
         @Header("Authorization") bearerToken: String,
-        @Part("first_name") first_name: RequestBody,
-        @Part("last_name") last_name: RequestBody,
+//        @Part("first_name") first_name: RequestBody,
+//        @Part("last_name") last_name: RequestBody,
+        @Part("full_name") full_name:RequestBody,
         @Part("user_name") user_name: RequestBody,
         @Part("date_of_birth") date_of_birth: RequestBody,
         @Part("sex") sex: RequestBody,

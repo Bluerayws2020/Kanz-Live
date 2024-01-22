@@ -2,9 +2,10 @@ package com.blueray.Kanz.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blueray.Kanz.R
 import com.blueray.Kanz.api.FollowerClick
@@ -46,13 +47,13 @@ class MyFollowersFollowingAdapter(
             holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
            // list[position].flag = 1
            // list[position].is_following = "true"
-            Log.d("wewewewe" , list[position].flag.toString() + list[position].is_following)
+
         } else {
             holder.binding.follow.text = "متابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
 //            list[position].flag = 0
             //list[position].is_following = "false"
-            Log.d("wewewewe2" , list[position].flag.toString() + list[position].is_following)
+
         }
 
        //todo check why the text doesn't change correctly and there is a problem with the api response
@@ -72,12 +73,28 @@ class MyFollowersFollowingAdapter(
 
             }
 
-            followClikc.onFollowClikcs(position)
+             followClikc.onFollowClikcs(position)
 
 
-        }
+         }
 
     }
 
+    private var differ = AsyncListDiffer(this, callBacks)
+
+    object callBacks : DiffUtil.ItemCallback<FollowingList>() {
+        override fun areItemsTheSame(oldItem: FollowingList, newItem: FollowingList): Boolean {
+            return (
+                    oldItem.uid == newItem.uid)
+        }
+
+        override fun areContentsTheSame(oldItem: FollowingList, newItem: FollowingList): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    fun submitList(list: List<FollowingList>) {
+        differ.submitList(list)
+    }
 
 }

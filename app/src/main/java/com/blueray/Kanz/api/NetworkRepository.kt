@@ -7,7 +7,6 @@ import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
-
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.RegisterModel
@@ -17,9 +16,7 @@ import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
-import com.blueray.Kanz.model.UserUploadeDone
 import com.blueray.Kanz.model.VideoDataModel
-import com.blueray.Kanz.model.VideoUploadeDone
 import com.blueray.Kanz.model.VideoUploadeDoneMessage
 import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
@@ -33,8 +30,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.IOException
-
-import kotlin.Exception
 
 
 object NetworkRepository {
@@ -443,8 +438,7 @@ object NetworkRepository {
     suspend fun getEditProfile(
 
         bearerToken: String,
-        first_name: String,
-        last_name: String,
+        full_name: String,
         user_name: String,
         email: String,
         phone: String,
@@ -453,10 +447,9 @@ object NetworkRepository {
         barth_of_date: String,
         profile_image: File
 
-        ): NetworkResults<UpdateProfileResponse> {
+    ): NetworkResults<UpdateProfileResponse> {
         return withContext(Dispatchers.IO) {
-            val first_nameBody = first_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val last_nameBody = last_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val full_nameBody = full_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val user_nameBody = user_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val phoneBody = phone.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val country_phone_idBody = country_phone_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -464,7 +457,7 @@ object NetworkRepository {
             val genderBody = sex.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val barth_of_dateBody =
                 barth_of_date.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            // TODO: dont forget to add the image edit
+
             val commercial_recordBody =
                 RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image)
             val commercial_record_part  =  MultipartBody.Part.createFormData("profile_image", profile_image.name, commercial_recordBody)
@@ -472,16 +465,15 @@ object NetworkRepository {
             try {
                 val results = ApiClient.retrofitService.editProfile(
                     bearerToken,
-                    first_nameBody,
-                    last_nameBody,
-                    user_nameBody,
-                    barth_of_dateBody,
-                    genderBody,
-                    phoneBody,
-                    country_phone_idBody,
-                    emailBody ,
-                    commercial_record_part
-                    )
+                    full_name = full_nameBody,
+                    user_name = user_nameBody,
+                    date_of_birth = barth_of_dateBody,
+                    sex = genderBody,
+                    phone = phoneBody,
+                    country_phone_id = country_phone_idBody,
+                    email = emailBody,
+                    image_profile = commercial_record_part
+                )
                 NetworkResults.Success(results)
             } catch (e: Exception){
                 NetworkResults.Error(e)

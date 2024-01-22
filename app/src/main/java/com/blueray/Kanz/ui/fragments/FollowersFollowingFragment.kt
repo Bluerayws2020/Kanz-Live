@@ -47,18 +47,21 @@ class FollowersFollowingFragment : Fragment() {
         tabPosition = arguments?.getString("tab_position").toString()
         Log.d("##$$%%", userId.toString())
         Log.d("##$$%%", type.toString())
-        if (type == "myAccount") {
+        if (type == "myAccount"){
             mainViewModel.retriveMyFollowingFollower()
             getFollowersFollowing()
             getUserAction()
-            Log.e("THISLISTTT22", type.toString())
+            Log.e("THISLISTTT22" , type.toString())
         }
-        else {
+        else{
             mainViewModel.retriveUserFollowingFollower(userId.toString())
             getUserFollowersFollowing()
             getUserAction()
-            Log.e("THISLISTTT", type.toString())
+            Log.e("THISLISTTT" , type.toString())
         }
+
+
+
 
 
     }
@@ -72,6 +75,7 @@ class FollowersFollowingFragment : Fragment() {
                     if (result.data.results.following == null) {
                         binding.noData.show()
                         binding.followersRv.hide()
+
                     } else {
                         binding.noData.hide()
                         binding.followersRv.show()
@@ -82,6 +86,7 @@ class FollowersFollowingFragment : Fragment() {
 
                     if (tabPosition == "1") {
                         list = result.data.results.following
+
                     }else{
                         list = result.data.results.followers
                     }
@@ -100,8 +105,9 @@ class FollowersFollowingFragment : Fragment() {
                                             "user",
                                             "following"
                                         )
-                                        mainViewModel.retriveMyFollowingFollower()
-                                        getFollowersFollowing()
+                                      mainViewModel.retriveMyFollowingFollower()
+                                      getFollowersFollowing()
+
                                     }
                                 })
                             val lm = LinearLayoutManager(requireContext())
@@ -197,7 +203,7 @@ class FollowersFollowingFragment : Fragment() {
                                         )
                                         mainViewModel.retriveUserFollowingFollower(userId.toString())
                                         getFollowersFollowing()
-                                        Log.e("fofofofods", list[index].is_following)
+                                        Log.e("fofofofods" , list[index].is_following)
                                     }
                                 })
                             Log.d("typetype", type.toString())
