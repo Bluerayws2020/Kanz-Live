@@ -188,9 +188,10 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
     }
     fun getVideosView(){
         mainViewModel.getMainVideos().observe(viewLifecycleOwner) { result ->
+            binding.img.hide()
             when (result) {
                 is NetworkResults.Success -> {
-                    binding.img.hide()
+
 
                     //                    append new Items
                     isLoading = false
@@ -231,7 +232,7 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
                 }
 
                 is NetworkResults.Error -> {
-                    binding.img.show()
+
 
                     Log.d("ERRRRor",result.exception.toString())
                 }

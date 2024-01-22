@@ -45,7 +45,7 @@ class PartitionChannelFragment : Fragment() {
     var newArrVideoModel = ArrayList<NewAppendItItems>()
     private lateinit var navController: NavController
 
-    private var currentPage = 0
+    private var currentPage = 1
     var target_user_follow_flag = ""
     private var isLinearLayout = false
     private var lastClickedPosition = 0
@@ -142,8 +142,7 @@ class PartitionChannelFragment : Fragment() {
         setRecyclerView()
         getMainVidos()
 
-        Log.d("TEEEEES", userIdes)
-        Log.d("userIdesuserIdes", userIdes)
+        Log.d("***", userIdes)
 
         binding.followersLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
@@ -354,7 +353,7 @@ class PartitionChannelFragment : Fragment() {
                             //                            Log.e("***", item.vimeo_detials.files.toString())
                             Log.d("AdaptiveLink", vidLink)
                         }
-
+                        Log.d("***", " item.id : "  + item.id)
 
                         newArrVideoModel.add(
                             NewAppendItItems(

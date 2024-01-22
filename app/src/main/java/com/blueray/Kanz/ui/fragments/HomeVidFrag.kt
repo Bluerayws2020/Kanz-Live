@@ -316,10 +316,10 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
     fun getVideosView() {
         mainViewModel.getMainVideos().observe(viewLifecycleOwner) { result ->
-
+            binding.img.hide()
             when (result) {
                 is NetworkResults.Success -> {
-                    binding.img.hide()
+
 
 //                        result.data.f
                     // append new Items
@@ -327,11 +327,11 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                     if (result.data.datass.isNullOrEmpty()) {
                         noMoreData = true
                         binding.progg.hide()
-                        binding.img.hide()
+
 
                     } else {
                         binding.progg.hide()
-                        binding.img.hide()
+
                         val startPosition = newArrVideoModel.size
                         // Iterate over each item and add to newArrVideoModel
                         mainArrVideoModel = result.data.datass.toMutableList()
@@ -399,12 +399,12 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                 }
 
                 is NetworkResults.Error -> {
-                    binding.img.show()
 
                     Log.d("ERRRRor", result.exception.toString())
                 }
 
                 is NetworkResults.NoInternet -> TODO()
+
             }
         }
 
@@ -612,8 +612,11 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
     private fun getUserAction() {
 
+
         mainViewModel.getSetAction().observe(viewLifecycleOwner) { result ->
            // Log.e("***", result.toString())
+            binding.progg.hide()
+            binding.img.hide()
             when (result) {
                 is NetworkResults.Success -> {
                     if (result.data.msg.msg == 200) {

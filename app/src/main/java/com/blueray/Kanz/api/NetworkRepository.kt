@@ -67,7 +67,6 @@ object NetworkRepository {
         bearerToken: String,
         title: String,
         description: String,
-
         viemo_link: File,
         uid: String,
         type_of_activity: String,
@@ -77,17 +76,20 @@ object NetworkRepository {
         return withContext(Dispatchers.IO) {
             val titleBody = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val descriptionBody = description.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val viemo_linkBody = viemo_link.asRequestBody("multipart/form-data".toMediaType())
+
+            val commercial_recordBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), viemo_link)
+            val videoFile  =  MultipartBody.Part.createFormData("file", viemo_link.name, commercial_recordBody)
+
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val type_of_activityBody =
                 type_of_activity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
 
-
             try {
                 val results = ApiClient.retrofitService.uploadVideoOrImage(
-                    bearerToken, titleBody, descriptionBody, viemo_linkBody, uidBody, type_of_activityBody
+                    bearerToken, titleBody, descriptionBody, videoFile, type_of_activityBody
                 )
+
                 Log.e("***", results.toString())
                 NetworkResults.Success(results)
             } catch (e: Exception) {
