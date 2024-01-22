@@ -26,7 +26,7 @@ class ThirdRegistrationActivity : BaseActivity() {
         binding = ActivityThirdRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
+        binding.countryCode.setDefaultCountryUsingNameCode("AS")
         binding.signInBtn.setOnClickListener {
 
             startActivity(Intent(this, LoginActivity::class.java))
@@ -39,7 +39,7 @@ binding.includeTap.back.setOnClickListener {
 //binding.countryCode.setText("+962")
 
 
-        binding.countryCode.setDefaultCountryUsingNameCode("+962")
+
         binding.chekBoxss.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 // Code to execute when the checkbox is checked
@@ -175,7 +175,7 @@ binding.includeTap.back.setOnClickListener {
 
             when (result) {
                 is NetworkResults.Success -> {
-                    if (result.data.msg.msgs == 200) {
+                    if (result.data.msg.status == 200) {
 
                         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
 

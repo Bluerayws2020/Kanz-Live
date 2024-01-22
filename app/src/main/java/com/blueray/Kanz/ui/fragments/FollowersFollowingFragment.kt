@@ -85,6 +85,7 @@ class FollowersFollowingFragment : Fragment() {
                     if (result.data.results.following == null) {
                         binding.noData.show()
                         binding.followersRv.hide()
+
                     } else {
                         binding.noData.hide()
                         binding.followersRv.show()

@@ -2,9 +2,10 @@ package com.blueray.Kanz.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blueray.Kanz.R
 import com.blueray.Kanz.api.FollowerClick

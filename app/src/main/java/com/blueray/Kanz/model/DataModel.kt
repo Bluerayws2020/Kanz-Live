@@ -228,6 +228,7 @@ data class UpdateResults(
     val date_of_birth: String,
     val email: String,
     val first_name: String,
+    val full_name:String,
     val followers_count: String,
     val following_count: String,
     val id: Int,
@@ -246,7 +247,7 @@ data class UpdateResults(
 )
 
 data class UserActionMessage(
-    @SerializedName("msg") val msg: Int,
+    @SerializedName("status") val msg: Int,
     @SerializedName("message") val message: String
 )
 

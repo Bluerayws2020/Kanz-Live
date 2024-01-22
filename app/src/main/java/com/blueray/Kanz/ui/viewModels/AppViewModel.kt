@@ -201,8 +201,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             val authToken = "Bearer $userToken"
             updateUserLive.value = repo.getEditProfile(
                 authToken,
-                first_name =  first_name,
-                last_name = last_name,
+               full_name = first_name +" "+ last_name,
                 user_name =  user_name,
                 email = email,
                 phone = phone,
