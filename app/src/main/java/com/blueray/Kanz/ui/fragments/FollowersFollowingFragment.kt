@@ -13,9 +13,9 @@ import com.blueray.Kanz.adapters.FollowersFollowingAdapter
 import com.blueray.Kanz.adapters.MyFollowersFollowingAdapter
 import com.blueray.Kanz.api.FollowerClick
 import com.blueray.Kanz.databinding.FragmentFollowersBinding
-import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
+import com.blueray.Kanz.model.FollowingList
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 
@@ -47,19 +47,20 @@ class FollowersFollowingFragment : Fragment() {
         tabPosition = arguments?.getString("tab_position").toString()
         Log.d("##$$%%", userId.toString())
         Log.d("##$$%%", type.toString())
-        if (type == "myAccount"){
+        if (type == "myAccount") {
             mainViewModel.retriveMyFollowingFollower()
-            Log.e("THISLISTTT22" , type.toString())
+            getFollowersFollowing()
+            getUserAction()
+            Log.e("THISLISTTT22", type.toString())
         }
-        else{
+        else {
             mainViewModel.retriveUserFollowingFollower(userId.toString())
-            Log.e("THISLISTTT" , type.toString())
+            getUserFollowersFollowing()
+            getUserAction()
+            Log.e("THISLISTTT", type.toString())
         }
 
 
-        getFollowersFollowing()
-        getUserFollowersFollowing()
-        getUserAction()
     }
 
     fun getFollowersFollowing() {
@@ -77,7 +78,7 @@ class FollowersFollowingFragment : Fragment() {
 
                     }
 
-                    var list = result.data.results.followers
+                    var list: List<FollowingList>
 
                     if (tabPosition == "1") {
                         list = result.data.results.following
@@ -99,50 +100,19 @@ class FollowersFollowingFragment : Fragment() {
                                             "user",
                                             "following"
                                         )
-                                       mainViewModel.retriveMyFollowingFollower()
-                                    getFollowersFollowing()
+                                        mainViewModel.retriveMyFollowingFollower()
+                                        getFollowersFollowing()
                                     }
                                 })
-                            Log.d("typetype" , type.toString())
-                            Log.d("list missing !!!!", list.toString())
                             val lm = LinearLayoutManager(requireContext())
                             binding.followersRv.adapter = adapter
                             binding.followersRv.layoutManager = lm
-                        } else {
-
-//                            adapter2 = MyFollowersFollowingAdapter(
-//                                requireContext(),
-//                                list,
-//                                object : FollowerClick {
-//                                    override fun onFollowClikcs(pos: Int) {
-//                                        mainViewModel.retriveSetAction(
-//                                            list[pos].uid,
-//                                            "user",
-//                                            "following"
-//                                        )
-//                                        Log.d("list missing !!!!", list.toString())
-//                                       mainViewModel.retriveUserFollowingFollower(userId.toString())
-//                                       getFollowersFollowing()
-//                                    }
-//                                })
-//                            Log.d("typetype" , type.toString())
-//                            Log.d("list missing !!!!" , list.toString())
-//                            val lm = LinearLayoutManager(requireContext())
-//                            binding.followersRv.adapter = adapter2
-//                            binding.followersRv.layoutManager = lm
                         }
-
-
                     }
-
-
                 }
-
                 is NetworkResults.Error -> {
-
                     Log.d("ERRRRososr", result.exception.toString())
                 }
-
                 is NetworkResults.NoInternet -> TODO()
             }
         }
@@ -227,9 +197,10 @@ class FollowersFollowingFragment : Fragment() {
                                         )
                                         mainViewModel.retriveUserFollowingFollower(userId.toString())
                                         getFollowersFollowing()
+                                        Log.e("fofofofods", list[index].is_following)
                                     }
                                 })
-                            Log.d("typetype" , type.toString())
+                            Log.d("typetype", type.toString())
                             Log.d("list missing !!!!", list.toString())
                             val lm = LinearLayoutManager(requireContext())
                             binding.followersRv.adapter = adapter2

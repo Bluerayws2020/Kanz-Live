@@ -2,6 +2,7 @@ package com.blueray.Kanz.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -43,25 +44,31 @@ class MyFollowersFollowingAdapter(
         if (list[position].is_following == "true") {
             holder.binding.follow.text = "الغاء المتابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
+           // list[position].flag = 1
+           // list[position].is_following = "true"
+            Log.d("wewewewe" , list[position].flag.toString() + list[position].is_following)
         } else {
             holder.binding.follow.text = "متابعة"
             holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
-
+//            list[position].flag = 0
+            //list[position].is_following = "false"
+            Log.d("wewewewe2" , list[position].flag.toString() + list[position].is_following)
         }
 
        //todo check why the text doesn't change correctly and there is a problem with the api response
          holder.binding.follow.setOnClickListener {
 
             if (list[position].is_following == "true") {
-                holder.binding.follow.text = "الغاء المتابعة"
-                holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
-
-                list[position].is_following = "true"
+//                holder.binding.follow.text = "الغاء المتابعة"
+//               holder.binding.follow.setBackgroundResource(R.drawable.un_follow)
+                list[position].is_following = "false"
+//                list[position].flag = 0
 
             } else {
-                holder.binding.follow.text = "متابعة"
-                holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
-                list[position].is_following = "false"
+//                holder.binding.follow.text = "متابعة"
+//                holder.binding.follow.setBackgroundResource(R.drawable.btnfollow)
+//                list[position].flag = 0
+                list[position].is_following = "true"
 
             }
 
