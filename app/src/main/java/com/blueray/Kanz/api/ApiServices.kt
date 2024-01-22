@@ -111,8 +111,7 @@ interface ApiServices {
         @Header("Authorization") bearerToken: String,
         @Part("title") title: RequestBody,
         @Part("description") description: RequestBody,
-        @Part("file") viemo_link: RequestBody,
-        @Part("uid") uid: RequestBody,
+        @Part file :MultipartBody.Part,
         @Part("hashtag_ids[]") type_of_activity: RequestBody,
 
         ): VideoUploadeDoneMessage

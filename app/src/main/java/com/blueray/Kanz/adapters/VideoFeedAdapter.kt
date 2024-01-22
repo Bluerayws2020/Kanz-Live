@@ -265,7 +265,7 @@ class VideoFeedAdapter(
                 holder.binding.starLikeLottie.hide()
             }, 1000)
 
-            item.favorites = "false"
+            item.favorites = "true"
             item.video_counts?.like_count = item.video_counts?.like_count?.plus(1)!!
             holder.binding.likeBtn.setLiked(true)
             holder.binding.likesCount.text = item.video_counts?.like_count.toString()

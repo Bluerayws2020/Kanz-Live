@@ -28,20 +28,24 @@
                 android:layout_margin="@dimen/sb_size_12"
                 app:cardCornerRadius="@dimen/sb_size_12">
 
+                <ImageView
+                    android:id="@+id/imageViewThumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/uploades"
-
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/upl_l"
                     />
+
+
             </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout

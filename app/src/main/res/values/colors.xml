@@ -50,6 +50,8 @@
     <color name="open_100">#c8d9fa</color>
     <color name="overlay_01">#8C000000</color>
     <color name="overlay_02">#51000000</color>
+    <color name="overlay_03">#3B000000</color>
+    <color name="overlay_04">#00000000</color>
 
     <color name="reaction_white">#c8d9fa</color>
     <color name="reaction_violet">#293056</color>

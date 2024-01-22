@@ -107,7 +107,6 @@ class UploadeVedio : AppCompatActivity() {
 //                videoUri = result.data?.data
 //                prepareVideoUpload(videoUri!!)
                 videoUri = result.data?.data
-                uris.add(videoUri!!)
                 processVideo()
                 displayVideoThumbnail(videoUri)
             } else {
@@ -218,9 +217,8 @@ class UploadeVedio : AppCompatActivity() {
 
             binding.uploades.hide()
 
-
             // Assuming you have an ImageView named 'imageViewThumbnail' in your layout
-            binding.uploades.setImageBitmap(thumbnailBitmap)
+            binding.imageViewThumbnail.setImageBitmap(thumbnailBitmap)
 
             val byteArrayOutputStream = ByteArrayOutputStream()
             thumbnailBitmap?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
@@ -381,6 +379,7 @@ class UploadeVedio : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, result.data.msg.message, Toast.LENGTH_LONG)
                             .show()
+                        startActivity(Intent(this,HomeActivity::class.java))
                     }
                 }
 
@@ -401,7 +400,7 @@ class UploadeVedio : AppCompatActivity() {
     }
 
     private fun hideProgress() {
-      //  binding.progressBar.hide()
+        binding.progressBar.hide()
 
     }
 
@@ -444,41 +443,42 @@ class UploadeVedio : AppCompatActivity() {
             videoFile = File(getPathFromUri(videoUri))
         }
 
+       // Log.e("****", videoUri.toString())
+        Log.e("****", videoFile.toString())
 
 
+        viewmodel.retriveUserUplaode(binding.txt.text.toString(), binding.txt.text.toString(), videoFile, "1") // here
+        getUplaodeVideo()
 
-//        viewmodel.retriveUserUplaode(binding.txt.text.toString(), binding.txt.text.toString(), videoFile, "1")
-//        getUplaodeVideo()
 
-
-        val viemo_linkBody = videoFile.asRequestBody("multipart/form-data".toMediaType())
-        val userToken = HelperUtils.getUserToken(application.applicationContext)
-
-        val request = Request.Builder()
-            .url("http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/api/user/uploadVideoOrImage")
-            .addHeader("Authorization",
-                "Bearer $userToken")
-            .addHeader("Content-Type", "multipart/form-data")
-            .post(viemo_linkBody)
-            .build()
-
-        val client = OkHttpClient()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                // Handle error
-                Log.e("***1", e.toString())
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                if (!response.isSuccessful) {
-                    // Handle error
-                    Log.e("***2", response.toString())
-                } else {
-                    // Handle successful response
-                    Log.e("***3", response.toString())
-                }
-            }
-        })
+//        val viemo_linkBody = videoFile.asRequestBody("file/*".toMediaType())
+//        val userToken = HelperUtils.getUserToken(application.applicationContext)
+//
+//        val request = Request.Builder()
+//            .url("http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/api/user/uploadVideoOrImage")
+//            .addHeader("Authorization",
+//                "Bearer $userToken")
+//            .addHeader("Content-Type", "multipart/form-data")
+//            .post(viemo_linkBody)
+//            .build()
+//
+//        val client = OkHttpClient()
+//        client.newCall(request).enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {
+//                // Handle error
+//                Log.e("***1", e.toString())
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                if (!response.isSuccessful) {
+//                    // Handle error
+//                    Log.e("***2", response.toString())
+//                } else {
+//                    // Handle successful response
+//                    Log.e("***3", response.toString())
+//                }
+//            }
+//        })
     }
 
     private fun uploadVideoToVimeo(videoUri: Uri, link: String, systemLink: String) {

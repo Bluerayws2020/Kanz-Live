@@ -56,6 +56,8 @@ class VideoListFragment : Fragment() {
 
         binding.progressBar.show()
         isLoading = true
+        binding.shimmerView.startShimmer()
+        Log.d("***", userIdes)
         mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
 
         binding.progressBar.show()
@@ -124,6 +126,9 @@ class VideoListFragment : Fragment() {
 
     fun getMainVidos() {
         mainViewModel.getUserVideos().observe(viewLifecycleOwner) { result ->
+
+            binding.shimmerView.stopShimmer()
+            binding.shimmerView.hide()
             when (result) {
 
                 is NetworkResults.Success -> {
@@ -147,6 +152,7 @@ class VideoListFragment : Fragment() {
                                 Log.d("AdaptiveLink", vidLink)
                             }
 
+                            Log.d("***", " item.id : "  + item.id)
                             newArrVideoModel.add(
                                 NewAppendItItems(
                                     item.title,
