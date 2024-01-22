@@ -48,11 +48,7 @@ class LoginActivity : BaseActivity() {
                 false
             }
         }
-        if (HelperUtils.getUserToken(this) != "0"){
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        
 
         getLogin()
         binding.signInBtn.setOnClickListener {
