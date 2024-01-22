@@ -513,17 +513,14 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
             override fun onProfileShare(pos: Int) {
                 // Implement sharing functionality
 
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, newArrVideoModel[pos].videoUrl)
+                        type = "text/plain"
+                    }
 
-//
-//                    val sendIntent: Intent = Intent().apply {
-//                        action = Intent.ACTION_SEND
-//                        putExtra(Intent.EXTRA_TEXT, newArrVideoModel[pos].videoUrl)
-//                        type = "text/plain"
-//                    }
-//
-//                    val shareIntent = Intent.createChooser(sendIntent, null)
-//                    startActivity(shareIntent)
-
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    startActivity(shareIntent)
 
             }
 

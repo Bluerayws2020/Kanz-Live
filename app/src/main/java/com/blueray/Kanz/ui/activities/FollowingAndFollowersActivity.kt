@@ -42,6 +42,7 @@ class FollowingAndFollowersActivity : AppCompatActivity() {
     }
 
     private fun setUpViewPagerWithTapLayout(flag: String) {
+
         val adapter = FollowersFollowingPagerAdapter(supportFragmentManager, lifecycle, userId , type)
         val tabListTitle: MutableList<String> = ArrayList()
 

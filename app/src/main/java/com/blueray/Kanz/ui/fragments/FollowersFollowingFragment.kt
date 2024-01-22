@@ -15,14 +15,19 @@ import com.blueray.Kanz.api.FollowerClick
 import com.blueray.Kanz.databinding.FragmentFollowersBinding
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
+import com.blueray.Kanz.model.FollowersFollowingResult
 import com.blueray.Kanz.model.FollowingList
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class FollowersFollowingFragment : Fragment() {
 
     private lateinit var binding: FragmentFollowersBinding
     private lateinit var adapter: MyFollowersFollowingAdapter
+    private lateinit var adapterr: MyFollowersFollowingAdapter
     private lateinit var adapter2: FollowersFollowingAdapter
     private val mainViewModel by viewModels<AppViewModel>()
     var tabPosition = "0"
@@ -52,8 +57,7 @@ class FollowersFollowingFragment : Fragment() {
             getFollowersFollowing()
             getUserAction()
             Log.e("THISLISTTT22", type.toString())
-        }
-        else {
+        } else {
             mainViewModel.retriveUserFollowingFollower(userId.toString())
             getUserFollowersFollowing()
             getUserAction()
@@ -65,10 +69,19 @@ class FollowersFollowingFragment : Fragment() {
 
     fun getFollowersFollowing() {
         mainViewModel.getMyFollowingFollowers().observe(viewLifecycleOwner) { result ->
-            Log.e("***getFollowersFollowing", result.toString())
+
             when (result) {
                 is NetworkResults.Success -> {
-                    Log.e("***getFollowersFollowing", result.data.results.toString())
+
+                    Log.e(
+                        "***getFollowers",
+                        result.data.results.followers.map { it.is_following }.toString()
+                    )
+                    Log.e(
+                        "***getFollowing",
+                        result.data.results.following.map { it.user_name }.toString()
+                    )
+
                     if (result.data.results.following == null) {
                         binding.noData.show()
                         binding.followersRv.hide()
@@ -80,42 +93,82 @@ class FollowersFollowingFragment : Fragment() {
 
                     var list: List<FollowingList>
 
-                    if (tabPosition == "1") {
-                        list = result.data.results.following
-                    }else{
-                        list = result.data.results.followers
-                    }
 
-                    list.mapIndexed { index, listItem ->
+                    if (type == "myAccount") {
 
-                        if (type == "myAccount") {
-
-                            adapter = MyFollowersFollowingAdapter(
-                                requireContext(),
-                                list,
-                                object : FollowerClick {
-                                    override fun onFollowClikcs(pos: Int) {
-                                        mainViewModel.retriveSetAction(
-                                            list[pos].uid,
-                                            "user",
-                                            "following"
-                                        )
-                                        mainViewModel.retriveMyFollowingFollower()
-                                        getFollowersFollowing()
-                                    }
-                                })
-                            val lm = LinearLayoutManager(requireContext())
-                            binding.followersRv.adapter = adapter
-                            binding.followersRv.layoutManager = lm
+//                        Log.d("***", list[0].user_name + "  " + list[0].is_following)
+//                        Log.d("***", list[1].user_name + "  " + list[1].is_following)
+//                        Log.d("***", list[2].user_name + "  " + list[2].is_following)
+//                        Log.d("***",  "  " )
+                        if (tabPosition == "1") {
+                            setAdapter1(result.data.results)
+                        } else {
+                            setAdapter2(result.data.results)
                         }
+
+
                     }
+
                 }
+
                 is NetworkResults.Error -> {
                     Log.d("ERRRRososr", result.exception.toString())
                 }
+
                 is NetworkResults.NoInternet -> TODO()
             }
         }
+
+    }
+
+    fun setAdapter1(mainlist: FollowersFollowingResult) {
+        var list = mainlist.following
+        adapter = MyFollowersFollowingAdapter(
+            requireContext(),
+            list,
+            object : FollowerClick {
+                override fun onFollowClikcs(pos: Int) {
+                    GlobalScope.launch {
+                        mainViewModel.retriveSetAction(
+                            list[pos].uid,
+                            "user",
+                            "following"
+                        )
+                        delay(500)
+                        mainViewModel.retriveMyFollowingFollower()
+                        setAdapter2(mainlist)
+                    }
+                }
+            })
+        val lm = LinearLayoutManager(requireContext())
+        binding.followersRv.adapter = adapter
+        binding.followersRv.layoutManager = lm
+
+    }
+
+    fun setAdapter2(mainlist: FollowersFollowingResult) {
+        var list = mainlist.followers
+        adapterr = MyFollowersFollowingAdapter(
+            requireContext(),
+            list,
+            object : FollowerClick {
+                override fun onFollowClikcs(pos: Int) {
+                    GlobalScope.launch {
+                        mainViewModel.retriveSetAction(
+                            list[pos].uid,
+                            "user",
+                            "following"
+                        )
+                        delay(500)
+                        mainViewModel.retriveMyFollowingFollower()
+                        adapter.notifyDataSetChanged()
+                        setAdapter1(mainlist)
+                    }
+                }
+            })
+        val lm = LinearLayoutManager(requireContext())
+        binding.followersRv.adapter = adapterr
+        binding.followersRv.layoutManager = lm
 
     }
 
@@ -158,12 +211,12 @@ class FollowersFollowingFragment : Fragment() {
             }
         }
     }
-    private fun getUserFollowersFollowing(){
-        mainViewModel.getUserFollowingFollowers().observe(viewLifecycleOwner){
-            result ->
-            when(result){
-                is NetworkResults.Success->{
-                    Log.d("THISLISTTT" , result.data.results.toString())
+
+    private fun getUserFollowersFollowing() {
+        mainViewModel.getUserFollowingFollowers().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is NetworkResults.Success -> {
+                    Log.d("THISLISTTT", result.data.results.toString())
                     if (result.data.results.following == null) {
                         binding.noData.show()
                         binding.followersRv.hide()
@@ -176,7 +229,7 @@ class FollowersFollowingFragment : Fragment() {
 
                     if (tabPosition == "1") {
                         list = result.data.results.following
-                    }else{
+                    } else {
                         list = result.data.results.followers
                     }
 
@@ -210,10 +263,12 @@ class FollowersFollowingFragment : Fragment() {
 
 
                 }
-                is NetworkResults.Error->{
+
+                is NetworkResults.Error -> {
 
                 }
-                else->{
+
+                else -> {
 
                 }
             }

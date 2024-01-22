@@ -60,10 +60,10 @@ class VideoFeedAdapter(
                             // Update UI based on playback state
                             if (playbackState == Player.STATE_BUFFERING) {
                                 binding.progressBar.show()
-                                binding.placeHolderImg.show()
+                               // binding.placeHolderImg.show()
                             } else {
                                 binding.progressBar.hide()
-                                binding.placeHolderImg.show()
+                               // binding.placeHolderImg.show()
                                 binding.placeHolderBackground.hide()
                             }
                         }
@@ -195,12 +195,11 @@ class VideoFeedAdapter(
 
 
         holder.binding.commentBtn.setOnClickListener {
-
             onProfileClick.onProfileCommint(pos = position)
         }
 
         holder.binding.shareBtn.setOnClickListener {
-//            onProfileClick.onProfileShare(pos = position)
+            onProfileClick.onProfileShare(pos = position)
         }
 
 
@@ -218,10 +217,6 @@ class VideoFeedAdapter(
         }
         holder.binding.profiel.setOnClickListener {
             onProfileClick.onProfileClikc(position)
-        }
-
-        holder.binding.shareBtn.setOnClickListener {
-            onProfileClick.onProfileShare(position)
         }
 
 

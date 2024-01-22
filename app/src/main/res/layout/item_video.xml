@@ -276,7 +276,7 @@
         <ImageView
             android:id="@+id/saveBtn"
             android:layout_width="@dimen/sb_size_35"
-            android:layout_height="35dp"
+            android:layout_height="27dp"
             android:layout_marginTop="@dimen/sb_size_10"
             android:src="@drawable/save" />
         <!--        <androidx.appcompat.widget.AppCompatCheckBox-->

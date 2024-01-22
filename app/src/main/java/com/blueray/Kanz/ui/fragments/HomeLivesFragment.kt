@@ -281,8 +281,7 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
             override fun onProfileShare(pos: Int) {
                 // Implement sharing functionality
 
-
-
+                Log.e("***" , "share " + newArrVideoModel[pos].videoUrl)
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, newArrVideoModel[pos].videoUrl)
