@@ -220,6 +220,8 @@ class VideoListFragment : Fragment() {
 //
 //                                startActivity(intent)
 
+                Log.d("fairoozzz" , "hello 1")
+
             }
 
             override fun OnVideoClic(position: Int) {
@@ -234,6 +236,8 @@ class VideoListFragment : Fragment() {
                 intent.putExtra("isMyProfile", "1")
 
                 startActivity(intent)
+                Log.d("fairoozzz" , "hello 2")
+                Log.d("fairoozzz" , position.toString())
             }
         }, requireContext())
 
