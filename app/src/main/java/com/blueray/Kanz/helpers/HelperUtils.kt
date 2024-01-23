@@ -32,6 +32,7 @@ object HelperUtils {
      const val PASSWORD = "PASSWORD"
 
     var LANG = "en"
+    var LANG2 = "ar"
 
     fun String.toStringRequestBody(): RequestBody {
         return this.toRequestBody("multipart/form-data".toMediaTypeOrNull())

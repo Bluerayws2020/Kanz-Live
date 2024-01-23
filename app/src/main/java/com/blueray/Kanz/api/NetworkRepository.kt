@@ -2,6 +2,7 @@ package com.blueray.Kanz.api
 
 import android.util.Base64
 import android.util.Log
+import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
@@ -152,26 +153,26 @@ object NetworkRepository {
         return withContext(Dispatchers.IO) {
 
             val entityIdBody = entityId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
+            val lang = HelperUtils.LANG2.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             try {
 
                 var results = UserActionMessageModel(UserActionMessage(-1 , "no result"))
 
                 if (flag_id == "like") {
                     results = ApiClient.retrofitService.likeOrUnlikeVideo(
-                        authToken, entityIdBody
+                        authToken, entityIdBody , lang
                     )
                 }
                 if (flag_id == "save") {
                     results = ApiClient.retrofitService.saveOrCancelSaveVideo(
-                        authToken, entityIdBody
+                        authToken, entityIdBody , lang
                     )
                 }
 
 
                 if (flag_id == "following") {
                     results = ApiClient.retrofitService.followOrUnfollowUser(
-                        authToken, entityIdBody
+                        authToken, entityIdBody , lang
                     )
                 }
 

@@ -181,6 +181,7 @@ interface ApiServices {
     suspend fun likeOrUnlikeVideo(
         @Header("Authorization") bearerToken: String,
         @Part("video_id") entity_id: RequestBody,
+        @Part("lang") lang: RequestBody
     ): UserActionMessageModel
 
     @Multipart
@@ -188,6 +189,7 @@ interface ApiServices {
     suspend fun saveOrCancelSaveVideo(
         @Header("Authorization") bearerToken: String,
         @Part("video_id") entity_id: RequestBody,
+        @Part("lang") lang: RequestBody
     ): UserActionMessageModel
 
     @Multipart
@@ -195,6 +197,7 @@ interface ApiServices {
     suspend fun followOrUnfollowUser(
         @Header("Authorization") bearerToken: String,
         @Part("follower_id") entity_id: RequestBody,
+        @Part("lang") lang: RequestBody
     ): UserActionMessageModel
 
 

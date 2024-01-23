@@ -86,7 +86,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
         Log.d("dhfrgjkl", HelperUtils.getUid(requireContext()))
 
         isAuthintcted = HelperUtils.getUid(requireContext()) != "0"
-
+        binding.img.show()
         binding.includeTap.profile.setOnClickListener {
 
             if (HelperUtils.getUid(requireContext()) == "0") {
