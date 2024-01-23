@@ -3,9 +3,12 @@ package com.blueray.Kanz.ui.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.blueray.Kanz.adapters.FollowersFollowingPagerAdapter
 import com.blueray.Kanz.databinding.ActivityFollowingAndFollowersBinding
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -13,6 +16,8 @@ class FollowingAndFollowersActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFollowingAndFollowersBinding
     private var userId: String? = null
     private var type: String? = null
+
+    private val mainViewModel by viewModels<AppViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,4 +78,6 @@ class FollowingAndFollowersActivity : AppCompatActivity() {
             tab.text = tabListTitle[position]
         }.attach()
     }
+
+
 }

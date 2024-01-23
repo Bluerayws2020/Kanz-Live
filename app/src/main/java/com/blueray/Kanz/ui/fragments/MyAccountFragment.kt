@@ -136,6 +136,8 @@ class MyAccountFragment : Fragment() {
                 is NetworkResults.Success -> {
                     val  data = result.data
                     Glide.with(this).load(result.data.results.profile_image).placeholder(R.drawable.logo2).into(binding.profileImage)
+
+                    Log.d("***", data.results.followers_count + "  "  +data.results.following_count)
                     binding.followersCount.text =  data.results.followers_count
                     binding.followingCount.text =  data.results.following_count
                     binding.likesCount.text =  data.results.likes_count
@@ -152,6 +154,9 @@ class MyAccountFragment : Fragment() {
 
         }
 
-
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.retriveViewMyProfile()
+    }
 
 }

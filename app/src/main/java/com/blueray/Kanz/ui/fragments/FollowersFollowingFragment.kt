@@ -102,9 +102,13 @@ class FollowersFollowingFragment : Fragment() {
 //                        Log.d("***", list[2].user_name + "  " + list[2].is_following)
 //                        Log.d("***",  "  " )
                         if (tabPosition == "1") {
-                            setAdapter1()
-                        } else {
                             setAdapter2()
+                            setAdapter1()
+
+                        } else {
+                            setAdapter1()
+                            setAdapter2()
+
                         }
                     }
 

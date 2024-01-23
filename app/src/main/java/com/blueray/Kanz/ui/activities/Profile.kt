@@ -50,7 +50,7 @@ class Profile : BaseActivity() {
     private val IMAGES_CAMERA_REQUEST_CODE = 1002
     private val IMAGES_REQUEST_CODE = 100
 
-    private lateinit var binding : EditProfilessBinding
+    private lateinit var binding: EditProfilessBinding
     private val mainViewModel by viewModels<AppViewModel>()
     private lateinit var navController: NavController
     private var gender: Int? = null
@@ -58,7 +58,7 @@ class Profile : BaseActivity() {
     private lateinit var userLastName: String
     private lateinit var currentPhotoPath: String
     private lateinit var userCurrentPhotoPath: String
-    private  var userPhoto: File? = null
+    private var userPhoto: File? = null
     private lateinit var imageData: String
     private var imageFile: File? = null
 
@@ -77,8 +77,8 @@ class Profile : BaseActivity() {
 
         getUpdateUserProfile()
 
-        binding.tollbars .logout.show()
-        binding.tollbars .logout.setOnClickListener {
+        binding.tollbars.logout.show()
+        binding.tollbars.logout.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(title)
             builder.setMessage("هل انت متاكد من تسجيل الخروج ؟")
@@ -90,7 +90,7 @@ class Profile : BaseActivity() {
                     putString(HelperUtils.UID_KEY, "0")
                     putString(HelperUtils.TOKEN_KEY, "0")
                 }.apply()            // go to home activity
-                startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
+                startActivity(Intent(this, com.blueray.Kanz.ui.activities.SplashScreen::class.java))
             }
 
             builder.setNegativeButton("لا") { dialog, _ ->
@@ -99,7 +99,6 @@ class Profile : BaseActivity() {
 
             val dialog = builder.create()
             dialog.show()
-
 
 
         }
@@ -111,12 +110,12 @@ class Profile : BaseActivity() {
         }
         binding.edits.setOnClickListener {
             binding.progressBar.show()
-            if (binding.genderEt.text.toString() == "female" || binding.genderEt.text.toString() == "Female"){
+            if (binding.genderEt.text.toString() == "female" || binding.genderEt.text.toString() == "Female") {
                 gender = 1
-            }else if (binding.genderEt.text.toString() == "male" || binding.genderEt.text.toString() == "Male"){
+            } else if (binding.genderEt.text.toString() == "male" || binding.genderEt.text.toString() == "Male") {
                 gender = 2
             }
-         userPhoto =   saveImageToFile(binding.userImagee)
+            userPhoto = saveImageToFile(binding.userImagee)
             imageFile.let { it1 ->
                 if (it1 != null) {
                     mainViewModel.updateUserProfile(
@@ -132,7 +131,7 @@ class Profile : BaseActivity() {
                         profile_image = it1
 
                     )
-                }else{
+                } else {
                     userPhoto?.let { it2 ->
                         mainViewModel.updateUserProfile(
                             first_name = binding.nameEt.text.toString(),
@@ -154,9 +153,9 @@ class Profile : BaseActivity() {
         }
 
 
-
     }
-    fun getUpdateUserProfile(){
+
+    fun getUpdateUserProfile() {
 
 
         mainViewModel.getUpdateUserLive().observe(this) { result ->
@@ -165,19 +164,13 @@ class Profile : BaseActivity() {
                     binding.progressBar.hide()
 
                     showToast(result.data.msg.message.toString())
-
-                   Handler(Looper.getMainLooper()).postDelayed({
-                       findNavController(R.id.profiles)
-                   }, 200)
+                    finish()
                 }
-
-
-
 
 
                 is NetworkResults.Error -> {
                     binding.progressBar.hide()
-                    HelperUtils.showMessage(this,result.exception.message.toString())
+                    HelperUtils.showMessage(this, result.exception.message.toString())
 
                     Log.d("prof error", result.exception.message.toString())
                 }
@@ -188,7 +181,7 @@ class Profile : BaseActivity() {
 
     }
 
-    fun getUserProifle(){
+    fun getUserProifle() {
 
 
         mainViewModel.getMyProfile().observe(this) { result ->
@@ -215,20 +208,23 @@ class Profile : BaseActivity() {
 
                     Log.d("no data here", result.exception.toString())
                 }
+
                 is NetworkResults.NoInternet -> TODO()
             }
         }
     }
 
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.let { handleFirstImageUpload(it) }
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { handleFirstImageUpload(it) }
+            }
         }
-    }
 
     private fun createImageFile(): File {
         // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val timeStamp: String =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
@@ -239,10 +235,12 @@ class Profile : BaseActivity() {
             currentPhotoPath = absolutePath
         }
     }
+
     private fun saveImageToFile(imageView: ImageView): File? {
         val bitmap: Bitmap = (imageView.drawable as BitmapDrawable).bitmap
 
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val timeStamp: String =
+            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
         return try {
@@ -268,7 +266,7 @@ class Profile : BaseActivity() {
 
 
     private fun showImagePickerDialog(launcher: ActivityResultLauncher<Intent>, requestCode: Int) {
-        val options = arrayOf( "المعرض")
+        val options = arrayOf("المعرض")
         AlertDialog.Builder(this)
             .setTitle("يرجى الاختيار")
             .setItems(options) { _, which ->
@@ -279,6 +277,7 @@ class Profile : BaseActivity() {
                         requestGalleryPermissionAndLaunchPicker(launcher, requestCode)
 
                     }
+
                     1 -> { // Choose from Gallery option
                         requestGalleryPermissionAndLaunchPicker(launcher, requestCode)
                     }
@@ -286,14 +285,22 @@ class Profile : BaseActivity() {
             }
             .show()
     }
-    private fun requestGalleryPermissionAndLaunchPicker(launcher: ActivityResultLauncher<Intent>, requestCode: Int) {
+
+    private fun requestGalleryPermissionAndLaunchPicker(
+        launcher: ActivityResultLauncher<Intent>,
+        requestCode: Int
+    ) {
         val currentPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             android.Manifest.permission.READ_MEDIA_IMAGES
         } else {
             Manifest.permission.READ_EXTERNAL_STORAGE
         }
 
-        if (ContextCompat.checkSelfPermission(this, currentPermission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                currentPermission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             requestPermissions(arrayOf(currentPermission), requestCode)
         } else {
             launcher.launch(Intent(Intent.ACTION_PICK).apply { type = "image/*" })
@@ -301,9 +308,17 @@ class Profile : BaseActivity() {
     }
 
     private fun launchCameraIntent(requestCode: Int) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             // If permission is not granted, ask for it
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), requestCode)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                requestCode
+            )
         } else {
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                 // Ensure that there's a camera activity to handle the intent
@@ -369,8 +384,8 @@ class Profile : BaseActivity() {
         val uri = data.data
         imageData = getFilePathFromUri(uri)
         imageFile = File(imageData)
-       // binding.txtphto.text = "تم التحميل"
-     //   imgFilePhto = imageFile
+        // binding.txtphto.text = "تم التحميل"
+        //   imgFilePhto = imageFile
         Glide.with(this).load(uri).into(binding.userImagee)
 
     }
@@ -379,6 +394,6 @@ class Profile : BaseActivity() {
         imageData = currentPhotoPath
         imageFile = File(imageData)
 
-        }
+    }
 
 }
