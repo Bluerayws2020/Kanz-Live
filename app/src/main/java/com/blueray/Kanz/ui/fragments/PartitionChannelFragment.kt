@@ -473,13 +473,15 @@ class PartitionChannelFragment : Fragment() {
 
             override fun OnVideoClic(position: Int) {
                 val intent = Intent(context, VidInnerPlay::class.java)
-//                                    .apply {
+                                    .apply {
 //                                    putExtra("dataList", newArrVideoModel) // Assuming YourDataType is Serializable or Parcelable
-//                                    putExtra("position", position)
-//                                }
+                                    putExtra("position", position)
+                                }
 
                 DataHolder.itemsList = newArrVideoModel
                 startActivity(intent)
+                Log.d("fairoozzz" , "hello 1")
+                Log.d("fairoozzz" , position.toString())
             }
         }, requireContext())
 

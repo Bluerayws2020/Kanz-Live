@@ -58,7 +58,7 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
         val mSnapHelper: SnapHelper = PagerSnapHelper()
         mSnapHelper.attachToRecyclerView(binding.vidRec)
-isMyProfile = intent.getStringExtra("isMyProfile").toString()
+        isMyProfile = intent.getStringExtra("isMyProfile").toString()
 
 
         if (isMyProfile == "1"){
