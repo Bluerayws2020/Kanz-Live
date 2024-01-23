@@ -1,5 +1,6 @@
 package com.blueray.Kanz.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,6 +47,21 @@ class FollowersFollowingFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        super.onStart()
+        if (type == "myAccount") {
+            mainViewModel.retriveMyFollowingFollower()
+            //getFollowersFollowing()
+
+        } else {
+            mainViewModel.retriveUserFollowingFollower(userId.toString())
+            //getUserFollowersFollowing()
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -59,13 +75,13 @@ class FollowersFollowingFragment : Fragment() {
         if (type == "myAccount") {
             mainViewModel.retriveMyFollowingFollower()
             getFollowersFollowing()
-            getUserAction()
+
         } else {
             mainViewModel.retriveUserFollowingFollower(userId.toString())
             getUserFollowersFollowing()
-            getUserAction()
         }
 
+        getUserAction()
 
     }
 

@@ -100,12 +100,12 @@ var userName = ""
                 is NetworkResults.Success -> {
 
                     val  data = result.data.results
-                    Log.d("Testtttt",data.profile_image.toString())
+//                    Log.d("Testtttt",data.profile_image.toString())
 
                     Glide.with(this).load(result.data.results.profile_image).placeholder(R.drawable.logo2).into(binding.ivCover)
 
                     userName = data.user_name
-                    userImage = data.profile_image.toString()
+                   // userImage = data.profile_image.toString()
 
 
 

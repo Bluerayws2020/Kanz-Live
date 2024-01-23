@@ -177,9 +177,11 @@ class PartitionChannelFragment : Fragment() {
                     binding.numFollowers.text = result.data.results.followers_count
                     binding.numFolloweing.text = result.data.results.following_count
                     if (followFlag == "false") {
+
                         binding.btnFollow.show()
                         binding.btnFollow.setOnClickListener {
                             mainViewModel.retriveSetAction(userIdes, "user", "following")
+                            mainViewModel.retriveUserProfile(userIdes)
                             binding.btnUnfollow.show()
                             it.hide()
                             binding.btnUnfollow.setOnClickListener {
@@ -188,6 +190,7 @@ class PartitionChannelFragment : Fragment() {
                                 it.hide()
                             }
                         }
+                        mainViewModel.retriveUserProfile(userIdes)
                     } else {
                         binding.btnUnfollow.show()
                         binding.btnUnfollow.setOnClickListener {
@@ -201,7 +204,7 @@ class PartitionChannelFragment : Fragment() {
                                 it.hide()
                             }
                         }
-
+                        mainViewModel.retriveUserProfile(userIdes)
                     }
                 }
 
