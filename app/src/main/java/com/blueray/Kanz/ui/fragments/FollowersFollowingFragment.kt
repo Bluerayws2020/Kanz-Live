@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blueray.Kanz.adapters.FollowersFollowingAdapter
 import com.blueray.Kanz.adapters.MyFollowersFollowingAdapter
@@ -15,6 +16,7 @@ import com.blueray.Kanz.api.FollowerClick
 import com.blueray.Kanz.databinding.FragmentFollowersBinding
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
+import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowersFollowingResult
 import com.blueray.Kanz.model.FollowingList
 import com.blueray.Kanz.model.NetworkResults
@@ -33,6 +35,7 @@ class FollowersFollowingFragment : Fragment() {
     var tabPosition = "0"
     var userId: String? = ""
     var type: String? = ""
+    lateinit var mainlist: MutableLiveData<FollowersFollowingResult>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,18 +53,17 @@ class FollowersFollowingFragment : Fragment() {
         userId = arguments?.getString("user_id")
         type = arguments?.getString("type")
         tabPosition = arguments?.getString("tab_position").toString()
-        Log.d("##$$%%", userId.toString())
-        Log.d("##$$%%", type.toString())
+
+
+        mainlist = MutableLiveData<FollowersFollowingResult>()
         if (type == "myAccount") {
             mainViewModel.retriveMyFollowingFollower()
             getFollowersFollowing()
             getUserAction()
-            Log.e("THISLISTTT22", type.toString())
         } else {
             mainViewModel.retriveUserFollowingFollower(userId.toString())
             getUserFollowersFollowing()
             getUserAction()
-            Log.e("THISLISTTT", type.toString())
         }
 
 
@@ -92,9 +94,7 @@ class FollowersFollowingFragment : Fragment() {
 
                     }
 
-                    var list: List<FollowingList>
-
-
+                    mainlist.value = result.data.results
                     if (type == "myAccount") {
 
 //                        Log.d("***", list[0].user_name + "  " + list[0].is_following)
@@ -102,12 +102,10 @@ class FollowersFollowingFragment : Fragment() {
 //                        Log.d("***", list[2].user_name + "  " + list[2].is_following)
 //                        Log.d("***",  "  " )
                         if (tabPosition == "1") {
-                            setAdapter1(result.data.results)
+                            setAdapter1()
                         } else {
-                            setAdapter2(result.data.results)
+                            setAdapter2()
                         }
-
-
                     }
 
                 }
@@ -122,54 +120,58 @@ class FollowersFollowingFragment : Fragment() {
 
     }
 
-    fun setAdapter1(mainlist: FollowersFollowingResult) {
-        var list = mainlist.following
-        adapter = MyFollowersFollowingAdapter(
-            requireContext(),
-            list,
-            object : FollowerClick {
-                override fun onFollowClikcs(pos: Int) {
-                    GlobalScope.launch {
-                        mainViewModel.retriveSetAction(
-                            list[pos].uid,
-                            "user",
-                            "following"
-                        )
-                        delay(500)
-                        mainViewModel.retriveMyFollowingFollower()
-                        setAdapter2(mainlist)
-                    }
-                }
-            })
-        val lm = LinearLayoutManager(requireContext())
-        binding.followersRv.adapter = adapter
-        binding.followersRv.layoutManager = lm
+    fun setAdapter1() {
 
+        mainlist.observe(viewLifecycleOwner){
+            Log.d("***1", it.following.toString())
+            adapter = MyFollowersFollowingAdapter(
+                requireContext(),
+                it.following,
+                object : FollowerClick {
+                    override fun onFollowClikcs(pos: Int) {
+                        GlobalScope.launch {
+                            mainViewModel.retriveSetAction(
+                                it.following[pos].uid,
+                                "user",
+                                "following"
+                            )
+                            delay(200)
+                            mainViewModel.retriveMyFollowingFollower()
+
+                        }
+                    }
+                })
+            val lm = LinearLayoutManager(requireContext())
+            binding.followersRv.adapter = adapter
+            binding.followersRv.layoutManager = lm
+        }
     }
 
-    fun setAdapter2(mainlist: FollowersFollowingResult) {
-        var list = mainlist.followers
-        adapterr = MyFollowersFollowingAdapter(
-            requireContext(),
-            list,
-            object : FollowerClick {
-                override fun onFollowClikcs(pos: Int) {
-                    GlobalScope.launch {
-                        mainViewModel.retriveSetAction(
-                            list[pos].uid,
-                            "user",
-                            "following"
-                        )
-                        delay(500)
-                        mainViewModel.retriveMyFollowingFollower()
-                        adapter.notifyDataSetChanged()
-                        setAdapter1(mainlist)
+    fun setAdapter2() {
+
+        mainlist.observe(viewLifecycleOwner) {
+            Log.d("***2", it.followers.toString())
+            adapterr = MyFollowersFollowingAdapter(
+                requireContext(),
+                it.followers,
+                object : FollowerClick {
+                    override fun onFollowClikcs(pos: Int) {
+                        GlobalScope.launch {
+                            mainViewModel.retriveSetAction(
+                                it.followers[pos].uid,
+                                "user",
+                                "following"
+                            )
+                            delay(200)
+                            mainViewModel.retriveMyFollowingFollower()
+
+                        }
                     }
-                }
-            })
-        val lm = LinearLayoutManager(requireContext())
-        binding.followersRv.adapter = adapterr
-        binding.followersRv.layoutManager = lm
+                })
+            val lm = LinearLayoutManager(requireContext())
+            binding.followersRv.adapter = adapterr
+            binding.followersRv.layoutManager = lm
+        }
 
     }
 
@@ -217,7 +219,7 @@ class FollowersFollowingFragment : Fragment() {
         mainViewModel.getUserFollowingFollowers().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResults.Success -> {
-                    Log.d("THISLISTTT", result.data.results.toString())
+//                    Log.d("THISLISTTT", result.data.results.toString())
                     if (result.data.results.following == null) {
                         binding.noData.show()
                         binding.followersRv.hide()

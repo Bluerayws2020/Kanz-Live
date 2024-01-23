@@ -50,7 +50,7 @@
     </queries>
 
     <application
-        android:name=".hlsdemo.common.utils.MainApplication"
+        android:name=".videoliveeventsample.BaseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -131,12 +131,51 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".hlsdemo.common.meeting.activity.CreateOrJoinActivity"
+            android:name=".videoliveeventsample.view.LiveEventSetUpActivity"
             android:exported="false"
-/>
-
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".hlsdemo.common.meeting.activity.MainActivitys"
+            android:name=".videoliveeventsample.view.UserIdsForHostListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.CreateLiveEventActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.HostAndCandidatesListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.ParticipantListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.LiveEventForHostActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.LiveEventSummaryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.SignInManuallyActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.LiveEventEndedActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.LiveEventForParticipantActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.LiveEventActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".videoliveeventsample.view.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"

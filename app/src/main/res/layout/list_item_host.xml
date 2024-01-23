@@ -12,12 +12,12 @@
         android:background="@color/onlight_01"
         android:padding="2dp">
 
-<!--        <com.sendbird.webrtc.SendbirdVideoView-->
-<!--            android:id="@+id/svvHost"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <com.sendbird.webrtc.SendbirdVideoView
+            android:id="@+id/svvHost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"

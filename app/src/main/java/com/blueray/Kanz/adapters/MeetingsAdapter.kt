@@ -21,7 +21,6 @@ import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.EventLogger
-import live.videosdk.android.hlsdemo.viewerMode.ViewerFragment
 
 
 class MeetingsAdapter(private var items: List<SessionData>, val onClickMeting: OnMeetingStart) : RecyclerView.Adapter<MeetingsAdapter.ViewHolder>() {
