@@ -78,9 +78,9 @@ class PartitionChannelFragment : Fragment() {
         val numOfFollowers = arguments?.getString("numOfFollowers")
         target_user_follow_flag = arguments?.getString("isUserFollower").toString()
 
-      //  binding.numFolloweing.text = numOfFollowing ?: "0"
+        //  binding.numFolloweing.text = numOfFollowing ?: "0"
 
-     //   binding.numFollowers.text = numOfFollowers ?: "0"
+        //   binding.numFollowers.text = numOfFollowers ?: "0"
         binding.numOfLike.text = numOfLikes ?: "0"
         binding.includeTap.title.text = fullname
         getUserAction()
@@ -91,12 +91,8 @@ class PartitionChannelFragment : Fragment() {
 /// inistial State
 
 
-
-
         Log.d("isFollowing?", followFlag.toString())
         // Revert changes for "Follow" state
-
-
 
 
         binding.includeTap.back.hide()
@@ -173,11 +169,10 @@ class PartitionChannelFragment : Fragment() {
 
     }
 
-    private fun getUserProfile(){
-        mainViewModel.getUserProfile().observe(viewLifecycleOwner){
-            result ->
-            when(result){
-                is NetworkResults.Success ->{
+    private fun getUserProfile() {
+        mainViewModel.getUserProfile().observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is NetworkResults.Success -> {
                     followFlag = result.data.results.is_following
                     binding.numFollowers.text = result.data.results.followers_count
                     binding.numFolloweing.text = result.data.results.following_count
@@ -209,8 +204,9 @@ class PartitionChannelFragment : Fragment() {
 
                     }
                 }
-                is NetworkResults.Error->{
-                    Toast.makeText(requireContext() , "Hello Error" , Toast.LENGTH_LONG).show()
+
+                is NetworkResults.Error -> {
+                    Toast.makeText(requireContext(), "Hello Error", Toast.LENGTH_LONG).show()
                 }
 
                 else -> {}
@@ -353,7 +349,7 @@ class PartitionChannelFragment : Fragment() {
                             //                            Log.e("***", item.vimeo_detials.files.toString())
                             Log.d("AdaptiveLink", vidLink)
                         }
-                        Log.d("***", " item.id : "  + item.id)
+                        Log.d("***", " item.id : " + item.id)
 
                         newArrVideoModel.add(
                             NewAppendItItems(
@@ -473,15 +469,13 @@ class PartitionChannelFragment : Fragment() {
 
             override fun OnVideoClic(position: Int) {
                 val intent = Intent(context, VidInnerPlay::class.java)
-                                    .apply {
+                    .apply {
 //                                    putExtra("dataList", newArrVideoModel) // Assuming YourDataType is Serializable or Parcelable
-                                    putExtra("position", position)
-                                }
+                        putExtra("position", position)
+                    }
 
                 DataHolder.itemsList = newArrVideoModel
                 startActivity(intent)
-                Log.d("fairoozzz" , "hello 1")
-                Log.d("fairoozzz" , position.toString())
             }
         }, requireContext())
 

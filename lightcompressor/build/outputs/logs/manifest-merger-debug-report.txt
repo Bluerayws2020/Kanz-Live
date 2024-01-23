@@ -1,25 +1,25 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+ADDED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
 	package
-		ADDED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:11-61
-		INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:11-61
+		INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+		ADDED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml:1:1-64
 uses-sdk
-INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-		ADDED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-		ADDED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\walee\StudioProjects\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\aiham\AndroidStudioProjects\new\Kanz-Alarab_VSDK\lightcompressor\src\main\AndroidManifest.xml

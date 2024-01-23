@@ -29,22 +29,23 @@ import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
-        private lateinit var navController: NavController
+    private lateinit var navController: NavController
 
 
-        private lateinit var dialog: BottomSheetDialog
+    private lateinit var dialog: BottomSheetDialog
 
-        var isAuthintcted = false
-
-
-        var isMyProfile = "0"
-        private lateinit var binding: OneVidoShowBinding
-        var arrVideoModel = ArrayList<NewAppendItItems>()
-        var newArrVideoModel = ArrayList<NewAppendItItems>()
+    var isAuthintcted = false
 
 
-        var videoAdapter: VideoFeedAdapter? = null
-        private val mainViewModel by viewModels<AppViewModel>()
+
+    var isMyProfile = "0"
+    private lateinit var binding: OneVidoShowBinding
+    var arrVideoModel = ArrayList<NewAppendItItems>()
+    var newArrVideoModel = ArrayList<NewAppendItItems>()
+
+
+    var videoAdapter: VideoFeedAdapter? = null
+    private val mainViewModel by viewModels<AppViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,9 +62,9 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
         isMyProfile = intent.getStringExtra("isMyProfile").toString()
 
 
-        if (isMyProfile == "1"){
+        if (isMyProfile == "1") {
 
-        }else {
+        } else {
 
         }
         getUserAction()
@@ -86,8 +87,6 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
         getDelVido()
         binding.includeTap.profileBtn.setOnClickListener { navController.navigate(R.id.yourChannelFragment) }
-
-
 
 
 //        val itemTouchHelperCallback = object :
@@ -113,15 +112,16 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
         isAuthintcted = HelperUtils.getUid(this) != "0"
 
-         newArrVideoModel = PartitionChannelFragment.DataHolder.itemsList!!
+        newArrVideoModel = PartitionChannelFragment.DataHolder.itemsList!!
         val position = intent.getIntExtra("position", 0)
+
         binding.vidRec.scrollToPosition(position)
 
         var isUser = 1
         if (HelperUtils.getUid(this) == "0") {
             isUser = 0
         }
-        Log.d("ERTYUIO",newArrVideoModel.size.toString())
+
         videoAdapter = VideoFeedAdapter(newArrVideoModel, object : OnProfileClick {
 
 
@@ -132,7 +132,6 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
             override fun onProfileShare(pos: Int) {
                 // Implement sharing functionality
-
 
 
                 val sendIntent: Intent = Intent().apply {
@@ -148,12 +147,12 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
             }
 
             override fun onMyProfileClikc() {
-                if (HelperUtils.getUid(this@VidInnerPlay) == "0"){
+                if (HelperUtils.getUid(this@VidInnerPlay) == "0") {
 //                    Toast.makeText(context,"يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
 
                     startActivity(Intent(this@VidInnerPlay, MainActivity::class.java))
 
-                }else {
+                } else {
                     navController.navigate(R.id.yourChannelFragment)
                 }
             }
@@ -184,25 +183,22 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
 
             }
-        },this,this,3001)
+        }, this, this, 3001)
 
         binding.vidRec.adapter = videoAdapter
+
 
         // Set up your RecyclerView layout manager
         binding.vidRec.layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL, false
         )
-
-
-
-
-
+        binding.vidRec.scrollToPosition(position)
 
 
     }
 
-    fun deletVideo(pos:Int){
+    fun deletVideo(pos: Int) {
         val builder = AlertDialog.Builder(this@VidInnerPlay)
         builder.setTitle(title)
         builder.setMessage("هل انت متاكد من حذف الفيديو  ؟")
@@ -221,10 +217,11 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
         dialog.show()
 
 
-        Log.d("RTTTWWQ",newArrVideoModel[pos].videoDesc.toString())
+        Log.d("RTTTWWQ", newArrVideoModel[pos].videoDesc.toString())
 
     }
-    private fun showBottomSheet(pos:Int) {
+
+    private fun showBottomSheet(pos: Int) {
 
 
         if (!dialog.isShowing) {
@@ -243,9 +240,9 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
             dialog.show()
 
-botBinding.deletBtn.setOnClickListener {
-    deletVideo(pos)
-}
+            botBinding.deletBtn.setOnClickListener {
+                deletVideo(pos)
+            }
 
         }
 
@@ -262,15 +259,18 @@ botBinding.deletBtn.setOnClickListener {
         // Return true to consume the event, false to let the default behavior proceed
         return false // Replace with your condition
     }
+
     override fun pauseAllVideos() {
         for (i in 0 until binding.vidRec.childCount) {
-            val viewHolder = binding.vidRec.findViewHolderForAdapterPosition(i) as? VideoFeedAdapter.VideoViewHolder
+            val viewHolder =
+                binding.vidRec.findViewHolderForAdapterPosition(i) as? VideoFeedAdapter.VideoViewHolder
             viewHolder?.player?.pause()
         }
     }
 
     override fun playVideoAtPosition(position: Int) {
-        val viewHolder = binding.vidRec.findViewHolderForAdapterPosition(position) as? VideoFeedAdapter.VideoViewHolder
+        val viewHolder =
+            binding.vidRec.findViewHolderForAdapterPosition(position) as? VideoFeedAdapter.VideoViewHolder
         viewHolder?.player?.play()
     }
 
@@ -280,12 +280,14 @@ botBinding.deletBtn.setOnClickListener {
 
         super.onBackPressed()
     }
+
     fun shouldUserOut() {
         Toast.makeText(this, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
 
         startActivity(Intent(this, SplashScreen::class.java))
 
     }
+
     private fun getUserAction() {
 
         mainViewModel.getSetAction().observe(this) { result ->
@@ -324,6 +326,7 @@ botBinding.deletBtn.setOnClickListener {
             }
         }
     }
+
     private fun getDelVido() {
 
         mainViewModel.getDeletVideos().observe(this) { result ->

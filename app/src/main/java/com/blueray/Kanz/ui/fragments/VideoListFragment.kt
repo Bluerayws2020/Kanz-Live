@@ -148,11 +148,10 @@ class VideoListFragment : Fragment() {
                                 val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
                                     it.rendition == "adaptive" || it.rendition == "360"
                                 }
-                                val vidLink = adaptiveFile?.link ?: item.file
+                                vidLink = adaptiveFile?.link ?: item.file
                                 Log.d("AdaptiveLink", vidLink)
                             }
 
-                            Log.d("***", " item.id : "  + item.id)
                             newArrVideoModel.add(
                                 NewAppendItItems(
                                     item.title,
@@ -227,10 +226,10 @@ class VideoListFragment : Fragment() {
 
             override fun OnVideoClic(position: Int) {
                 val intent = Intent(context, VidInnerPlay::class.java)
-//                    .apply {
+                    .apply {
 //                    putExtra("dataList", newArrVideoModel) // Assuming YourDataType is Serializable or Parcelable
-//                    putExtra("position", position)
-//                }
+                    putExtra("position", position)
+                }
 
                 PartitionChannelFragment.DataHolder.itemsList = newArrVideoModel
 
