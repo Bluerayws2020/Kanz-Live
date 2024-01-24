@@ -48,6 +48,7 @@
     <color name="error_300">#DE360B</color>
     <color name="open_300">#293056</color>
     <color name="open_100">#c8d9fa</color>
+    <color name="overlay_00">#4DFFFFFF</color>
     <color name="overlay_01">#8C000000</color>
     <color name="overlay_02">#51000000</color>
     <color name="overlay_03">#3B000000</color>
