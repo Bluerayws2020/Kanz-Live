@@ -56,7 +56,7 @@ class VideoListFragment : Fragment() {
         isLoading = true
         binding.shimmerView.startShimmer()
         Log.d("***", userIdes)
-        mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
+        mainViewModel.retriveUserVideos("7", userIdes, "0", currentPage.toString())
 
         binding.progressBar.show()
         setupRecyclerView()
