@@ -41,8 +41,6 @@ class VideoListFragment : Fragment() {
     var count = 0
     var previousTotalItemCount = 0
 
-    private var isLinearLayout = false
-    private var lastClickedPosition = 0
     var userIdes = ""
     private val mainViewModel by viewModels<AppViewModel>()
     override fun onCreateView(

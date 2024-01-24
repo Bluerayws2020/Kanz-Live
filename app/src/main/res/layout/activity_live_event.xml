@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clLiveView"
@@ -20,7 +19,7 @@
             android:id="@+id/lervLikeReaction"
             android:layout_width="56dp"
             android:layout_height="0dp"
-       app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintBottom_toBottomOf="parent "
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,56 +41,60 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/overlay_02" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/giftItem0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            android:visibility="gone"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/hor" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/giftItem1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            android:visibility="gone"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/camel_l" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/giftItem2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            android:visibility="gone"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/nakhlah_l" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/giftItem3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            android:visibility="gone"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/siaf_l" />
 
@@ -101,14 +104,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            android:visibility="gone"
             app:lottie_rawRes="@raw/hor" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSetting"
             android:layout_width="match_parent"
@@ -187,31 +191,29 @@
                 android:minWidth="60dp"
                 android:padding="8dp"
                 android:text="@string/start"
-                app:layout_constraintEnd_toStartOf="@+id/clParticipantCount"
+                android:layout_marginHorizontal="@dimen/sb_size_5"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivClose"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clParticipantCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/sb_size_50"
+                android:layout_height="@dimen/sb_size_50"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/shape_participant_count_background_overlay01"
-                android:paddingStart="12dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivMore"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/tvTimer"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivParticipantsIcon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="26dp"
+                    android:layout_height="17dp"
                     android:backgroundTint="@color/ondark_01"
                     android:src="@drawable/baseline_remove_red_eye_24"
                     android:tint="@color/ondark_01"
@@ -224,13 +226,155 @@
                     style="@style/Text14OnDark01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="1dp"
                     android:text="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivParticipantsIcon"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sb_size_70"
+                android:layout_marginVertical="@dimen/sb_size_5"
+                app:cardBackgroundColor="@color/overlay_00"
+                app:cardCornerRadius="24dp"
+                android:layout_marginEnd="@dimen/sb_size_50"
+                android:layout_marginStart="@dimen/sb_size_30"
+                app:layout_constraintEnd_toEndOf="@+id/clParticipantCount"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@+id/tvTimer"
+                app:layout_constraintTop_toBottomOf="@+id/clParticipantCount">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/sb_size_10"
+                    app:cardCornerRadius="24dp">
+
+                    <TextView
+                        android:id="@+id/follow_button"
+                        style="@style/TimerButtonOnDark01Style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/green"
+                        android:gravity="center"
+                        android:minWidth="60dp"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="@dimen/sb_size_5"
+                        android:text="متابعة"
+                        android:textColor="@color/white" />
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="end"
+                        android:orientation="vertical"
+                        android:padding="@dimen/sb_size_5"
+                        android:paddingVertical="@dimen/sb_size_10">
+
+                        <TextView
+                            android:id="@+id/profile_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/sb_size_10"
+                            android:gravity="end"
+                            android:text="MohammadA"
+                            android:textColor="@color/green"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/likes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/sb_size_10"
+                            android:gravity="end"
+                            android:text="120 الف اعجاب"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/profile_pic"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginHorizontal="@dimen/sb_size_5"
+                            app:cardCornerRadius="30dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/profile_pict"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/logo2" />
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/sb_size_12"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:weightSum="2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/cvCover"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvTitlee"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+
+                                android:lines="1"
+                                android:text="1233123213213213132133123131312321321"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                app:layout_constraintEnd_toStartOf="@+id/infol"
+                                app:layout_constraintStart_toEndOf="@+id/cvCover"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvDescriptionn"
+                                style="@style/Text12OnDark03"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="Mohame321321321321312321312321321ed"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/cvCover"
+                                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -251,145 +395,176 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/newInfo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sb_size_60"
+        android:layout_marginBottom="@dimen/sb_size_20"
+        android:backgroundTint="@color/white"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/newInfo"
-android:orientation="horizontal"
-        android:backgroundTint="@color/white"
 
-        android:background="@color/overlay_02"
-        >
+        app:layout_constraintStart_toStartOf="parent">
+
 
         <LinearLayout
-            android:id="@+id/infol"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:background="#003F51B5"
-            android:padding="12dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvCover"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                app:cardCornerRadius="17dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/userProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/logo2" />
-            </androidx.cardview.widget.CardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/sb_size_12"
-                app:layout_constraintStart_toEndOf="@+id/cvCover"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-
-                    android:lines="1"
-                    android:text="1233123213213213132133123131312321321"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@+id/infol"
-                    app:layout_constraintStart_toEndOf="@+id/cvCover"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvDescription"
-                    style="@style/Text12OnDark03"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="Mohame321321321321312321312321321ed"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cvCover"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/sb_size_12"
-            android:orientation="vertical"
-            android:id="@+id/gifts"
-            >
-            <ImageView
-                android:layout_width="@dimen/sb_size_30"
-                android:layout_height="@dimen/sb_size_30"
-                android:src="@drawable/gift_icon"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-android:text="دعم"
-                android:textColor="@color/white"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/sb_size_12"
-            android:orientation="vertical"
-            android:id="@+id/shares"
-            >
-            <ImageView
-                android:layout_width="@dimen/sb_size_30"
-                android:layout_height="@dimen/sb_size_30"
-                android:src="@drawable/share1"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="مشاركة"
-                android:textColor="@color/white"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/sb_size_12"
-            android:orientation="vertical"
             android:id="@+id/reaction"
-            >
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/sb_size_12"
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/reactions"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/heart"
                 android:padding="@dimen/sb_size_5"
-                />
+                android:src="@drawable/heart" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/shares"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/sb_size_12"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/sb_size_30"
+                android:layout_height="@dimen/sb_size_30"
+                android:src="@drawable/share1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="مشاركة"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gifts"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/sb_size_12"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/sb_size_30"
+                android:layout_height="@dimen/sb_size_30"
+                android:src="@drawable/giftbox" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="دعم"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="@dimen/sb_size_5"
+            app:cardBackgroundColor="@color/overlay_00"
+            android:layout_marginEnd="10dp"
+            app:cardCornerRadius="50dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/commentBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:gravity="start"
+                    android:layout_marginStart="@dimen/sb_size_10"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_weight="8"
+                    android:padding="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/infol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvCover"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:layout_marginHorizontal="@dimen/sb_size_5"
+                        app:cardCornerRadius="30dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/userProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/logo2" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/sb_size_12"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:weightSum="2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cvCover"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+
+                            android:lines="1"
+                            android:text="1233123213213213132133123131312321321"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toStartOf="@+id/infol"
+                            app:layout_constraintStart_toEndOf="@+id/cvCover"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvDescription"
+                            style="@style/Text12OnDark03"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Mohame321321321321312321312321321ed"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/cvCover"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
