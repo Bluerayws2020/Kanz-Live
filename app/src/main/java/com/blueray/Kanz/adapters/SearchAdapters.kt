@@ -7,10 +7,12 @@ import com.blueray.Kanz.R
 import com.blueray.Kanz.api.OnProfileSearch
 import com.blueray.Kanz.databinding.SearchItemBinding
 import com.blueray.Kanz.model.SarchItem
+import com.blueray.Kanz.model.SearchResponse
+import com.blueray.Kanz.model.SearchResult
 import com.squareup.picasso.Picasso
 
 class SearchAdapters(
-    var list: List<SarchItem>,
+    var list: List<SearchResult>,
     var onProfileSearch: OnProfileSearch
 )
     : RecyclerView.Adapter<SearchAdapters.MyViewHolder>() {
@@ -30,14 +32,14 @@ class SearchAdapters(
         holder.itemView.setOnClickListener {
             onProfileSearch.onProfileTargetSearch(position)
         }
-        holder.binding.name.text = list[position].profile_data.first_name  + " " + list[position].profile_data.last_name
+        holder.binding.name.text = list[position].first_name  + " " + list[position].last_name
         holder.binding.username.text = list[position].user_name
 
-        if (list[position].picture.isEmpty()){
+        if (list[position].profile_image.isEmpty()){
 
         }else {
             Picasso.get()
-                .load(list[position].picture)
+                .load(list[position].profile_image)
                 .placeholder(R.drawable.logo2)
                 .error(R.drawable.logo2)
                 .into(holder.binding.profileImage)

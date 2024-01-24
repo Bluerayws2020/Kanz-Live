@@ -28,6 +28,9 @@ import com.blueray.Kanz.model.NewAppendItItems
 import com.blueray.Kanz.ui.activities.FollowingAndFollowersActivity
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class PartitionChannelFragment : Fragment() {
@@ -181,30 +184,46 @@ class PartitionChannelFragment : Fragment() {
                         binding.btnFollow.show()
                         binding.btnFollow.setOnClickListener {
                             mainViewModel.retriveSetAction(userIdes, "user", "following")
-                            mainViewModel.retriveUserProfile(userIdes)
                             binding.btnUnfollow.show()
                             it.hide()
+                            GlobalScope.launch {
+                                delay(200)
+                                mainViewModel.retriveUserProfile(userIdes)
+                            }
+                        }
                             binding.btnUnfollow.setOnClickListener {
                                 mainViewModel.retriveSetAction(userIdes, "user", "following")
                                 binding.btnFollow.show()
                                 it.hide()
+                                GlobalScope.launch {
+                                    delay(200)
+                                    mainViewModel.retriveUserProfile(userIdes)
+                                }
                             }
-                        }
-                        mainViewModel.retriveUserProfile(userIdes)
+
+
                     } else {
                         binding.btnUnfollow.show()
                         binding.btnUnfollow.setOnClickListener {
                             mainViewModel.retriveSetAction(userIdes, "user", "following")
                             binding.btnFollow.show()
                             it.hide()
+                            GlobalScope.launch {
+                                delay(200)
+                                mainViewModel.retriveUserProfile(userIdes)
+                            }
+                        }
                             binding.btnFollow.setOnClickListener {
                                 mainViewModel.retriveSetAction(userIdes, "user", "following")
                                 binding.btnUnfollow.show()
-
                                 it.hide()
+                                GlobalScope.launch {
+                                    delay(200)
+                                    mainViewModel.retriveUserProfile(userIdes)
+                                }
                             }
-                        }
-                        mainViewModel.retriveUserProfile(userIdes)
+
+
                     }
                 }
 
@@ -350,9 +369,11 @@ class PartitionChannelFragment : Fragment() {
                             vidLink = adaptiveFile?.link ?: item.file
 
                             //                            Log.e("***", item.vimeo_detials.files.toString())
-                            Log.d("AdaptiveLink", vidLink)
+                            Log.d("AdaptiveLink", item.id)
+                            Log.d("hellohelloworld", " item.id : " + item.id)
+
                         }
-                        Log.d("***", " item.id : " + item.id)
+
 
                         newArrVideoModel.add(
                             NewAppendItItems(

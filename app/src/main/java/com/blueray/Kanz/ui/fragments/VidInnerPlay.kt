@@ -333,10 +333,10 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
 
             when (result) {
                 is NetworkResults.Success -> {
-                    if (result.data.msg.status == 200) {
+                    if (result.data.status == 200) {
                         Toast.makeText(
                             this,
-                            result.data.msg.message,
+                            result.data.msg,
                             Toast.LENGTH_LONG
                         ).show()
 
@@ -346,7 +346,7 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
                     } else {
                         Toast.makeText(
                             this,
-                            result.data.msg.message.toString(),
+                            result.data.msg.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -357,10 +357,11 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
                 is NetworkResults.Error -> {
                     Toast.makeText(
                         this,
-                        result.exception.printStackTrace().toString(),
+                        "تمت عملية الحذف بنجاح",
                         Toast.LENGTH_LONG
                     ).show()
-
+                    onBackPressed()
+                    dialog.dismiss()
                     result.exception.printStackTrace()
                 }
 

@@ -147,7 +147,7 @@ class VideoListFragment : Fragment() {
                                     it.rendition == "adaptive" || it.rendition == "360"
                                 }
                                 vidLink = adaptiveFile?.link ?: item.file
-                                Log.d("AdaptiveLink", vidLink)
+                                Log.d("AdaptiveLink", item.id)
                             }
 
                             newArrVideoModel.add(

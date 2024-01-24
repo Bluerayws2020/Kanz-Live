@@ -503,7 +503,8 @@
                                     android:calendarViewShown="false"
                                     android:spinnersShown="true"
                                     android:format24Hour="d/M/yyyy"
-                                    android:datePickerMode="spinner"/>
+                                    android:datePickerMode="spinner"
+                                    android:maxDate="1/1/2009"/>
 <!--                                <EditText-->
 <!--                                    android:id="@+id/dateOfBirthDatePicker"-->
 <!--                                    style="@style/ThemeOverlay.Material3.MaterialTimePicker"-->
