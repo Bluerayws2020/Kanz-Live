@@ -176,7 +176,7 @@ binding.includeTap.back.setOnClickListener {
             when (result) {
                 is NetworkResults.Success -> {
                     if (result.data.msg.status == 200) {
-
+                        hideProgress()
                         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
 
                         sharedPreferences.edit().apply {
@@ -196,7 +196,8 @@ binding.includeTap.back.setOnClickListener {
                         finish()
 
                     } else {
-                        Toast.makeText(this, result.data.msg.msg.toString(), Toast.LENGTH_LONG)
+                        hideProgress()
+                        Toast.makeText(this, "تأكد من البيانات المدخلة", Toast.LENGTH_LONG)
                             .show()
                     }
 
@@ -204,7 +205,8 @@ binding.includeTap.back.setOnClickListener {
                 }
 
                 is NetworkResults.Error -> {
-                    result.exception.printStackTrace()
+                    Toast.makeText(this, "تأكد من البيانات المدخلة", Toast.LENGTH_LONG)
+                        .show()
                     hideProgress()
                 }
 

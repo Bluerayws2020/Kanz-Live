@@ -460,7 +460,7 @@ object NetworkRepository {
             val genderBody = sex.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val barth_of_dateBody =
                 barth_of_date.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
+            val lang = HelperUtils.LANG2.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val commercial_recordBody =
                 RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image)
             val commercial_record_part  =  MultipartBody.Part.createFormData("profile_image", profile_image.name, commercial_recordBody)
@@ -475,7 +475,8 @@ object NetworkRepository {
                     phone = phoneBody,
                     country_phone_id = country_phone_idBody,
                     email = emailBody,
-                    image_profile = commercial_record_part
+                    image_profile = commercial_record_part,
+                    lang
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception){

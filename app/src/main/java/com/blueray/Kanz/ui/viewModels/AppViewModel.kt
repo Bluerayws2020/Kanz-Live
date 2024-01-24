@@ -188,7 +188,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateUserProfile(
         first_name: String,
-        last_name: String,
         user_name: String,
         email: String,
         phone: String,
@@ -202,7 +201,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             val authToken = "Bearer $userToken"
             updateUserLive.value = repo.getEditProfile(
                 authToken,
-               full_name = first_name +" "+ last_name,
+               full_name = first_name ,
                 user_name =  user_name,
                 email = email,
                 phone = phone,

@@ -86,13 +86,13 @@ class LoginActivity : BaseActivity() {
                         //             Toast.makeText(this, result.data.datas.toString(), Toast.LENGTH_LONG).show()
                         Log.d("wew" ,  result.data.datas.toString())
                     }else {
-                        Toast.makeText(this, result.data.status.msg.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "الرجاء التأكد من البيانات المدخلة", Toast.LENGTH_LONG).show()
                     }
 
                 }
 
                 is NetworkResults.Error -> {
-                    Toast.makeText(this, result.exception.printStackTrace().toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "الرجاء التأكد من البيانات المدخلة", Toast.LENGTH_LONG).show()
                     Log.d("jeff", result.exception.toString())
                     result.exception.printStackTrace()
 

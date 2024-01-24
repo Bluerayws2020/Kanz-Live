@@ -209,7 +209,7 @@ class PartitionChannelFragment : Fragment() {
                 }
 
                 is NetworkResults.Error -> {
-                    Toast.makeText(requireContext(), "Hello Error", Toast.LENGTH_LONG).show()
+
                 }
 
                 else -> {}

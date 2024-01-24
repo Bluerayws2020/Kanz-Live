@@ -162,10 +162,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:cornerRadius="18dp"
-                app:icon="@drawable/ic_baseline_upload"
-
-                app:iconGravity="textEnd"
-                app:iconSize="10dp" />
+                 />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/notNow"
@@ -177,8 +174,7 @@
                 android:text="المسودة"
                 android:textAllCaps="false"
                 app:cornerRadius="18dp"
-                app:iconGravity="textEnd"
-                app:iconSize="15dp" />
+                />
         </LinearLayout>
 
     </LinearLayout>

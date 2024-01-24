@@ -219,7 +219,12 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
                                     vidLink,
                                     item.auther.uid,
                                     item.auther.username,
-                                    item.vimeo_detials.duration, firstName = item.auther.profile_data.first_name, lastName = item.auther.profile_data.last_name, type = item.auther.type, bandNam = item.auther.profile_data.band_name, userPic =   item.auther.profile_data.user_picture
+                                    item.vimeo_detials.duration,
+                                    firstName = item.auther.profile_data.first_name,
+                                    lastName = item.auther.profile_data.last_name,
+                                    type = item.auther.type,
+                                    bandNam = item.auther.profile_data.band_name,
+                                    userPic =   item.auther.profile_data.user_picture
 
                                 )
                             )

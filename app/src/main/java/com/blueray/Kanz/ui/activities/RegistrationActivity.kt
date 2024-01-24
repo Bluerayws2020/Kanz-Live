@@ -128,7 +128,9 @@ class RegistrationActivity : BaseActivity() {
                 } else if (binding.lastNameEt.text?.isEmpty() == true) {
                     binding.lastNameEt.setError("حقل ضروري ")
 
-               }
+               } else if (binding.userNameEt.text?.isEmpty() == true){
+                    binding.userNameEt.setError("حقل ضروري ")
+                }
                 else if(binding.female.isChecked == false && binding.male.isChecked == false){
                     showToast("يجب اختيار الجنس")
 
@@ -138,6 +140,8 @@ class RegistrationActivity : BaseActivity() {
                 }
                 else if (binding.password.text?.length!! < 8){
                     binding.password.setError("كلمة السر يجب ان تتكون على الاقل من 8 خانات")
+                } else  if(barithDate == ""){
+                    showToast("يجب اختيار تاريخ الميلاد")
                 }
                 else {
                     passwordTxt = binding.password.text.toString()

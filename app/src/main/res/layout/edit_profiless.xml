@@ -80,8 +80,6 @@ android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:textColor="@color/green"
                 android:textSize="14sp"
-                android:editable="false"
-                android:clickable="false"
                 />
 
 <!--        <com.google.android.material.textfield.TextInputLayout-->
