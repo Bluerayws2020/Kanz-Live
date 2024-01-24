@@ -40,48 +40,14 @@ var uid = ""
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
-        val imageView = findViewById<ImageView>(R.id.imageView)
-        val loadingImageView = findViewById<ImageView>(R.id.loadingImageView)
-        Glide.with(this)
-            .asGif()
-            .load(R.drawable.splashscreen)
-            .into(imageView)
-        Glide.with(this@SplashScreen)
-            .asGif()
-            .load(R.drawable.loadingsplash)
-            .into(loadingImageView)
         uid = HelperUtils.getUid(this@SplashScreen)
         token=HelperUtils.getUserToken(this@SplashScreen)
 
-//        lifecycleScope.launch{
-//            delay(SPLASH_DURATION)
-//            if (!token.isNullOrEmpty() && token != "0") {
-//                val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
-//                startActivity(intent)
-//                finish()}
-//            else {
-//                val intent = Intent(this@SplashScreen, LoginActivity::class.java)
-//                startActivity(intent)
-//                finish()
-//            }
-//
-//        }
-//        android.os.Handler().postDelayed({
-//            loadingImageView.visibility = View.INVISIBLE
-//        }, 2500)
-//
-//
-//
+        val videoView: VideoView = findViewById(R.id.videoView)
+        val videoPath = "android.resource://" + packageName + "/" + R.raw.splashvideo
+        videoView.setVideoURI(Uri.parse(videoPath))
 
-
-        uid = HelperUtils.getUid(this@SplashScreen)
-
-        Log.d("TEEEESTTTT",uid)
-        lifecycleScope.launch {
-            delay(2000)
-
-//                    user
+        videoView.setOnCompletionListener {
             if (!uid.isNullOrEmpty() && uid != "0") {
 
                 prefManager = PrefManager(this@SplashScreen)
@@ -119,6 +85,37 @@ var uid = ""
                 startActivity(intent)
                 finish()
             }
+        }
+        videoView.start()
+
+//        lifecycleScope.launch{
+//            delay(SPLASH_DURATION)
+//            if (!token.isNullOrEmpty() && token != "0") {
+//                val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
+//                startActivity(intent)
+//                finish()}
+//            else {
+//                val intent = Intent(this@SplashScreen, LoginActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }
+//
+//        }
+//        android.os.Handler().postDelayed({
+//            loadingImageView.visibility = View.INVISIBLE
+//        }, 2500)
+//
+//
+//
+
+
+        uid = HelperUtils.getUid(this@SplashScreen)
+
+        Log.d("TEEEESTTTT",uid)
+        lifecycleScope.launch {
+
+//                    user
+
         }
 
     }

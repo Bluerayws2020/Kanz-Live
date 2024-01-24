@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.blueray.Kanz.api.NetworkRepository
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.model.CheckUserNameResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetProfileResponse
@@ -68,6 +69,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val coityLiveData = MutableLiveData<NetworkResults<List<DropDownModel>>>()
     private val countyLiveData = MutableLiveData<NetworkResults<MainJsonDropDownModel>>()
     private val getCheckFollowId = MutableLiveData<NetworkResults<checkUserFollowData>>()
+    private val getCheckUserName = MutableLiveData<NetworkResults<CheckUserNameResponse>>()
 
     private val genderLive = MutableLiveData<NetworkResults<List<DropDownModel>>>()
     private val categroLive = MutableLiveData<NetworkResults<MainJsonDropDownModelHashTag>>()
@@ -319,6 +321,14 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getFollowCheckUser() = getCheckFollowId
 
+    fun retriveCheckUserName(user_name: String){
+        val authToken = "Bearer $userToken"
+        viewModelScope.launch {
+            getCheckUserName.postValue(repo.checkUserName(authToken , user_name))
+        }
+
+    }
+    fun getCheckUserName() = getCheckUserName
     fun retriveGender() {
         viewModelScope.launch {
             genderLive.value = repo.getGender()

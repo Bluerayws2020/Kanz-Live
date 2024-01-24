@@ -1,5 +1,6 @@
 package com.blueray.Kanz.api
 
+import com.blueray.Kanz.model.CheckUserNameResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetProfileResponse
@@ -261,7 +262,12 @@ interface ApiServices {
         @Part("text") text:RequestBody
 
         ): SearchResponse
-
+        @Multipart
+        @POST("user/checkUserNameExists")
+        suspend fun checkUserName(
+            @Header("Authorization") bearerToken: String,
+            @Part("user_name") user_name: RequestBody
+        ): CheckUserNameResponse
 
     @Multipart
     @POST("app/check-user-follow")

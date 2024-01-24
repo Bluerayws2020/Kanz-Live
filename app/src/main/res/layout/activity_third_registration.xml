@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="تاكيد معلومات الحساب"
-                    android:textColor="@color/blue"
+                    android:textColor="#51C777"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -134,10 +134,12 @@
 
                     <CheckBox
                         android:id="@+id/chekBoxss"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="9sp"
                         android:layout_marginTop="20dp"
+                        android:textColor="#2E2E2E"
                         android:text="أوافق على الشروط والأحكام، وأقر بأن استخدامي لهذا التطبيق يخضع للامتثال للشروط والسياسات والإرشادات المعلنة."
                         />
 
@@ -146,12 +148,10 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/nextBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@color/green"
                     android:text="@string/next"
-                    app:icon="@drawable/arrow_forword"
-                    app:iconGravity="textEnd"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:cornerRadius="15dp" />
@@ -163,7 +163,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -3,6 +3,7 @@ package com.blueray.Kanz.api
 import android.util.Base64
 import android.util.Log
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.model.CheckUserNameResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
@@ -505,6 +506,20 @@ object NetworkRepository {
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
+                NetworkResults.Error(e)
+            }
+        }
+    }
+    suspend fun checkUserName(
+        bearerToken: String,
+        user_name: String
+    ):NetworkResults<CheckUserNameResponse>{
+        return withContext(Dispatchers.IO){
+            val user_nameBody = user_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            try {
+                val results =ApiClient.retrofitService.checkUserName(bearerToken,user_nameBody)
+                NetworkResults.Success(results)
+            }catch (e:Exception){
                 NetworkResults.Error(e)
             }
         }

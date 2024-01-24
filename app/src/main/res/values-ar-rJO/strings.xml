@@ -6,7 +6,7 @@
     <string name="all_rights_are_save_fares_al_roya_2023">جميع الحقوق محفوظة -  كنز العرب @ 2023</string>
     <string name="log_in">تسجيل الدخول</string>
     <string name="welcome_back">مرحباً بك مجدداً!</string>
-    <string name="username_phone_number">اسم المستخدم / الرقم</string>
+    <string name="username_phone_number">اسم المستخدم </string>
     <string name="password">كلمة المرور</string>
     <string name="forgot_password">هل نسيت كلمة المرور؟</string>
     <string name="create_account">إنشاء حساب</string>
