@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.blueray.Kanz.R
 import com.blueray.Kanz.helpers.HelperUtils
@@ -42,7 +43,7 @@ var uid = ""
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         uid = HelperUtils.getUid(this@SplashScreen)
         token=HelperUtils.getUserToken(this@SplashScreen)
-
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val videoView: VideoView = findViewById(R.id.videoView)
         val videoPath = "android.resource://" + packageName + "/" + R.raw.splashvideo
         videoView.setVideoURI(Uri.parse(videoPath))
@@ -147,6 +148,7 @@ var uid = ""
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
     }
+
 
 
 }

@@ -87,25 +87,25 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
         isAuthintcted = HelperUtils.getUid(requireContext()) != "0"
         binding.img.show()
-        binding.includeTap.profile.setOnClickListener {
-
-            if (HelperUtils.getUid(requireContext()) == "0") {
-                Toast.makeText(context, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
-
-                startActivity(Intent(requireContext(), SplashScreen::class.java))
-
-            } else {
-                pauseAllVideos()
-                binding.vidRec.adapter = null
-
-                navController.navigate(R.id.yourChannelFragment)
-
-
-            }
-
-
-            //
-        }
+//        binding.includeTap.profile.setOnClickListener {
+//
+//            if (HelperUtils.getUid(requireContext()) == "0") {
+//                Toast.makeText(context, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
+//
+//                startActivity(Intent(requireContext(), SplashScreen::class.java))
+//
+//            } else {
+//                pauseAllVideos()
+//                binding.vidRec.adapter = null
+//
+//                navController.navigate(R.id.yourChannelFragment)
+//
+//
+//            }
+//
+//
+//            //
+//        }
 
 
 //            requireActivity().onBackPressedDispatcher.addCallback(

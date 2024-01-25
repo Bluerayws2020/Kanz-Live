@@ -1,14 +1,18 @@
 package com.blueray.Kanz.ui.fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.blueray.Kanz.R
 import com.blueray.Kanz.adapters.MyAccountPagerAdapter
@@ -39,6 +43,8 @@ class MyAccountFragment : Fragment() {
         return binding.root
     }
 
+
+
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,6 +56,30 @@ class MyAccountFragment : Fragment() {
           val intent =  Intent(requireContext(),Profile::class.java)
             startActivity(intent)
 
+        }
+        binding.logoutBtn.setOnClickListener{
+
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("تسجيل خروج")
+            builder.setMessage("هل انت متاكد من تسجيل الخروج ؟")
+
+            builder.setPositiveButton("نعم") { dialog, _ ->
+                val sharedPreferences = requireContext().getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
+                sharedPreferences.edit().apply {
+                    putString(HelperUtils.UID_KEY, "0")
+                    putString(HelperUtils.TOKEN_KEY, "0")
+                }.apply()            // go to home activity
+                val intent = Intent(requireContext(), com.blueray.Kanz.ui.activities.SplashScreen::class.java)
+                startActivity(intent)
+                requireActivity().supportFragmentManager.popBackStack()
+
+        }
+            builder.setNegativeButton("لا") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
         }
         binding.followingLayout.setOnClickListener {
             val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
@@ -137,12 +167,13 @@ class MyAccountFragment : Fragment() {
                     val  data = result.data
                     Glide.with(this).load(result.data.results.profile_image).placeholder(R.drawable.logo2).into(binding.profileImage)
 
-                    Log.d("***", data.results.followers_count + "  "  +data.results.following_count)
+
                     binding.followersCount.text =  data.results.followers_count
                     binding.followingCount.text =  data.results.following_count
                     binding.likesCount.text =  data.results.likes_count
-                    binding.userName.text = data.results.user_name
+                    binding.userName.text = "@"+data.results.user_name
                     userName =  data.results.user_name
+                    binding.fullNameTv.text = data.results.first_name + " " + data.results.last_name
                 }
 
                 is NetworkResults.Error -> {

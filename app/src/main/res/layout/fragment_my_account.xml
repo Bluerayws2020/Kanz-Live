@@ -27,10 +27,7 @@
             android:layout_height="match_parent"
             tools:context=".ui.activities.RegistrationActivity">
 
-            <include
-                android:id="@+id/include_tap"
-                layout="@layout/profile_app_bar"
-                android:visibility="gone" />
+
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,12 +75,39 @@
                 android:gravity="top|center"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/fullNameTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_name"
+                        android:textSize="16sp"
+                        android:textColor="@color/green"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/logoutBtn"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/logouticon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/profile_img"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -105,6 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/sb_size_10"
                     android:text="@string/ahmed302"
+                    android:textColor="#59462F"
                     app:layout_constraintBottom_toBottomOf="@+id/profileImage"
                     app:layout_constraintStart_toEndOf="@+id/profileImage"
                     app:layout_constraintTop_toBottomOf="@+id/yourChannelTv" />
@@ -148,10 +173,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/regular"
-                            android:text="91"
+                            android:text="00"
                             android:id="@+id/followersCount"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sb_size_16"
+                            android:textColor="@color/green"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -159,8 +184,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/regular"
                             android:text="متابع"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sb_size_16"
+                            android:textColor="#86878B"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -179,11 +204,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/regular"
-                            android:text="34"
+                            android:text="00"
                             android:id="@+id/followingCount"
 
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sb_size_16"
+                            android:textColor="@color/green"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -191,8 +216,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/regular"
                             android:text="يتابع"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sb_size_16"
+                            android:textColor="#86878B"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -209,11 +234,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/regular"
-                            android:text="14"
+                            android:text="00"
                             android:id="@+id/likesCount"
 
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sb_size_16"
+                            android:textColor="#293056"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -221,8 +246,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/regular"
                             android:text="الاعجابات"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sb_size_16"
+                            android:textColor="#86878B"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

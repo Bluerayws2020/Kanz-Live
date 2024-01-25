@@ -54,25 +54,25 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
 
         Log.e("***" , "here")
         navController = Navigation.findNavController(view)
-        binding.includeTap.profile.setOnClickListener {
-
-            if (HelperUtils.getUid(requireContext()) == "0"){
-                Toast.makeText(context,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
-
-                startActivity(Intent(requireContext(), SplashScreen::class.java))
-
-            }else {
-                pauseAllVideos()
-                binding.vidRec.adapter = null
-
-                navController.navigate(R.id.yourChannelFragment)
-
-
-            }
-
-
-            //
-        }
+//        binding.includeTap.profile.setOnClickListener {
+//
+//            if (HelperUtils.getUid(requireContext()) == "0"){
+//                Toast.makeText(context,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
+//
+//                startActivity(Intent(requireContext(), SplashScreen::class.java))
+//
+//            }else {
+//                pauseAllVideos()
+//                binding.vidRec.adapter = null
+//
+//                navController.navigate(R.id.yourChannelFragment)
+//
+//
+//            }
+//
+//
+//            //
+//        }
 
         setupRecycler()
 

@@ -114,13 +114,16 @@ class UploadeVedio : AppCompatActivity() {
             }
         }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadeVedioBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Initialize your views
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        binding.includeTap.title.text = "رفع مقطع"
+        binding.includeTap.title.text = "تحميل الفيديو"
+        binding.includeTap.title.setTextColor(R.color.green)
+        
 
         binding.includeTap.back.setOnClickListener {
 
