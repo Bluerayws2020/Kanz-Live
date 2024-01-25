@@ -57,8 +57,7 @@ class VideoListFragment : Fragment() {
         isLoading = true
         binding.shimmerView.startShimmer()
 
-        Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 0  user_profile_uid : $userIdes")
-        mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
+       mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
 
         setupRecyclerView()
         getMainVidos()
@@ -68,7 +67,7 @@ class VideoListFragment : Fragment() {
 
 
 
-    var extraItemsAdded = false
+
     private fun loadMoreItems() {
         Log.d("****", "loadMoreItems  $noMoreData   $count")
         if (noMoreData || count == 0) {
@@ -154,8 +153,6 @@ class VideoListFragment : Fragment() {
                                 Log.d("AdaptiveLink", item.id)
                             }
 
-                            Log.d("*****1", item.id)
-
                             newArrVideoModel.add(
                                 NewAppendItItems(
                                     item.title,
@@ -184,10 +181,9 @@ class VideoListFragment : Fragment() {
 
                                 )
                             )
-
-                        //    addExtraItems()
                         }
 
+                        addExtraItems()
                         videoAdapter.notifyDataSetChanged()
                         binding.progressBar.hide()
                         isLoading = false
@@ -209,24 +205,30 @@ class VideoListFragment : Fragment() {
 
 
     fun addExtraItems(){
-        Log.d("***", "count: $count")
-        if (!extraItemsAdded  && (count % 3 != 0)){
 
-            extraItemsAdded = true
-            var extra = newArrVideoModel[0]
-            extra.videoUrl.let { "-1" }
-
-            if (!extraItemsAdded  && (count % 3 == 1)) {
-                Log.d("***1", "count: $count")
+        clearExtra()
+        Log.d("***2", "count:${newArrVideoModel.count()}")
+        if ( newArrVideoModel.count() % 3 != 0){
+            var extra = NewAppendItItems("", "", "", "-1", "", "", 0, "",
+                "", "", "", "", "", "", "", "", null, null,
+                0, 0, 0
+            )
+            if (newArrVideoModel.count() % 3 == 1) {
                 newArrVideoModel.add(extra)
                 newArrVideoModel.add(extra)
             }
-            if (!extraItemsAdded  && (count % 3 == 2)) {
-                Log.d("***2", "count: $count")
+            if (newArrVideoModel.count() % 3 == 2) {
                 newArrVideoModel.add(extra)
             }
         }
     }
+
+    fun clearExtra(){
+        newArrVideoModel.removeIf { item ->
+            item.videoUrl == "-1"
+        }
+    }
+
     fun setupRecyclerView() {
 
         binding.videosRv.layoutManager = GridLayoutManager(requireContext(), 3)

@@ -402,6 +402,8 @@ class PartitionChannelFragment : Fragment() {
                         )
 
                     }
+
+                    addExtraItems()
                     videoAdapter.notifyDataSetChanged()
                     binding.progressBar.hide()
                     isLoading = false
@@ -417,6 +419,31 @@ class PartitionChannelFragment : Fragment() {
 
                 is NetworkResults.NoInternet -> TODO()
             }
+        }
+    }
+
+    fun addExtraItems(){
+
+        clearExtra()
+        Log.d("***2", "count:${newArrVideoModel.count()}")
+        if ( newArrVideoModel.count() % 3 != 0){
+            var extra = NewAppendItItems("", "", "", "-1", "", "", 0, "",
+                "", "", "", "", "", "", "", "", null, null,
+                0, 0, 0
+            )
+            if (newArrVideoModel.count() % 3 == 1) {
+                newArrVideoModel.add(extra)
+                newArrVideoModel.add(extra)
+            }
+            if (newArrVideoModel.count() % 3 == 2) {
+                newArrVideoModel.add(extra)
+            }
+        }
+    }
+
+    fun clearExtra(){
+        newArrVideoModel.removeIf { item ->
+            item.videoUrl == "-1"
         }
     }
 

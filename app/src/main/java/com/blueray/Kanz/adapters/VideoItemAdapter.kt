@@ -1,5 +1,6 @@
 package com.blueray.Kanz.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -46,6 +47,7 @@ class VideoItemAdapter(
 
     override fun getItemCount(): Int = arrVideo.size
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val videoItem = arrVideo[position]
 
@@ -54,15 +56,13 @@ class VideoItemAdapter(
             clikc.OnVideoClic(position)
         }
 
-
 //        val videoPath = videoItem.videoUrl
-
 
         holder.apply {
             Log.d("RTYU", videoItem.imageThum)
 
-            if(videoItem.videoUrl == "-1")
-                binding.rel.hide()
+            if(videoItem.videoUrl != "-1")
+                binding.rel.show()
 
             if (videoItem.imageThum.isNullOrEmpty() || videoItem.imageThum == "https://i.vimeocdn.com/video/default") {
 
@@ -94,7 +94,7 @@ class VideoItemAdapter(
                 binding.progressBar.playAnimation()
                 binding.gifs.hide()
 
-                binding.progressBar.show()
+               // binding.progressBar.show()
 
             } else {
                 binding.progressBar.hide()

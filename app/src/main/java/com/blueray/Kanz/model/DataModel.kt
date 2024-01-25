@@ -344,7 +344,7 @@ data class NewAppendItItems(
     val videoDesc: String,
     val date: String,
 
-    val videoUrl: String,
+    var videoUrl: String,
     val userId: String,
     val userName: String,
     val duration: Int,

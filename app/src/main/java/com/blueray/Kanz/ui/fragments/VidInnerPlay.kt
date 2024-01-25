@@ -37,7 +37,6 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
     var isAuthintcted = false
 
 
-
     var isMyProfile = "0"
     private lateinit var binding: OneVidoShowBinding
     var arrVideoModel = ArrayList<NewAppendItItems>()
@@ -179,9 +178,8 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
             }
 
             override fun onProfileDeletVideo(pos: Int) {
-                showBottomSheet(pos)
-
-
+                if (isMyProfile == "1")
+                    showBottomSheet(pos)
             }
         }, this, this, 3001)
 
