@@ -19,6 +19,7 @@
         >
     <include
         layout="@layout/registration_new_app_bar"
+
         android:id="@+id/includeTab"
         />
     <include
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="اختر اهتماماتك"
-                android:textColor="@color/blue"
+                android:textColor="#51C777"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -88,7 +89,7 @@
                 android:layout_marginTop="3dp"
 android:text="اختر اهتماماتك لتجرب تجربة تصفح محتوى فريدة وممتعة وفقًا لاهتماماتك الشخصية"
                 android:textSize="11sp"
-                android:textColor="@color/green"
+                android:textColor="#6A6A6A"
                 android:textStyle="bold" />
 
             <TextView
@@ -122,27 +123,30 @@ android:text="اختر اهتماماتك لتجرب تجربة تصفح محت�
                 android:gravity="center"
                 >
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/nextBtn"
-                android:layout_width="@dimen/sb_size_100"
-                android:layout_height="60dp"
-                android:backgroundTint="@color/green"
-                android:text="التالي"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:cornerRadius="18dp"
-                android:layout_marginHorizontal="10dp"
-                 />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/nextBtn"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:backgroundTint="@color/green"
+                    android:text="التالي"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+
+                    app:cornerRadius="18dp" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/notNow"
-                    android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
                     android:text="ليس الان"
-                    android:backgroundTint="@color/lightGrey"
+                    android:backgroundTint="#C7CCE5"
+                    android:textColor="#293056"
                     android:textAllCaps="false"
                     app:cornerRadius="18dp"
-
-                     />
+                    android:layout_marginTop="5dp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -153,6 +157,7 @@ android:text="اختر اهتماماتك لتجرب تجربة تصفح محت�
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="@string/already_have_account" />
 
                 <TextView
@@ -160,7 +165,8 @@ android:text="اختر اهتماماتك لتجرب تجربة تصفح محت�
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_in"
-                    android:textColor="@color/green" />
+                    android:textColor="@color/green"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 

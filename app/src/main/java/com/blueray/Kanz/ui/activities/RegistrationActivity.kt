@@ -1,7 +1,5 @@
 package com.blueray.Kanz.ui.activities
 
-import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -10,11 +8,9 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-
 import androidx.appcompat.app.AppCompatDelegate
 import com.blueray.Kanz.R
 import com.blueray.Kanz.databinding.ActivityRegisterationBinding
@@ -56,7 +52,7 @@ class RegistrationActivity : BaseActivity() {
         var cityId = ""
         var numberOfBand = 0
         var bandName = ""
-
+        var userExists = false
     }
 
 
@@ -128,7 +124,9 @@ class RegistrationActivity : BaseActivity() {
                 } else if (binding.lastNameEt.text?.isEmpty() == true) {
                     binding.lastNameEt.setError("حقل ضروري ")
 
-               }
+               } else if (binding.userNameEt.text?.isEmpty() == true){
+                    binding.userNameEt.setError("حقل ضروري ")
+                }
                 else if(binding.female.isChecked == false && binding.male.isChecked == false){
                     showToast("يجب اختيار الجنس")
 
@@ -138,12 +136,13 @@ class RegistrationActivity : BaseActivity() {
                 }
                 else if (binding.password.text?.length!! < 8){
                     binding.password.setError("كلمة السر يجب ان تتكون على الاقل من 8 خانات")
+                } else  if(barithDate == ""){
+                    showToast("يجب اختيار تاريخ الميلاد")
                 }
                 else {
                     passwordTxt = binding.password.text.toString()
                     userName = binding.userNameEt.text.toString()
-                    startActivity(Intent(this, SecondRegistrationActivity::class.java))
-
+                    viewmodel.retriveCheckUserName(binding.userNameEt.text.toString())
                 }
 
 
@@ -218,7 +217,7 @@ class RegistrationActivity : BaseActivity() {
         getCountryLIst()
         viewmodel.retriveContry()
         getCityList()
-
+        getCheckUserName()
 
         binding.individualLayout.show()
         signupType = "1"
@@ -518,6 +517,33 @@ class RegistrationActivity : BaseActivity() {
             }
         }
     }
+
+    fun getCheckUserName() {
+        viewmodel.getCheckUserName().observe(this) { result ->
+            when (result) {
+                is NetworkResults.Success -> {
+                    if (result.data.msg.status == 200) {
+                        if (result.data.msg.exists == true) {
+                            userExists = true
+                            binding.userNameEt.setError("الاسم مستخدم")
+                        } else {
+                            startActivity(Intent(this, SecondRegistrationActivity::class.java))
+                        }
+                    } else {
+                        showToast("حدث خطأ")
+                    }
+                }
+
+                is NetworkResults.Error -> {
+                    Toast.makeText(this, result.exception.message.toString(), Toast.LENGTH_LONG)
+                        .show()
+                }
+
+                else -> {}
+            }
+        }
+    }
+
     private fun formatDate(year: Int, month: Int, day: Int): String {
         val calendar = Calendar.getInstance()
         calendar.set(year, month - 1, day) // Month is 0-based in Calendar

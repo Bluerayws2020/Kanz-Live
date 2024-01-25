@@ -31,6 +31,7 @@ import com.blueray.Kanz.R
 import com.blueray.Kanz.databinding.EditProfilessBinding
 import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
+import com.blueray.Kanz.helpers.ViewUtils.isInputEmpty
 import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.fragments.MyAccountFragment
@@ -109,45 +110,48 @@ class Profile : BaseActivity() {
 
         }
         binding.edits.setOnClickListener {
-            binding.progressBar.show()
-            if (binding.genderEt.text.toString() == "female" || binding.genderEt.text.toString() == "Female") {
-                gender = 1
-            } else if (binding.genderEt.text.toString() == "male" || binding.genderEt.text.toString() == "Male") {
-                gender = 2
+            if (binding.nameEt.isInputEmpty()){
+                binding.nameEt.setError("يجب ادخال الحقل")
             }
-            userPhoto = saveImageToFile(binding.userImagee)
-            imageFile.let { it1 ->
-                if (it1 != null) {
-                    mainViewModel.updateUserProfile(
-                        first_name = binding.nameEt.text.toString(),
-                        //todo: some required fields are not editable in the app
-                        last_name = userLastName,
-                        user_name = binding.userNameEt.text.toString(),
-                        email = binding.emailTxt.text.toString(),
-                        phone = binding.phoneTxt.text.toString(),
-                        country_phone_id = phoneId,
-                        sex = gender.toString(),
-                        barth_of_date = binding.birthDateTxt.text.toString(),
-                        profile_image = it1
-
-                    )
-                } else {
-                    userPhoto?.let { it2 ->
+            else{
+                binding.progressBar.show()
+                if (binding.genderEt.text.toString() == "female" || binding.genderEt.text.toString() == "Female") {
+                    gender = 1
+                } else if (binding.genderEt.text.toString() == "male" || binding.genderEt.text.toString() == "Male") {
+                    gender = 2
+                }
+                userPhoto = saveImageToFile(binding.userImagee)
+                imageFile.let { it1 ->
+                    if (it1 != null) {
                         mainViewModel.updateUserProfile(
                             first_name = binding.nameEt.text.toString(),
-                            last_name = userLastName,
                             user_name = binding.userNameEt.text.toString(),
                             email = binding.emailTxt.text.toString(),
                             phone = binding.phoneTxt.text.toString(),
                             country_phone_id = phoneId,
                             sex = gender.toString(),
                             barth_of_date = binding.birthDateTxt.text.toString(),
-                            profile_image = it2
+                            profile_image = it1
 
                         )
+                    } else {
+                        userPhoto?.let { it2 ->
+                            mainViewModel.updateUserProfile(
+                                first_name = binding.nameEt.text.toString(),
+                                user_name = binding.userNameEt.text.toString(),
+                                email = binding.emailTxt.text.toString(),
+                                phone = binding.phoneTxt.text.toString(),
+                                country_phone_id = phoneId,
+                                sex = gender.toString(),
+                                barth_of_date = binding.birthDateTxt.text.toString(),
+                                profile_image = it2
+
+                            )
+                        }
                     }
                 }
             }
+
 
 
         }
@@ -196,7 +200,7 @@ class Profile : BaseActivity() {
 
                     binding.phoneTxt.setText(data.results.phone)
                     binding.emailTxt.setText(data.results.email)
-                    binding.nameEt.setText(data.results.first_name)
+                    binding.nameEt.setText(data.results.first_name +" "+ data.results.last_name)
 
                     binding.genderEt.setText(data.results.sex.toString())
                     binding.birthDateTxt.setText(data.results.date_of_birth)

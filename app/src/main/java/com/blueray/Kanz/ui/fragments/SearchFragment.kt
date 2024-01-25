@@ -3,11 +3,13 @@ package com.blueray.Kanz.ui.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -53,6 +55,8 @@ binding.searchs.show()
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 // Perform your search operation here
                 binding.progressBar.show()
+                Toast.makeText(requireContext() , "Hello" , Toast.LENGTH_LONG).show()
+                Log.d("searchhhhhh" , "hello")
                 mainViewModel.retrivesearchTxt(binding.searchs.text.toString())
                 true
             } else {
@@ -75,18 +79,18 @@ binding.searchs.show()
         mainViewModel.getSerchData().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResults.Success -> {
-binding.progressBar.hide()
+                 binding.progressBar.hide()
 
 
-                    if(result.data.datass.isNullOrEmpty()){
+                    if(result.data.results.isNullOrEmpty()){
                         binding.noData.show()
                     }else {
                         binding.noData.hide()
 
                     }
-                    adapter = SearchAdapters(result.data.datass ,object : OnProfileSearch {
+                    adapter = SearchAdapters(result.data.results ,object : OnProfileSearch {
                         override fun onProfileTargetSearch(pos: Int) {
-                            var swipedItem  = result.data.datass[pos]
+                            var swipedItem  = result.data.results[pos]
                             val bundle = Bundle().apply {
 //                            if (swipedItem.type == "poet") {
 
@@ -98,37 +102,37 @@ binding.progressBar.hide()
                                 ) // Use your item's unique identifier
                                 putString(
                                     "userIdes",
-                                    swipedItem.uid
+                                    swipedItem.id.toString()
                                 ) // Use your item's unique identifier
                                 putString(
                                     "userImg",
-                                    swipedItem.picture
+                                    swipedItem.profile_image
                                 ) // Use your item's unique identifier
                                 putString(
                                     "fullname",
-                                    swipedItem.profile_data.first_name + swipedItem.profile_data.last_name
+                                    swipedItem.first_name + swipedItem.last_name
                                 ) // Use your item's unique identifier
 
                                 putString(
                                     "numOfFollowers",
-                                    swipedItem.autherFoloower.numOfFollowers.toString()
+                                    ""
                                 ) // Use your item's unique identifier
 
                                 putString(
                                     "numOfFollowing",
-                                    swipedItem.autherFoloower.numOfFollowing.toString()
+                                    ""
                                 ) // Use your item's unique identifier
 
 
                                 putString(
                                     "numOfLikes",
-                                    swipedItem.autherFoloower.numOfLikes.toString()
+                                    ""
                                 ) // Use your item's unique identifier
 
 
                                 putString(
                                     "target_user_follow_flag",
-                                    swipedItem.autherFoloower.numOfLikes.toString()
+                                    ""
                                 ) // Use your item's unique identifier
 
 

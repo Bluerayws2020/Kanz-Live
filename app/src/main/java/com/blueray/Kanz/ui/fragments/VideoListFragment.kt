@@ -56,7 +56,7 @@ class VideoListFragment : Fragment() {
         isLoading = true
         binding.shimmerView.startShimmer()
         Log.d("***", userIdes)
-        mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
+        mainViewModel.retriveUserVideos("7", userIdes, "0", currentPage.toString())
 
         setupRecyclerView()
         getMainVidos()
@@ -146,7 +146,7 @@ class VideoListFragment : Fragment() {
                                     it.rendition == "adaptive" || it.rendition == "360"
                                 }
                                 vidLink = adaptiveFile?.link ?: item.file
-                                Log.d("AdaptiveLink", vidLink)
+                                Log.d("AdaptiveLink", item.id)
                             }
 
                             newArrVideoModel.add(

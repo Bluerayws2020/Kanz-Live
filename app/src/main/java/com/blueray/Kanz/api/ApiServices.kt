@@ -1,5 +1,6 @@
 package com.blueray.Kanz.api
 
+import com.blueray.Kanz.model.CheckUserNameResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetProfileResponse
@@ -7,10 +8,12 @@ import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
 import com.blueray.Kanz.model.MessageModel
+import com.blueray.Kanz.model.Msg
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.RegisterModel
 import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
+import com.blueray.Kanz.model.SearchResponse
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserActionMessageModel
@@ -235,14 +238,13 @@ interface ApiServices {
 
 
     @Multipart
-    @POST("ar/app/delete-poetry")
+    @POST("user/deleteVideo")
     suspend fun deletVideo(
+        @Header("Authorization")  bearerToken: String,
+        @Part("video_id") video_id:RequestBody,
+        @Part("lang") lang: RequestBody
 
-
-        @Part("uid") uid: RequestBody,
-        @Part("id") id: RequestBody,
-
-        ): UpdateProfileResponse
+        ): MessageModel
 
     @Multipart
     @POST("app/notifications")
@@ -253,15 +255,19 @@ interface ApiServices {
 
 
     @Multipart
-    @POST("app/search")
+    @POST("user/searchForUser")
     suspend fun getSearch(
 
+        @Header("Authorization") bearerToken: String,
+        @Part("text") text:RequestBody
 
-        @Part("uid") uid: RequestBody,
-        @Part("search_key") SearchDataModel: RequestBody,
-
-        ): SearchDataModel
-
+        ): SearchResponse
+        @Multipart
+        @POST("user/checkUserNameExists")
+        suspend fun checkUserName(
+            @Header("Authorization") bearerToken: String,
+            @Part("user_name") user_name: RequestBody
+        ): CheckUserNameResponse
 
     @Multipart
     @POST("app/check-user-follow")
@@ -302,7 +308,8 @@ interface ApiServices {
         @Part("phone") phone: RequestBody,
         @Part("country_phone_id") country_phone_id: RequestBody,
         @Part("email") email: RequestBody,
-        @Part image_profile :MultipartBody.Part
+        @Part image_profile :MultipartBody.Part,
+        @Part("lang") lang: RequestBody
     ): UpdateProfileResponse
 
     @GET("app/nationality-list")

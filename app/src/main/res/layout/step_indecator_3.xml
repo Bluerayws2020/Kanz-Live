@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/firstIcon"
         android:layout_width="35dp"
         android:layout_height="35dp"
@@ -18,7 +18,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="1"
+        android:src="@drawable/usericon"
+        android:padding="6dp"
         />
 
     <TextView
@@ -26,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/personal_data"
-        android:textColor="@color/blue"
+        android:textColor="#51C777"
         android:textSize="9sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,11 +52,11 @@
     <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-    <TextView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/thirdIcon"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         app:cornerRadius="100dp"
         android:textSize="16sp"
         android:textAlignment="center"
@@ -64,7 +65,8 @@
         app:layout_constraintStart_toEndOf="@id/firstOption"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="2"
+        android:src="@drawable/whitehearticon"
+        android:padding="6.5dp"
         />
 
 
@@ -74,7 +76,7 @@
         android:layout_height="wrap_content"
 
         android:text="الاهتمامات"
-        android:textColor="@color/blue"
+        android:textColor="#51C777"
         android:textSize="9sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -82,11 +84,11 @@
         app:layout_constraintStart_toStartOf="@+id/thirdIcon"
         app:layout_constraintTop_toBottomOf="@+id/thirdIcon" />
 
-    <TextView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fourthOption"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         app:cornerRadius="100dp"
         android:textSize="16sp"
         android:textAlignment="center"
@@ -95,7 +97,8 @@
         app:layout_constraintStart_toEndOf="@id/thirdOption"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="3"
+        android:src="@drawable/whitepenicon"
+        android:padding="7dp"
         />
 
 
@@ -105,13 +108,29 @@
         android:layout_height="wrap_content"
 
         android:text="@string/registration"
-        android:textColor="@color/blue"
+        android:textColor="#51C777"
         android:textSize="9sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/fourthOption"
         app:layout_constraintStart_toStartOf="@+id/fourthOption"
         app:layout_constraintTop_toBottomOf="@+id/fourthOption" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="#293056"
+        app:layout_constraintBottom_toBottomOf="@id/firstIcon"
+        app:layout_constraintEnd_toStartOf="@id/thirdIcon"
+        app:layout_constraintStart_toEndOf="@id/firstIcon"
+        app:layout_constraintTop_toTopOf="@id/firstIcon" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="#293056"
+        app:layout_constraintBottom_toBottomOf="@id/firstIcon"
+        app:layout_constraintEnd_toStartOf="@id/fourthOption"
+        app:layout_constraintStart_toEndOf="@id/thirdIcon"
+        app:layout_constraintTop_toTopOf="@id/firstIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,19 +51,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="@string/enter_information"
-                        android:textColor="@color/brown"
+                        android:textColor="#51C777"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Enter your personal information below, then click “Next” to continue registration."
-                        android:textColor="@color/lightGreen"
-                        android:textSize="12sp"
+
+                        android:text="ادخل بياناتك الشخصية التالية ثم اضغط “التالي” لمتابعة التسجيل."
+                        android:textColor="#6A6A6A"
+                        android:textSize="11sp"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                         />
 
                     <RadioGroup
                         android:id="@+id/radioGroup"
@@ -503,7 +503,9 @@
                                     android:calendarViewShown="false"
                                     android:spinnersShown="true"
                                     android:format24Hour="d/M/yyyy"
-                                    android:datePickerMode="spinner"/>
+                                    android:datePickerMode="spinner"
+
+                                    android:maxDate="2/1/2009"/>
 <!--                                <EditText-->
 <!--                                    android:id="@+id/dateOfBirthDatePicker"-->
 <!--                                    style="@style/ThemeOverlay.Material3.MaterialTimePicker"-->
@@ -538,7 +540,8 @@
                                 android:id="@+id/genderRadioGroup"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp">
+                                android:layout_marginStart="10dp"
+                                android:orientation="horizontal">
 
                                 <RadioButton
                                     android:id="@+id/male"
@@ -546,7 +549,8 @@
                                     android:layout_height="@dimen/sb_size_30"
                                     android:buttonTint="@color/green"
                                     android:text="ذكر"
-                                    android:textColor="@color/green" />
+                                    android:textColor="@color/green"
+                                    />
 
                                 <RadioButton
                                     android:id="@+id/female"
@@ -573,9 +577,7 @@
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         app:cornerRadius="8dp"
-                        app:icon="@drawable/forword"
-                        app:iconGravity="textEnd"
-                        app:iconSize="15dp" />
+                         />
 
                     <LinearLayout
                         android:layout_width="wrap_content"

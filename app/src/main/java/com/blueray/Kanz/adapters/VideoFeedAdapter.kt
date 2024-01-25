@@ -171,7 +171,7 @@ class VideoFeedAdapter(
 
             holder.binding.deltBtn.show()
         } else {
-            holder.binding.deltBtn.hide()
+
 
         }
         Log.d("LikkkesCountss", videoUrls[position].video_counts?.like_count.toString())

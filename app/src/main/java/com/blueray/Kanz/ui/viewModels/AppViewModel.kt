@@ -7,17 +7,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.blueray.Kanz.api.NetworkRepository
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.model.CheckUserNameResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
+import com.blueray.Kanz.model.MessageModel
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.RegisterModel
 import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
+import com.blueray.Kanz.model.SearchResponse
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
@@ -54,7 +57,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val getFlagContetntLive = MutableLiveData<NetworkResults<VideoDataModel>>()
     private val getNotficationLive = MutableLiveData<NetworkResults<NotfiMain>>()
 
-    private val getSearchLive = MutableLiveData<NetworkResults<SearchDataModel>>()
+    private val getSearchLive = MutableLiveData<NetworkResults<SearchResponse>>()
 
     private val getUserVideosLive = MutableLiveData<NetworkResults<VideoDataModel>>()
     private val viewMyPrfofile = MutableLiveData<NetworkResults<GetProfileResponse>>()
@@ -66,6 +69,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val coityLiveData = MutableLiveData<NetworkResults<List<DropDownModel>>>()
     private val countyLiveData = MutableLiveData<NetworkResults<MainJsonDropDownModel>>()
     private val getCheckFollowId = MutableLiveData<NetworkResults<checkUserFollowData>>()
+    private val getCheckUserName = MutableLiveData<NetworkResults<CheckUserNameResponse>>()
 
     private val genderLive = MutableLiveData<NetworkResults<List<DropDownModel>>>()
     private val categroLive = MutableLiveData<NetworkResults<MainJsonDropDownModelHashTag>>()
@@ -79,7 +83,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val setActions = MutableLiveData<NetworkResults<UserActionMessageModel>>()
     private val updateUserLive = MutableLiveData<NetworkResults<UpdateProfileResponse>>()
 
-    private val deletVideoLive = MutableLiveData<NetworkResults<UpdateProfileResponse>>()
+    private val deletVideoLive = MutableLiveData<NetworkResults<MessageModel>>()
 
 
     fun retriveMainVideos(page: Int, pageLimit: Int, ishome: String) {
@@ -92,10 +96,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun getMainVideos() = getVideosLive
 
 
-    fun retriveDeleteVideo(id: String) {
-
+    fun retriveDeleteVideo(video_id: String) {
+        val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            deletVideoLive.value = repo.getDeletVideos(userId, id)
+            deletVideoLive.value = repo.getDeletVideos(authToken, video_id)
         }
     }
 
@@ -121,10 +125,10 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun getNotifcation() = getNotficationLive
 
 
-    fun retrivesearchTxt(txt: String) {
-
+    fun retrivesearchTxt(text: String) {
+        val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getSearchLive.value = repo.getSearchContent(userId, txt)
+            getSearchLive.value = repo.getSearchContent(authToken, text)
         }
     }
 
@@ -188,7 +192,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateUserProfile(
         first_name: String,
-        last_name: String,
         user_name: String,
         email: String,
         phone: String,
@@ -202,7 +205,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             val authToken = "Bearer $userToken"
             updateUserLive.value = repo.getEditProfile(
                 authToken,
-               full_name = first_name +" "+ last_name,
+               full_name = first_name ,
                 user_name =  user_name,
                 email = email,
                 phone = phone,
@@ -318,6 +321,14 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getFollowCheckUser() = getCheckFollowId
 
+    fun retriveCheckUserName(user_name: String){
+        val authToken = "Bearer $userToken"
+        viewModelScope.launch {
+            getCheckUserName.postValue(repo.checkUserName(authToken , user_name))
+        }
+
+    }
+    fun getCheckUserName() = getCheckUserName
     fun retriveGender() {
         viewModelScope.launch {
             genderLive.value = repo.getGender()

@@ -3,16 +3,19 @@ package com.blueray.Kanz.api
 import android.util.Base64
 import android.util.Log
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.model.CheckUserNameResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
 import com.blueray.Kanz.model.MainJsonFollowersFollowingData
+import com.blueray.Kanz.model.MessageModel
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NotfiMain
 import com.blueray.Kanz.model.RegisterModel
 import com.blueray.Kanz.model.RgetrationModel
 import com.blueray.Kanz.model.SearchDataModel
+import com.blueray.Kanz.model.SearchResponse
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserActionMessageModel
@@ -23,11 +26,9 @@ import com.blueray.Kanz.model.VimeoVideoModelV2
 import com.blueray.Kanz.model.checkUserFollowData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.IOException
@@ -234,21 +235,23 @@ object NetworkRepository {
 
 
     suspend fun getDeletVideos(
-        uid: String,
+        bearerToken: String,
+        video_id: String
 
-        id: String,
 
-
-        ): NetworkResults<UpdateProfileResponse> {
+    ): NetworkResults<MessageModel> {
         return withContext(Dispatchers.IO) {
 
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val idBody = id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val video_idBody = video_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val lang = HelperUtils.LANG2.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
             try {
                 val results = ApiClient.retrofitService.deletVideo(
-                    uidBody,
-                    idBody
+                    bearerToken = bearerToken,
+                    video_id = video_idBody,
+                    lang = lang
+
+
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
@@ -284,21 +287,20 @@ object NetworkRepository {
     }
 
     suspend fun getSearchContent(
-        uid: String,
+        bearerToken: String,
+        text:String
 
-        search_key: String,
 
-
-        ): NetworkResults<SearchDataModel> {
+        ): NetworkResults<SearchResponse> {
         return withContext(Dispatchers.IO) {
 
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val search_keyBody = search_key.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val textBody = text.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
 
             try {
                 val results = ApiClient.retrofitService.getSearch(
-                    uidBody,
-                    search_keyBody
+                    bearerToken,
+                    textBody
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
@@ -460,7 +462,7 @@ object NetworkRepository {
             val genderBody = sex.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val barth_of_dateBody =
                 barth_of_date.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
+            val lang = HelperUtils.LANG2.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val commercial_recordBody =
                 RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image)
             val commercial_record_part  =  MultipartBody.Part.createFormData("profile_image", profile_image.name, commercial_recordBody)
@@ -475,7 +477,8 @@ object NetworkRepository {
                     phone = phoneBody,
                     country_phone_id = country_phone_idBody,
                     email = emailBody,
-                    image_profile = commercial_record_part
+                    image_profile = commercial_record_part,
+                    lang
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception){
@@ -503,6 +506,20 @@ object NetworkRepository {
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
+                NetworkResults.Error(e)
+            }
+        }
+    }
+    suspend fun checkUserName(
+        bearerToken: String,
+        user_name: String
+    ):NetworkResults<CheckUserNameResponse>{
+        return withContext(Dispatchers.IO){
+            val user_nameBody = user_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            try {
+                val results =ApiClient.retrofitService.checkUserName(bearerToken,user_nameBody)
+                NetworkResults.Success(results)
+            }catch (e:Exception){
                 NetworkResults.Error(e)
             }
         }

@@ -172,7 +172,7 @@ class SavedVideoFragment : Fragment() {
                                     it.rendition == "adaptive" || it.rendition == "360"
                                 }
                                 vidLink = adaptiveFile?.link ?: item.file
-                                Log.d("AdaptiveLink", vidLink)
+                                Log.d("AdaptiveLink", item.id)
                             }
 
                             if (item.video_actions_per_user.save == "true") {

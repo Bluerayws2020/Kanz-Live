@@ -398,6 +398,30 @@ data class checkUserFollowData(
 
 
     )
+data class SearchResponse(
+    val msg: SearchMsg,
+    val results: List<SearchResult>
+)
+data class SearchMsg(
+    val message: String,
+    val status: Int
+)
+data class SearchResult(
+    val email: String,
+    val first_name: String,
+    val id: Int,
+    val last_name: String,
+    val phone: String,
+    val profile_image: String,
+    val user_name: String
+)
+data class CheckUserNameResponse(
+    val msg: CheckMsg
+)
+data class CheckMsg(
+    val exists: Boolean,
+    val status: Int
+)
 
 data class CheckUserFollow(
     @SerializedName("im_follow_him") val im_follow_him: String,
