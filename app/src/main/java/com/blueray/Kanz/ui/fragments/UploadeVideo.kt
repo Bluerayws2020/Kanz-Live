@@ -844,8 +844,8 @@ class UploadeVedio : AppCompatActivity() {
         }
 
         if (newSize.isNotBlank()) {
-            binding.newSize.text = " Size after compression : $newSize"
-            binding.newSize.visibility = View.VISIBLE
+//            binding.newSize.text = " Size after compression : $newSize"
+//            binding.newSize.visibility = View.VISIBLE
         } else {
             binding.newSize.visibility = View.GONE
         }

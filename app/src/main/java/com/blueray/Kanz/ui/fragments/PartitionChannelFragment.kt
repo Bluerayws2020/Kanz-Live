@@ -136,6 +136,7 @@ class PartitionChannelFragment : Fragment() {
         binding.progressBar.show()
         isLoading = true
         binding.shimmerView.startShimmer()
+        Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
         mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
         mainViewModel.retriveUserProfile(userIdes)
         setRecyclerView()
@@ -374,7 +375,7 @@ class PartitionChannelFragment : Fragment() {
 
                         }
 
-
+                        Log.d("*****2", item.id)
                         newArrVideoModel.add(
                             NewAppendItItems(
                                 item.title,
@@ -428,7 +429,8 @@ class PartitionChannelFragment : Fragment() {
             currentPage++
             binding.progressBar.show()
             isLoading = true
-            mainViewModel.retriveUserVideos("6", userIdes, "1", currentPage.toString())
+            Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
+            mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
         }
     }
 
