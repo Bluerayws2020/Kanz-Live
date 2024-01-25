@@ -52,13 +52,12 @@ class VideoListFragment : Fragment() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
 
-        binding.progressBar.show()
+        //binding.progressBar.show()
         isLoading = true
         binding.shimmerView.startShimmer()
         Log.d("***", userIdes)
         mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
 
-        binding.progressBar.show()
         setupRecyclerView()
         getMainVidos()
         return binding.root
@@ -132,11 +131,11 @@ class VideoListFragment : Fragment() {
                 is NetworkResults.Success -> {
 
                     if (result.data.datass == null && count == 0) {
-                        binding.noData.show()
+                        //binding.noData.show()
                         binding.videosRv.hide()
 
                     } else {
-                        binding.noData.hide()
+                        //binding.noData.hide()
                         binding.videosRv.show()
                         count += result.data.datass?.count() ?: 0
 
