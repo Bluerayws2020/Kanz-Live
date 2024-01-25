@@ -199,9 +199,7 @@
     <string name="enter_confimation_number">Enter Confimation Number</string>
 
 
-
-
-<!--    Vid Sdk-->
+    <!--    Vid Sdk-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="mic_status">Mic Status</string>
     <string name="toggle_camera">Toggle Camera</string>

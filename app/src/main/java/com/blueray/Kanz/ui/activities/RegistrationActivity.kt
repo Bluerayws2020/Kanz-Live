@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -92,11 +93,26 @@ class RegistrationActivity : BaseActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         HelperUtils.setDefaultLanguage(this, "ar")
 
+//        val calendar = Calendar.getInstance()
+//        calendar.set(2003, Calendar.JUNE, 21)
+//        binding.datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) ,
+//            { view, year, monthOfYear, dayOfMonth ->
+//                val selectedDate = formatDate(year, monthOfYear + 1, dayOfMonth)
+//                barithDate = selectedDate
+//            })
+        binding.dayPicker.minValue = 1
+        binding.dayPicker.maxValue = 31
 
-        binding.datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
-            val selectedDate = formatDate(year, monthOfYear + 1, dayOfMonth)
-            barithDate = selectedDate
-        }
+// Set up month picker
+        binding.monthPicker.minValue = 1
+        binding.monthPicker.maxValue = 12
+
+// Set up year picker
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        binding.yearPicker.minValue = currentYear - 100 // Set an appropriate range for years
+        binding.yearPicker.maxValue = currentYear
+        binding.yearPicker.value = 1970
+
 
 
         binding.signInBtn.setOnClickListener {
@@ -108,6 +124,8 @@ class RegistrationActivity : BaseActivity() {
             lastName = binding.lastNameEt.text.toString()
           //  barithDate = binding.dateOfBirthDatePicker.text.toString()
             firstName = binding.firstNameEt.text.toString()
+            val selectedDate = formatDate(binding.yearPicker.value, binding.monthPicker.value, binding.dayPicker.value)
+            barithDate = selectedDate
             if (binding.female.isChecked) {
                 genderId = "1"
             } else {

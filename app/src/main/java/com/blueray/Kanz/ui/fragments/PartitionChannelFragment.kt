@@ -136,13 +136,12 @@ class PartitionChannelFragment : Fragment() {
         binding.progressBar.show()
         isLoading = true
         binding.shimmerView.startShimmer()
-        Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
         mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
         mainViewModel.retriveUserProfile(userIdes)
         setRecyclerView()
         getMainVidos()
 
-        Log.d("***", userIdes)
+        Log.d("*", userIdes)
 
         binding.followersLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
@@ -170,7 +169,7 @@ class PartitionChannelFragment : Fragment() {
 //        // Initial layout as Grid
 //        binding.videosRv.layoutManager = GridLayoutManager(requireContext(), 3)
 //        binding.videosRv.adapter = videoAdapter
-
+Log.d("drtyui",newArrVideoModel.toString())
     }
 
     private fun getUserProfile() {
@@ -192,15 +191,15 @@ class PartitionChannelFragment : Fragment() {
                                 mainViewModel.retriveUserProfile(userIdes)
                             }
                         }
-                            binding.btnUnfollow.setOnClickListener {
-                                mainViewModel.retriveSetAction(userIdes, "user", "following")
-                                binding.btnFollow.show()
-                                it.hide()
-                                GlobalScope.launch {
-                                    delay(200)
-                                    mainViewModel.retriveUserProfile(userIdes)
-                                }
+                        binding.btnUnfollow.setOnClickListener {
+                            mainViewModel.retriveSetAction(userIdes, "user", "following")
+                            binding.btnFollow.show()
+                            it.hide()
+                            GlobalScope.launch {
+                                delay(200)
+                                mainViewModel.retriveUserProfile(userIdes)
                             }
+                        }
 
 
                     } else {
@@ -214,15 +213,15 @@ class PartitionChannelFragment : Fragment() {
                                 mainViewModel.retriveUserProfile(userIdes)
                             }
                         }
-                            binding.btnFollow.setOnClickListener {
-                                mainViewModel.retriveSetAction(userIdes, "user", "following")
-                                binding.btnUnfollow.show()
-                                it.hide()
-                                GlobalScope.launch {
-                                    delay(200)
-                                    mainViewModel.retriveUserProfile(userIdes)
-                                }
+                        binding.btnFollow.setOnClickListener {
+                            mainViewModel.retriveSetAction(userIdes, "user", "following")
+                            binding.btnUnfollow.show()
+                            it.hide()
+                            GlobalScope.launch {
+                                delay(200)
+                                mainViewModel.retriveUserProfile(userIdes)
                             }
+                        }
 
 
                     }
@@ -343,14 +342,14 @@ class PartitionChannelFragment : Fragment() {
 
                     if (result.data.datass == null && count == 0) {
 
-                        //binding.noData.show()
+                        binding.noData.show()
                         binding.videosRv.hide()
                         //isLoading = true // Reset loading flag here
 
 
                     } else {
 
-                       // binding.noData.hide()
+                        binding.noData.hide()
                         binding.videosRv.show()
                         followFlag = result.data.target_user?.target_user_follow_flag.toString()
                         count += result.data.datass?.count() ?: 0
@@ -369,13 +368,13 @@ class PartitionChannelFragment : Fragment() {
                                 item.vimeo_detials.files.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
                             vidLink = adaptiveFile?.link ?: item.file
 
-                            //                            Log.e("***", item.vimeo_detials.files.toString())
+                            //                            Log.e("*", item.vimeo_detials.files.toString())
                             Log.d("AdaptiveLink", item.id)
                             Log.d("hellohelloworld", " item.id : " + item.id)
 
                         }
 
-                        Log.d("*****2", item.id)
+
                         newArrVideoModel.add(
                             NewAppendItItems(
                                 item.title,
@@ -402,8 +401,6 @@ class PartitionChannelFragment : Fragment() {
                         )
 
                     }
-
-                    addExtraItems()
                     videoAdapter.notifyDataSetChanged()
                     binding.progressBar.hide()
                     isLoading = false
@@ -422,42 +419,16 @@ class PartitionChannelFragment : Fragment() {
         }
     }
 
-    fun addExtraItems(){
-
-        clearExtra()
-        Log.d("***2", "count:${newArrVideoModel.count()}")
-        if ( newArrVideoModel.count() % 3 != 0){
-            var extra = NewAppendItItems("", "", "", "-1", "", "", 0, "",
-                "", "", "", "", "", "", "", "", null, null,
-                0, 0, 0
-            )
-            if (newArrVideoModel.count() % 3 == 1) {
-                newArrVideoModel.add(extra)
-                newArrVideoModel.add(extra)
-            }
-            if (newArrVideoModel.count() % 3 == 2) {
-                newArrVideoModel.add(extra)
-            }
-        }
-    }
-
-    fun clearExtra(){
-        newArrVideoModel.removeIf { item ->
-            item.videoUrl == "-1"
-        }
-    }
-
 
     private fun loadMoreItems() {
-        Log.d("****", "loadMoreItems  $noMoreData   $count")
+        Log.d("**", "loadMoreItems  $noMoreData   $count")
         if (noMoreData || count == 0) {
-            Log.d("****No MORE DATA ", "qwertyuiop[")
+            Log.d("**No MORE DATA ", "qwertyuiop[")
         } else {
             currentPage++
             binding.progressBar.show()
             isLoading = true
-            Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
-            mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
+            mainViewModel.retriveUserVideos("6", userIdes, "1", currentPage.toString())
         }
     }
 

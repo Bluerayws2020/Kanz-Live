@@ -21,15 +21,15 @@ import com.sendbird.live.AuthenticateParams
 import com.sendbird.live.SendbirdLive
 import com.sendbird.live.videoliveeventsample.util.EventObserver
 
+import android.os.Handler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
-import java.util.logging.Handler
 
 class SplashScreen : AppCompatActivity() {
 var uid = ""
     var token=""
-    private val SPLASH_DURATION = 4500L
+    private val SPLASH_DURATION = 6000L
 
 
     private lateinit var prefManager: PrefManager
@@ -44,50 +44,27 @@ var uid = ""
         uid = HelperUtils.getUid(this@SplashScreen)
         token=HelperUtils.getUserToken(this@SplashScreen)
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        val videoView: VideoView = findViewById(R.id.videoView)
-        val videoPath = "android.resource://" + packageName + "/" + R.raw.splashvideo
-        videoView.setVideoURI(Uri.parse(videoPath))
+        val imageViewSplash = findViewById<ImageView>(R.id.imageViewSplash)
 
-        videoView.setOnCompletionListener {
-            if (!uid.isNullOrEmpty() && uid != "0") {
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.kinz2) // Replace with your GIF resource
+            .into(imageViewSplash)
 
-                prefManager = PrefManager(this@SplashScreen)
-                (application as BaseApplication).initResultLiveData.observe(
-                    this@SplashScreen,
-                    EventObserver {
-                        if (it) {
-                            autoAuthenticate { isSucceed, e ->
-//                                if (e != null) showToast(e)
-
-
-                                val intent =
-                                    if (isSucceed) Intent(
-                                        this@SplashScreen,
-                                        HomeActivity::class.java
-                                    ) else
-
-                                        Intent(
-                                            this@SplashScreen,
-                                            LoginActivity::class.java
-                                        )
-                                startActivity(intent)
-                                finish()
-                            }
-                        } else {
-                            val intent = Intent(this@SplashScreen, HomeActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                    })
-            } else {
-                //make user use App
-
+        // Delayed execution for 2 seconds
+        Handler().postDelayed({
+                        if (!token.isNullOrEmpty() && token != "0") {
+                val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
+                startActivity(intent)
+                finish()}
+            else {
                 val intent = Intent(this@SplashScreen, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-        }
-        videoView.start()
+        }, SPLASH_DURATION)
+
+
 
 //        lifecycleScope.launch{
 //            delay(SPLASH_DURATION)

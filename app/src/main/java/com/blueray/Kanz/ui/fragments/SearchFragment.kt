@@ -55,8 +55,6 @@ binding.searchs.show()
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 // Perform your search operation here
                 binding.progressBar.show()
-                Toast.makeText(requireContext() , "Hello" , Toast.LENGTH_LONG).show()
-                Log.d("searchhhhhh" , "hello")
                 mainViewModel.retrivesearchTxt(binding.searchs.text.toString())
                 true
             } else {

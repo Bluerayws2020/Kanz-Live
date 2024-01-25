@@ -35,6 +35,7 @@ import com.blueray.Kanz.model.NewAppendItItems
 import com.blueray.Kanz.model.VideoResponse
 import com.blueray.Kanz.ui.activities.SplashScreen
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -76,7 +77,10 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.loadinggif) // Replace with your GIF resource
+            .into(binding.img)
 
         mainViewModel.retriveMainVideos(currentPage, 3, "1")
 
@@ -472,7 +476,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                         "userIdes",
                         swipedItem.userId
                     ) // Use your item's unique identifier
-                    Log.d("werstyuio", swipedItem.target_user?.target_user_follow_flag.toString())
+                    Log.d("werstyuio", swipedItem.userId)
 
 
 //                        } else {

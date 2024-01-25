@@ -42,6 +42,7 @@
     </style>
 
 
+
     <style name="AlertDialogCustom" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.App.CustomDialog.Rounded
         </item>

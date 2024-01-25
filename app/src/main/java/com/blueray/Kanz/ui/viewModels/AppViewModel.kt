@@ -236,14 +236,14 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun retriveUserVideos(
-         pagesize: String, user_profile_uid: String,
+         page_limit: String, user_profile_uid: String,
         is_home: String,
         page: String
     ) {
         val authToken = userToken
         viewModelScope.launch {
             getUserVideosLive.value =
-                repo.getVideosForUser(authToken, pagesize, user_profile_uid, is_home, page)
+                repo.getVideosForUser(authToken, page_limit, user_profile_uid, is_home, page)
         }
     }
 

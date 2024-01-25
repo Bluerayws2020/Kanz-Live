@@ -488,38 +488,29 @@
                                 android:text="@string/date_of_birth"
                                 android:textColor="@color/brown"
                                 android:textSize="14sp" />
-
-                            <androidx.cardview.widget.CardView
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                app:cardCornerRadius="5dp"
+                                android:layout_height="wrap_content">
+                                <NumberPicker
+                                    android:id="@+id/dayPicker"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1" />
 
-                                app:cardElevation="3dp">
-                                <DatePicker
-                                    android:id="@+id/datePicker"
-                                    android:layout_width="329dp"
-                                    android:layout_height="100dp"
-                                    android:calendarViewShown="false"
-                                    android:spinnersShown="true"
-                                    android:format24Hour="d/M/yyyy"
-                                    android:datePickerMode="spinner"
+                                <NumberPicker
+                                    android:id="@+id/monthPicker"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1" />
 
-                                    android:maxDate="2/1/2009"/>
-<!--                                <EditText-->
-<!--                                    android:id="@+id/dateOfBirthDatePicker"-->
-<!--                                    style="@style/ThemeOverlay.Material3.MaterialTimePicker"-->
-<!--                                    android:layout_width="329dp"-->
-<!--                                    android:layout_height="60dp"-->
-<!--                                    android:background="@drawable/custom_empty_background"-->
-<!--                                    android:editable="false"-->
-<!--                                    android:gravity="center|start"-->
-<!--                                    android:hint="12/12/1970"-->
-<!--                                    android:textColor="@color/lightGreen"-->
-<!--                                    android:theme="@style/DialogTheme" />-->
+                                <NumberPicker
+                                    android:id="@+id/yearPicker"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
 
+                                    android:layout_weight="1" />
+                            </LinearLayout>
 
-                            </androidx.cardview.widget.CardView>
                         </LinearLayout>
 
                         <LinearLayout

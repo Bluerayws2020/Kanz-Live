@@ -71,6 +71,10 @@ class VideoListFragment : Fragment() {
     private fun loadMoreItems() {
         Log.d("****", "loadMoreItems  $noMoreData   $count")
         if (noMoreData || count == 0) {
+           // binding.noData.show()
+            binding.progressBar.hide()
+            binding.shimmerView.stopShimmer()
+            binding.shimmerView.hide()
             Log.d("****No MORE DATA ", "qwertyuiop[")
         } else {
             currentPage++
@@ -127,7 +131,7 @@ class VideoListFragment : Fragment() {
 
     fun getMainVidos() {
         mainViewModel.getUserVideos().observe(viewLifecycleOwner) { result ->
-
+            binding.progressBar.hide()
             binding.shimmerView.stopShimmer()
             binding.shimmerView.hide()
             when (result) {
@@ -135,11 +139,11 @@ class VideoListFragment : Fragment() {
                 is NetworkResults.Success -> {
 
                     if (result.data.datass == null && count == 0) {
-                        //binding.noData.show()
+                        binding.noData.show()
                         binding.videosRv.hide()
-
+                        binding.progressBar.hide()
                     } else {
-                        //binding.noData.hide()
+                        binding.noData.hide()
                         binding.videosRv.show()
                         count += result.data.datass?.count() ?: 0
 
@@ -150,7 +154,7 @@ class VideoListFragment : Fragment() {
                                     it.rendition == "adaptive" || it.rendition == "360"
                                 }
                                 vidLink = adaptiveFile?.link ?: item.file
-                                Log.d("AdaptiveLinkzzz", item.auther.profile_data.user_picture)
+                                Log.d("AdaptiveLink", vidLink)
                             }
 
                             newArrVideoModel.add(
@@ -206,7 +210,7 @@ class VideoListFragment : Fragment() {
 
     fun addExtraItems(){
 
-        clearExtra()
+       // clearExtra()
         Log.d("***2", "count:${newArrVideoModel.count()}")
         if ( newArrVideoModel.count() % 3 != 0){
             var extra = NewAppendItItems("", "", "", "-1", "", "", 0, "",
