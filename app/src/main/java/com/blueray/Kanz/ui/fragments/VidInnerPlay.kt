@@ -86,7 +86,7 @@ class VidInnerPlay : AppCompatActivity(), VideoPlaybackControl {
         onBackPressedDispatcher.addCallback(this, callback)
 
         getDelVido()
-        binding.includeTap.profileBtn.setOnClickListener { navController.navigate(R.id.yourChannelFragment) }
+//        binding.includeTap.profileBtn.setOnClickListener { navController.navigate(R.id.yourChannelFragment) }
 
 
 //        val itemTouchHelperCallback = object :

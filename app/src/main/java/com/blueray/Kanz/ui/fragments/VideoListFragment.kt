@@ -147,7 +147,7 @@ class VideoListFragment : Fragment() {
                                     it.rendition == "adaptive" || it.rendition == "360"
                                 }
                                 vidLink = adaptiveFile?.link ?: item.file
-                                Log.d("AdaptiveLink", item.id)
+                                Log.d("AdaptiveLinkzzz", item.auther.profile_data.user_picture)
                             }
 
                             newArrVideoModel.add(
@@ -165,7 +165,7 @@ class VideoListFragment : Fragment() {
                                     lastName = item.auther.profile_data.last_name,
                                     type = item.auther.type,
                                     bandNam = item.auther.profile_data.band_name,
-                                    userPic = item.auther.profile_data.user_picture,
+                                    userPic = item.auther.profile_data.user_picture ?: "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788778547564820.jpg",
                                     status = item.moderation_state,
                                     favorites = item.video_actions_per_user.favorites.toString(),
                                     userSave = item.video_actions_per_user.save.toString(),

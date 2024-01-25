@@ -5,8 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
 import com.blueray.Kanz.databinding.ActivityLoginBinding
 import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
@@ -23,7 +27,7 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         HelperUtils.setDefaultLanguage(this,"ar")
         binding.signUpBtn.setOnClickListener {
@@ -70,6 +74,22 @@ class LoginActivity : BaseActivity() {
 //        binding.forgotPassword.setOnClickListener {
 //            startActivity(Intent(this,ForgetPasswordFirstActivity::class.java))
 //        }
+        val callback = object : OnBackPressedCallback(true ) {
+            override fun handleOnBackPressed() {
+                AlertDialog.Builder(this@LoginActivity)
+                    .setTitle("خروج")
+                    .setMessage("هل انت متاكد من الخروج؟")
+                    .setPositiveButton("نعم") { _, _ ->
+                        ActivityCompat.finishAffinity(this@LoginActivity)
+
+                    }
+                    .setNegativeButton("لا", null)
+                    .show()
+
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, callback)
 
     }
 
@@ -149,3 +169,4 @@ class LoginActivity : BaseActivity() {
        }
 
 }
+

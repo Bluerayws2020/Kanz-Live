@@ -15,6 +15,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
+
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -78,7 +79,7 @@ class Profile : BaseActivity() {
 
         getUpdateUserProfile()
 
-        binding.tollbars.logout.show()
+        binding.tollbars.logout.hide()
         binding.tollbars.logout.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(title)
