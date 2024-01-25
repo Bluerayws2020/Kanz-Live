@@ -4,7 +4,7 @@ import com.abedelazizshe.lightcompressorlibrary.VideoQuality
 
 data class Configuration(
     var quality: VideoQuality = VideoQuality.MEDIUM,
-    var isMinBitrateCheckEnabled: Boolean = true,
+    var isMinBitrateCheckEnabled: Boolean = false,
     var videoBitrateInMbps: Int? = null,
     var disableAudio: Boolean = false,
     val keepOriginalResolution: Boolean = false,

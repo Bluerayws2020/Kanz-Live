@@ -21,6 +21,7 @@ import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.NewAppendItItems
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import retrofit2.http.Query
 import java.util.ArrayList
 
 
@@ -52,13 +53,13 @@ class VideoListFragment : Fragment() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
 
-        binding.progressBar.show()
+        //binding.progressBar.show()
         isLoading = true
         binding.shimmerView.startShimmer()
-        Log.d("***", userIdes)
-        mainViewModel.retriveUserVideos("7", userIdes, "0", currentPage.toString())
 
-        binding.progressBar.show()
+        Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 0  user_profile_uid : $userIdes")
+        mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
+
         setupRecyclerView()
         getMainVidos()
         return binding.root
@@ -67,6 +68,7 @@ class VideoListFragment : Fragment() {
 
 
 
+    var extraItemsAdded = false
     private fun loadMoreItems() {
         Log.d("****", "loadMoreItems  $noMoreData   $count")
         if (noMoreData || count == 0) {
@@ -75,8 +77,10 @@ class VideoListFragment : Fragment() {
             currentPage++
             binding.progressBar.show()
             isLoading = true
-            mainViewModel.retriveUserVideos("6", userIdes, "1", currentPage.toString())
+           // Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 0  user_profile_uid : $userIdes")
+            mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
         }
+
     }
 
 
@@ -132,11 +136,11 @@ class VideoListFragment : Fragment() {
                 is NetworkResults.Success -> {
 
                     if (result.data.datass == null && count == 0) {
-                        binding.noData.show()
+                        //binding.noData.show()
                         binding.videosRv.hide()
 
                     } else {
-                        binding.noData.hide()
+                        //binding.noData.hide()
                         binding.videosRv.show()
                         count += result.data.datass?.count() ?: 0
 
@@ -149,6 +153,8 @@ class VideoListFragment : Fragment() {
                                 vidLink = adaptiveFile?.link ?: item.file
                                 Log.d("AdaptiveLinkzzz", item.auther.profile_data.user_picture)
                             }
+
+                            Log.d("*****1", item.id)
 
                             newArrVideoModel.add(
                                 NewAppendItItems(
@@ -178,6 +184,8 @@ class VideoListFragment : Fragment() {
 
                                 )
                             )
+
+                        //    addExtraItems()
                         }
 
                         videoAdapter.notifyDataSetChanged()
@@ -200,6 +208,25 @@ class VideoListFragment : Fragment() {
     }
 
 
+    fun addExtraItems(){
+        Log.d("***", "count: $count")
+        if (!extraItemsAdded  && (count % 3 != 0)){
+
+            extraItemsAdded = true
+            var extra = newArrVideoModel[0]
+            extra.videoUrl.let { "-1" }
+
+            if (!extraItemsAdded  && (count % 3 == 1)) {
+                Log.d("***1", "count: $count")
+                newArrVideoModel.add(extra)
+                newArrVideoModel.add(extra)
+            }
+            if (!extraItemsAdded  && (count % 3 == 2)) {
+                Log.d("***2", "count: $count")
+                newArrVideoModel.add(extra)
+            }
+        }
+    }
     fun setupRecyclerView() {
 
         binding.videosRv.layoutManager = GridLayoutManager(requireContext(), 3)

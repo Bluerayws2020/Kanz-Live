@@ -59,11 +59,11 @@ class SavedVideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        navController = Navigation.findNavController(view)
-        binding.progressBar.show()
+        //binding.progressBar.show()
 
         // mainViewModel.retriveFlagContent("save")
         isLoading = true
-        binding.shimmerView.startShimmer()
+        binding.shimmerView.hide()
         Log.d("***", userIdes)
         mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
         setupRecyclerView()
@@ -148,9 +148,10 @@ class SavedVideoFragment : Fragment() {
 
     fun getMainVidos() {
         mainViewModel.getUserVideos().observe(viewLifecycleOwner) { result ->
+            binding.progressBar.hide()
 
-            binding.shimmerView.stopShimmer()
-            binding.shimmerView.hide()
+//            binding.shimmerView.stopShimmer()
+//            binding.shimmerView.hide()
             when (result) {
 
                 is NetworkResults.Success -> {

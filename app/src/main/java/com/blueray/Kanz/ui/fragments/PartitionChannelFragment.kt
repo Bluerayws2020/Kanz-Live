@@ -136,6 +136,7 @@ class PartitionChannelFragment : Fragment() {
         binding.progressBar.show()
         isLoading = true
         binding.shimmerView.startShimmer()
+        Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
         mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
         mainViewModel.retriveUserProfile(userIdes)
         setRecyclerView()
@@ -342,14 +343,14 @@ class PartitionChannelFragment : Fragment() {
 
                     if (result.data.datass == null && count == 0) {
 
-                        binding.noData.show()
+                        //binding.noData.show()
                         binding.videosRv.hide()
                         //isLoading = true // Reset loading flag here
 
 
                     } else {
 
-                        binding.noData.hide()
+                       // binding.noData.hide()
                         binding.videosRv.show()
                         followFlag = result.data.target_user?.target_user_follow_flag.toString()
                         count += result.data.datass?.count() ?: 0
@@ -374,7 +375,7 @@ class PartitionChannelFragment : Fragment() {
 
                         }
 
-
+                        Log.d("*****2", item.id)
                         newArrVideoModel.add(
                             NewAppendItItems(
                                 item.title,
@@ -428,7 +429,8 @@ class PartitionChannelFragment : Fragment() {
             currentPage++
             binding.progressBar.show()
             isLoading = true
-            mainViewModel.retriveUserVideos("6", userIdes, "1", currentPage.toString())
+            Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
+            mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
         }
     }
 

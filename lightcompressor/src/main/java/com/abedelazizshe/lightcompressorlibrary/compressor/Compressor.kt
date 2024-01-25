@@ -30,7 +30,7 @@ import java.nio.ByteBuffer
 object Compressor {
 
     // 2Mbps
-    private const val MIN_BITRATE = 500000
+    private const val MIN_BITRATE = 50000
 
     // H.264 Advanced Video Coding
     private const val MIME_TYPE = "video/avc"

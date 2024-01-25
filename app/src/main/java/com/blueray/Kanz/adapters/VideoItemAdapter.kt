@@ -23,40 +23,48 @@ import java.io.FileOutputStream
 
 //import pl.droidsonroids.gif.GifImageView
 
-class VideoItemAdapter(var  flag :Int,
+class VideoItemAdapter(
+    var flag: Int,
     private var arrVideo: List<NewAppendItItems>,
-    private var clikc:VideoClick,
-   var context: Context,
+    private var clikc: VideoClick,
+    var context: Context,
     private var isLinearLayout: Boolean = false
 
 ) : RecyclerView.Adapter<VideoItemAdapter.MyViewHolder>() {
     fun setLinearLayoutMode(enabled: Boolean) {
         isLinearLayout = enabled
     }
-    inner class MyViewHolder(val binding: VideoListItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    inner class MyViewHolder(val binding: VideoListItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = VideoListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            VideoListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
     override fun getItemCount(): Int = arrVideo.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.setOnClickListener {
-            clikc.OnVideoClic(position)
-
-        }
         val videoItem = arrVideo[position]
+
+        holder.itemView.setOnClickListener {
+            if(videoItem.videoUrl != "-1")
+            clikc.OnVideoClic(position)
+        }
+
+
 //        val videoPath = videoItem.videoUrl
 
 
-
-
         holder.apply {
-            Log.d("RTYU",videoItem.imageThum)
+            Log.d("RTYU", videoItem.imageThum)
 
-            if (videoItem.imageThum.isNullOrEmpty() || videoItem.imageThum == "https://i.vimeocdn.com/video/default"){
+            if(videoItem.videoUrl == "-1")
+                binding.rel.hide()
+
+            if (videoItem.imageThum.isNullOrEmpty() || videoItem.imageThum == "https://i.vimeocdn.com/video/default") {
 
 
 //                val base64String = HelperUtils.getImag(context)
@@ -88,8 +96,8 @@ class VideoItemAdapter(var  flag :Int,
 
                 binding.progressBar.show()
 
-            }else {
-binding.progressBar.hide()
+            } else {
+                binding.progressBar.hide()
                 binding.gifs.show()
 
                 Picasso.get()
@@ -104,22 +112,27 @@ binding.progressBar.hide()
 
 
 
-            if (flag == 1){
+            if (flag == 1) {
                 binding.statcard.hide()
                 binding.statcard.hide()
 
                 binding.txt.text = videoItem.status
-                if ( videoItem.status == "published"){
+                if (videoItem.status == "published") {
 
 
-                }else {
-                    binding.statcard.setCardBackgroundColor(ContextCompat.getColor(context, R.color.red))
+                } else {
+                    binding.statcard.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.red
+                        )
+                    )
 
 
                 }
 
 
-            }else {
+            } else {
 
             }
 
@@ -129,14 +142,14 @@ binding.progressBar.hide()
 
 
 
-            Log.d("TEssssImage",videoItem.imageThum)
+            Log.d("TEssssImage", videoItem.imageThum)
 
 //            if (i)
 //            Glide.with(binding.gifs.context).load(videoItem.imageThum).into(binding.gifs)
 
-            if (videoItem.imageThum.isNullOrEmpty()){
-                Log.d("ERRROR","1")
-            }else {
+            if (videoItem.imageThum.isNullOrEmpty()) {
+                Log.d("ERRROR", "1")
+            } else {
 //
 //                Picasso.get()
 //                    .load(videoItem.imageThum)
@@ -145,7 +158,6 @@ binding.progressBar.hide()
 //                    .into(binding.gifs)
 
             }
-
 
 
 //            if (isLinearLayout) {
@@ -158,13 +170,12 @@ binding.progressBar.hide()
 //                }
 //            } else {
 //                binding.gifs.setVideoPath(videoItem.videoUrl)
-                holder.binding.times.text  = videoItem.duration.toString()
+            holder.binding.times.text = videoItem.duration.toString()
 ////                Glide.with(binding.imgs.context)
 //            }
 
         }
     }
-
 
 
 }

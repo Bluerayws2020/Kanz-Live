@@ -194,6 +194,7 @@ class UploadeVedio : AppCompatActivity() {
                     binding.progressBar.show()
 
 //                    prepareVideoUpload(videoUri!!)
+                    showProgress()
                     uploadVideoToVimeoDirectlly(videoUri!!)
 
                 } else{
@@ -208,6 +209,18 @@ class UploadeVedio : AppCompatActivity() {
             onBackPressed()
         }
 
+    }
+
+    override fun onBackPressed() {
+       // super.onBackPressed()
+        AlertDialog.Builder(this)
+            .setTitle("كنز العرب")
+            .setMessage("هل تريد إلغاء تحميل الفيديو ؟")
+            .setPositiveButton("نعم") { _, _ ->
+                super.onBackPressed()
+            }
+            .setNegativeButton("لا", null)
+            .show()
     }
 
 
@@ -362,14 +375,14 @@ class UploadeVedio : AppCompatActivity() {
 
 
     private fun getUplaodeVideo() {
-        hideProgress()
 
-        viewmodel.getUplaodeVide().observe(this) { result -> // هون المشكلة
 
+        viewmodel.getUplaodeVide().observe(this) { result ->
+            hideProgress()
             Log.e("***", result.toString())
             when (result) {
                 is NetworkResults.Success -> {
-                    hideProgress()
+
 
                     if (result.data.msg.status != 200) {
 
@@ -450,6 +463,7 @@ class UploadeVedio : AppCompatActivity() {
         Log.e("****", videoFile.toString())
 
 
+        showProgress()
         viewmodel.retriveUserUplaode(binding.txt.text.toString(), binding.txt.text.toString(), videoFile, "1") // here
         getUplaodeVideo()
 
@@ -748,7 +762,7 @@ class UploadeVedio : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun processVideo() {
 
-        isCompressing = true
+
 //        Log.d("ayhamVideo2", uris.toString())
         lifecycleScope.launch {
             VideoCompressor.start(
@@ -775,14 +789,15 @@ class UploadeVedio : AppCompatActivity() {
                                 newSize = ""
                                 progressPercent = percent
 
-//                                 Log.d("ayhamVideo3", uris[index].toString())
+                                 Log.d("***ayhamVideo3", uris[index].toString())
                                 resetProgress()
 
                             }
                     }
 
                     override fun onStart(index: Int) {
-
+                        Log.d("***ayhamVideo2", "here")
+                        isCompressing = true
                     }
 
                     override fun onSuccess(index: Int, size: Long, path: String?) {
@@ -797,20 +812,21 @@ class UploadeVedio : AppCompatActivity() {
                             resetProgress()
                         }
                         isCompressing = false
-                        Log.d("ayhamVideo4", videoUri.toString())
+                        Log.d("***ayhamVideo4", videoUri.toString())
                         videoUri = uris[index]
                     }
 
                     override fun onFailure(index: Int, failureMessage: String) {
-                        Log.wtf("failureMessage", failureMessage)
+                        Log.wtf("***failureMessage", failureMessage)
                         isCompressing = false
                     }
 
                     override fun onCancelled(index: Int) {
-                        Log.wtf("TAG", "compression has been cancelled")
+                        Log.wtf("***onCancelled", "compression has been cancelled")
                         isCompressing = false
                         // make UI changes, cleanup, etc
                     }
+
                 },
             )
         }
@@ -831,8 +847,8 @@ class UploadeVedio : AppCompatActivity() {
         }
 
         if (newSize.isNotBlank()) {
-            binding.newSize.text = " Size after compression : $newSize"
-            binding.newSize.visibility = View.VISIBLE
+//            binding.newSize.text = " Size after compression : $newSize"
+//            binding.newSize.visibility = View.VISIBLE
         } else {
             binding.newSize.visibility = View.GONE
         }
