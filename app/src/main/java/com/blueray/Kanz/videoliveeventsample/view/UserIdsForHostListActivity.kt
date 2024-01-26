@@ -64,7 +64,7 @@ class UserIdsForHostListActivity : AppCompatActivity() {
         binding.ivAdd.setOnClickListener {
             showEditTextDialog(
                 title = getString(R.string.dialog_message_add_user),
-                posText = getString(R.string.add),
+                posText = "اضافة",
                 negText = getString(R.string.cancel),
                 positiveButtonFunction = {
                     if (it.isEmpty()) {

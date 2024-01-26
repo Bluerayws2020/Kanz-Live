@@ -212,10 +212,11 @@ class LiveEventListFragment :
                     requireContext().showToast(e.message ?: "")
                     return@next
                 }
+                val filteredList = list?.filter { it.state == LiveEventState.ONGOING } ?: emptyList()
                 if (isRefresh) {
-                    adapter.submitList(list ?: emptyList())
+                    adapter.submitList(filteredList)
                 } else {
-                    adapter.addItems(list)
+                    adapter.addItems(filteredList)
                 }
             }
             return
@@ -223,10 +224,15 @@ class LiveEventListFragment :
         if (isRefresh) binding.srlLiveEvent.isRefreshing = false
     }
 
+
     private fun getLiveEvent(liveEventId: String, callback: (LiveEvent) -> Unit) {
         SendbirdLive.getLiveEvent(liveEventId) getLiveEventLabel@{ liveEvent, e ->
             if (e != null || liveEvent == null) {
                 requireContext().showToast(e?.message ?: "")
+                return@getLiveEventLabel
+            }
+            if (liveEvent.state != LiveEventState.ONGOING) {
+                // Handle the case when live event is not ongoing, e.g., show a message or perform other actions
                 return@getLiveEventLabel
             }
             callback.invoke(liveEvent)

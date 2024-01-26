@@ -15,7 +15,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="V1.1"
+        android:textColor="@color/green"
+        android:textSize="12sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -30,6 +43,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
+
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="180dp"
@@ -41,22 +55,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:gravity="bottom"
                 android:layout_marginTop="-25dp"
+                android:gravity="bottom"
                 android:text="كنز العرب"
                 android:textColor="#2E3650"
                 android:textSize="38sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/some_id2"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:gravity="center|bottom"
                 android:layout_gravity="center"
+                android:layout_marginTop="-10dp"
+                android:gravity="center|bottom"
                 android:text="لكل العرب"
                 android:textColor="#2E3650"
-                android:textSize="30sp"
-                android:layout_marginTop="-10dp" />
+                android:textSize="30sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,13 +82,14 @@
                 android:textColor="@color/blue"
                 android:textSize="26sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ادخل معلوماتك من فضلك"
-                android:textSize="12sp"
                 android:gravity="end|top"
-                android:textColor="#3E4784"/>
+                android:text="ادخل معلوماتك من فضلك"
+                android:textColor="#3E4784"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:id="@+id/squadLayout"
@@ -81,23 +98,23 @@
                 android:orientation="vertical">
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
 
                     android:layout_marginTop="5dp"
                     android:orientation="vertical">
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
+                        android:layout_marginHorizontal="10dp"
                         android:hint="@string/username_phone_number"
-                        app:hintTextColor="#717BBC"
                         app:boxBackgroundMode="none"
 
-                        android:layout_marginHorizontal="10dp"
-                        app:boxCornerRadiusBottomStart="7dp">
+                        app:boxCornerRadiusBottomStart="7dp"
+                        app:hintTextColor="#717BBC">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/userName"
@@ -106,12 +123,13 @@
                             android:inputType="text" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="-5dp"
                         android:layout_marginHorizontal="20dp"
-                        android:background="#717BBC"/>
+                        android:layout_marginTop="-5dp"
+                        android:background="#717BBC" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,16 +138,17 @@
 
                     android:layout_marginTop="5dp"
                     android:orientation="vertical">
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
+                        android:layout_marginHorizontal="10dp"
                         android:hint="@string/password"
-                        app:hintTextColor="#717BBC"
                         app:boxBackgroundMode="none"
 
-                        android:layout_marginHorizontal="10dp"
-                        app:boxCornerRadiusBottomStart="7dp">
+                        app:boxCornerRadiusBottomStart="7dp"
+                        app:hintTextColor="#717BBC">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/password"
@@ -138,12 +157,13 @@
                             android:inputType="textPassword" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="-5dp"
                         android:layout_marginHorizontal="20dp"
-                        android:background="#717BBC"/>
+                        android:layout_marginTop="-5dp"
+                        android:background="#717BBC" />
                 </LinearLayout>
 
 
@@ -154,27 +174,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/forgot_password"
                 android:textColor="#A4813F"
-                android:textSize="@dimen/sb_size_10"
-                />
+                android:textSize="@dimen/sb_size_10" />
 
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signInBtn"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+                android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/green"
                 android:text="@string/sign_in"
-                android:layout_marginHorizontal="10dp"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:cornerRadius="20dp"
-                 />
+                app:cornerRadius="20dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -199,6 +217,7 @@
                     android:textColor="#3E4784"
                     android:textStyle="bold" />
             </LinearLayout>
+
         </LinearLayout>
 
 
@@ -219,4 +238,5 @@
         app:lottie_loop="true"
         android:visibility="gone"
         app:lottie_rawRes="@raw/horse" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,7 @@ import com.blueray.Kanz.api.onGiftclicks
 import com.blueray.Kanz.databinding.ActivityLiveEventBinding
 import com.blueray.Kanz.databinding.BottomSheetLayoutBinding
 import com.blueray.Kanz.databinding.CommentLayoutBinding
+import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.Grid
@@ -92,6 +93,8 @@ lateinit var adapterGifts: GiftAdapter
                 this@LiveEventActivity.customOnBackPressed()
             }
         })
+
+        binding.profileName.text =  HelperUtils.getUserName(this)
         getLiveEvent()
 //        initOpenChannelView()
         dialog = BottomSheetDialog(this)

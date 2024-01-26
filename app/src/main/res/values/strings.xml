@@ -78,7 +78,7 @@
     <string name="live_events">Live events</string>
     <string name="my_settings">My settings</string>
     <string name="go_live">Go live</string>
-    <string name="no_live_events">No live events</string>
+    <string name="no_live_events">لا يوجد بثوث حاليا</string>
     <string name="new_live_event">New live event</string>
     <string name="sign_out">Sign out</string>
     <string name="bottom_navigation_bar_live_events">Live events</string>
@@ -154,8 +154,8 @@
     <string name="dialog_message_choose_photo">Choose photo</string>
     <string name="dialog_message_host">Hosts</string>
 
-    <string name="dialog_message_add_user">Add user</string>
-    <string name="dialog_message_enter_user_id">Enter user ID</string>
+    <string name="dialog_message_add_user">اضافة للبث</string>
+    <string name="dialog_message_enter_user_id">ادخل اسم المستخدم</string>
 
     <string name="summary_total_participants">اجمالي المشاهدات </string>
     <string name="summary_peak_concurrent_participants">عدد المشاهدين(وقت الذروة)</string>

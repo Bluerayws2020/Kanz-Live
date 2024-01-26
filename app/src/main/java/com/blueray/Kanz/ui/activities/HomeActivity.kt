@@ -38,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
 
 
             val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
-            val userId = HelperUtils.getUid(this)
+            val userId = HelperUtils.getUserName(this)
 
             if (appId == null || userId == null) {
                 return
@@ -151,7 +151,7 @@ true
 
     private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
         val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
-        val userId = HelperUtils.getUid(this)
+        val userId = HelperUtils.getUserName(this)
         val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 
         if (appId == null || userId == null) {
