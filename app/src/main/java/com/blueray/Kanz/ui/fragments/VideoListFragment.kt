@@ -165,8 +165,8 @@ class VideoListFragment : Fragment() {
                                     vidLink,
                                     item.auther.uid,
                                     item.auther.username,
-                                    item.vimeo_detials.duration,
-                                    item.vimeo_detials.pictures?.base_link.toString(),
+                                    item.vimeo_detials?.duration.toString(),
+                                    item.vimeo_detials?.pictures?.base_link.toString(),
 
                                     firstName = item.auther.profile_data.first_name,
                                     lastName = item.auther.profile_data.last_name,
@@ -213,7 +213,7 @@ class VideoListFragment : Fragment() {
        // clearExtra()
         Log.d("***2", "count:${newArrVideoModel.count()}")
         if ( newArrVideoModel.count() % 3 != 0){
-            var extra = NewAppendItItems("", "", "", "-1", "", "", 0, "",
+            var extra = NewAppendItItems("", "", "", "-1", "", "", "", "",
                 "", "", "", "", "", "", "", "", null, null,
                 0, 0, 0
             )

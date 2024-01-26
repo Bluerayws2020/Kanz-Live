@@ -250,6 +250,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     app:shimmer_base_alpha="0.2"
                     app:layout_constraintBottom_toBottomOf="parent"

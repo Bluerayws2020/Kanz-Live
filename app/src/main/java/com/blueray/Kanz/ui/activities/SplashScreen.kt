@@ -29,7 +29,7 @@ import java.util.Locale
 class SplashScreen : AppCompatActivity() {
 var uid = ""
     var token=""
-    private val SPLASH_DURATION = 6000L
+    private val SPLASH_DURATION = 4000L
 
 
     private lateinit var prefManager: PrefManager
@@ -45,24 +45,65 @@ var uid = ""
         token=HelperUtils.getUserToken(this@SplashScreen)
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val imageViewSplash = findViewById<ImageView>(R.id.imageViewSplash)
+        val appId = "7BCF8753-4413-4CED-B5C4-21A816253451"
+        val userId = HelperUtils.getUid(this)
+        val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 
+        if (appId == null || userId == null) {
+            // Delayed execution for 2 seconds
+            Handler().postDelayed({
+                if (!token.isNullOrEmpty() && token != "0") {
+                    val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
+                    startActivity(intent)
+                    finish()}
+                else {
+                    val intent = Intent(this@SplashScreen, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }, SPLASH_DURATION)
+
+            return
+        }
+
+        val params = AuthenticateParams(userId, accessToken)
+        SendbirdLive.authenticate(params) { user, e ->
+            if (e != null || user == null) {
+                // Delayed execution for 2 seconds
+                Handler().postDelayed({
+                    if (!token.isNullOrEmpty() && token != "0") {
+                        val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
+                        startActivity(intent)
+                        finish()}
+                    else {
+                        val intent = Intent(this@SplashScreen, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }, SPLASH_DURATION)
+
+                return@authenticate
+            }else{
+                // Delayed execution for 2 seconds
+                Handler().postDelayed({
+                    if (!token.isNullOrEmpty() && token != "0") {
+                        val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
+                        startActivity(intent)
+                        finish()}
+                    else {
+                        val intent = Intent(this@SplashScreen, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }, SPLASH_DURATION)
+
+            }
+        }
         Glide.with(this)
             .asGif()
             .load(R.drawable.kinz2) // Replace with your GIF resource
             .into(imageViewSplash)
 
-        // Delayed execution for 2 seconds
-        Handler().postDelayed({
-                        if (!token.isNullOrEmpty() && token != "0") {
-                val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
-                startActivity(intent)
-                finish()}
-            else {
-                val intent = Intent(this@SplashScreen, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }, SPLASH_DURATION)
 
 
 
@@ -99,9 +140,9 @@ var uid = ""
     }
 
     private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
-        val appId = "6A2870E9-4E98-4044-85DE-24DF3DDECB4B"
+        val appId = "7BCF8753-4413-4CED-B5C4-21A816253451"
         val userId = HelperUtils.getUid(this)
-        val accessToken = "27ef004db2ee6dcb0b628ef56229a072122a408c"
+        val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 
         if (appId == null || userId == null) {
             callback.invoke(false, null)

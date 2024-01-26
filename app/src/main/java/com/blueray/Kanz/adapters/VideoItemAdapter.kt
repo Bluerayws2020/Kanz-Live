@@ -64,7 +64,7 @@ class VideoItemAdapter(
             if(videoItem.videoUrl != "-1")
                 binding.rel.show()
 
-            if (videoItem.imageThum.isNullOrEmpty() || videoItem.imageThum == "https://i.vimeocdn.com/video/default") {
+//            if (videoItem.imageThum.isNullOrEmpty() || videoItem.imageThum == "https://i.vimeocdn.com/video/default") {
 
 
 //                val base64String = HelperUtils.getImag(context)
@@ -91,21 +91,21 @@ class VideoItemAdapter(
 
 
 //                binding.gifs.setImageResource(R.drawable.video)
-                binding.progressBar.playAnimation()
-                binding.gifs.hide()
+//                binding.progressBar.playAnimation()
+//                binding.gifs.hide()
 
                // binding.progressBar.show()
-
-            } else {
+//
+//            } else {
                 binding.progressBar.hide()
                 binding.gifs.show()
-
+Log.d("rtyuiop",position.toString())
                 Picasso.get()
                     .load(videoItem.imageThum)
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
                     .into(binding.gifs)
-            }
+//            }
 
 
 

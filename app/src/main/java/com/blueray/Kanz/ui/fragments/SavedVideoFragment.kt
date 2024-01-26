@@ -184,8 +184,8 @@ class SavedVideoFragment : Fragment() {
                                         vidLink,
                                         item.auther.uid,
                                         item.auther.username,
-                                        item.vimeo_detials.duration,
-                                        item.vimeo_detials.pictures?.base_link.toString(),
+                                        item.vimeo_detials?.duration.toString(),
+                                        item.vimeo_detials?.pictures?.base_link.toString(),
 
                                         firstName = item.auther.profile_data.first_name,
                                         lastName = item.auther.profile_data.last_name,

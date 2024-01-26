@@ -347,7 +347,7 @@ data class NewAppendItItems(
     var videoUrl: String,
     val userId: String,
     val userName: String,
-    val duration: Int,
+    val duration: String,
     val imageThum: String = "",
     val firstName: String = "",
     val lastName: String = "",
@@ -469,7 +469,7 @@ data class VideoResponse(
     val created_at: String,
     val file: String,
     val moderation_state: String,
-    val vimeo_detials: VimeoDetails,
+    val vimeo_detials: VimeoDetails? = null,
     val auther: Author,
     val video_actions_per_user: Video_actions_per_user,
     val video_counts: VideoCounts? = null
@@ -513,7 +513,7 @@ data class VimeoDetails(
     val width: Int,
     val language: String,
     val height: Int,
-    val files: List<VideoFile>,
+    val files: List<VideoFile>? =null,
 
 
     val transcode: Transcode? = null,

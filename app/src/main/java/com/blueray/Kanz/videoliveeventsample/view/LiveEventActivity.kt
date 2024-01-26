@@ -134,10 +134,10 @@ lateinit var adapterGifts: GiftAdapter
 
 
             adapterGifts = GiftAdapter(mutableListOf(
-                Grid(R.raw.hor ,R.raw.hors_sound, "حصان" , "25 coins"),
-                Grid(R.raw.camel_l,R.raw.camel , "جمل" , "15 coins"),
-                Grid(R.raw.nakhlah_l,R.raw.nakhala , "نخلة" ,"45 coins"),
-                Grid(R.raw.siaf_l,R.raw.saif, "سيف" , "25 coins"),
+                Grid(R.raw.coffeecups ,R.raw.hors_sound, "فناجين" , "25 coins"),
+//                Grid(R.raw.camel_l,R.raw.camel , "جمل" , "15 coins"),
+//                Grid(R.raw.nakhlah_l,R.raw.nakhala , "نخلة" ,"45 coins"),
+//                Grid(R.raw.siaf_l,R.raw.saif, "سيف" , "25 coins"),
 
             ),object : onGiftclicks{
                 override fun onUserClickOnGift(pos: Int) {

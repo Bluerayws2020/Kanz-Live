@@ -331,8 +331,11 @@ object NetworkRepository {
                     is_home,
                     user_profile_uid
                 )
+                Log.d("egwky",results.datass.toString())
+
                 NetworkResults.Success(results)
             } catch (e: Exception) {
+                Log.d("egwky",e.localizedMessage.toString())
                 NetworkResults.Error(e)
             }
         }

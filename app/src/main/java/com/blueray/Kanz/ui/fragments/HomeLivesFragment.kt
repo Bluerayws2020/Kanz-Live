@@ -207,7 +207,7 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
                         result.data.datass.forEach { item ->
                             var vidLink = ""
                             val adaptiveFile =
-                                item.vimeo_detials.files.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
+                                item.vimeo_detials?.files?.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
 
                             vidLink = adaptiveFile?.link ?: item.file
 
@@ -219,7 +219,7 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
                                     vidLink,
                                     item.auther.uid,
                                     item.auther.username,
-                                    item.vimeo_detials.duration,
+                                    item.vimeo_detials?.duration.toString(),
                                     firstName = item.auther.profile_data.first_name,
                                     lastName = item.auther.profile_data.last_name,
                                     type = item.auther.type,

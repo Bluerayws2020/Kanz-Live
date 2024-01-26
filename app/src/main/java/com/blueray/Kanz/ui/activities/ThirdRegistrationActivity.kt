@@ -255,9 +255,9 @@ Log.d("TESTTTTLOOG",model.toString())
 
     private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
         binding.progressBar.show()
-        val appId ="6A2870E9-4E98-4044-85DE-24DF3DDECB4B"
+        val appId ="7BCF8753-4413-4CED-B5C4-21A816253451"
         val userId = "65"
-        val accessToken = "27ef004db2ee6dcb0b628ef56229a072122a408c"
+        val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 
         if (appId == null || userId == null) {
             callback.invoke(false, null)
