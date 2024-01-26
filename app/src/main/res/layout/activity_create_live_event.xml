@@ -114,7 +114,7 @@
             android:id="@+id/clUserIdsForHost"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:visibility="gone"
+
             app:layout_constraintTop_toBottomOf="@id/createLiveEventCenterBorderLine">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -132,6 +132,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/icon_chevron_right"
                 android:tint="@color/ondark_01"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -154,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/live_event_create_event_users_for_host"
+                android:text="دعوة اشخاص"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tvCreateLiveEventHostCount"
                 app:layout_constraintStart_toEndOf="@id/ivCreateLiveEventOperator"

@@ -44,7 +44,7 @@ class MeetingsAdapter(private var items: List<SessionData>, val onClickMeting: O
         // Bind your item data to your views
 
         player = ExoPlayer.Builder(holder.binding.playerView.context).build()
-        holder.binding.playerView.player = player
+//        holder.binding.playerView.player = player
 
 
 
@@ -74,7 +74,7 @@ class MeetingsAdapter(private var items: List<SessionData>, val onClickMeting: O
         player!!.addAnalyticsListener(EventLogger())
         player!!.setAudioAttributes(AudioAttributes.DEFAULT,  /* handleAudioFocus= */true)
         player!!.setMediaSource(mediaSource)
-      holder.binding.playerView!!.player = player
+//      holder.binding.playerView!!.player = player
 player.play()
 
 

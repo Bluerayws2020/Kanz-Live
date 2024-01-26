@@ -15,6 +15,8 @@ import com.blueray.Kanz.helpers.HelperUtils.setDefaultLanguage
 import com.blueray.Kanz.helpers.HelperUtils.setLang
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
+import com.sendbird.live.AuthenticateParams
+import com.sendbird.live.SendbirdLive
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -34,6 +36,20 @@ class HomeActivity : AppCompatActivity() {
 
 
 
+
+            val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
+            val userId = HelperUtils.getUid(this)
+
+            if (appId == null || userId == null) {
+                return
+            }
+
+            val params = AuthenticateParams(userId,"")
+            SendbirdLive.authenticate(params) { user, e ->
+                if (e != null || user == null) {
+                    return@authenticate
+                }
+            }
 
 
 
@@ -134,7 +150,7 @@ true
 
 
     private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
-        val appId = "7BCF8753-4413-4CED-B5C4-21A816253451"
+        val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
         val userId = HelperUtils.getUid(this)
         val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 

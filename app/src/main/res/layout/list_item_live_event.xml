@@ -11,14 +11,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+android:background="@color/black"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.exoplayer2.ui.PlayerView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/playerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardCornerRadius="2dp"
             app:cardElevation="0dp"
+            android:gravity="center"
             android:backgroundTint="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,27 +28,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivLiveThumbnail"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
 
-                android:src="@drawable/logo"
- />
+                >
 
-            <pl.bclogic.pulsator4droid.library.PulsatorLayout
-                android:id="@+id/pulsator2"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                app:pulse_count="5"
-                app:pulse_duration="2000"
-                app:pulse_repeat="0"
-                android:layout_gravity="center"
-                android:gravity="center"
-                app:pulse_color="#9EFF0000"
-                app:pulse_startFromScratch="false"
-                app:pulse_interpolator="Linear"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivLiveThumbnail"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+
+                    android:src="@drawable/logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                    android:id="@+id/pulsator2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:pulse_count="5"
+                    app:pulse_duration="2000"
+                    app:pulse_repeat="0"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    app:pulse_color="#9EFF0000"
+                    app:pulse_startFromScratch="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:pulse_interpolator="Linear"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -74,7 +92,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.exoplayer2.ui.PlayerView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -119,7 +137,7 @@
                 android:text="live"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-android:visibility="gone"
+                android:visibility="gone"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

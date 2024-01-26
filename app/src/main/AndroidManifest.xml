@@ -70,7 +70,7 @@
             android:name=".ui.activities.AgoraLiveChat"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.SplashScreen"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true">
 
         </activity>
@@ -111,7 +111,7 @@
             android:name=".ui.activities.ForgetPasswordFirstActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name=".ui.activities.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

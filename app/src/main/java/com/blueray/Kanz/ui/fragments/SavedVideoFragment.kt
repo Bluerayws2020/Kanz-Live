@@ -175,31 +175,31 @@ class SavedVideoFragment : Fragment() {
                                 Log.d("AdaptiveLink", vidLink)
                             }
 
-                            if (item.video_actions_per_user.save == "true") {
+                            if (item.video_actions_per_user?.save == "true") {
                                 newArrVideoModel.add(
                                     NewAppendItItems(
                                         item.title,
                                         item.id.toString(),
                                         item.created_at,
                                         vidLink,
-                                        item.auther.uid,
-                                        item.auther.username,
+                                        item.auther?.uid ?:"",
+                                        item.auther?.username ?:"",
                                         item.vimeo_detials?.duration.toString(),
                                         item.vimeo_detials?.pictures?.base_link.toString(),
 
-                                        firstName = item.auther.profile_data.first_name,
-                                        lastName = item.auther.profile_data.last_name,
-                                        type = item.auther.type,
-                                        bandNam = item.auther.profile_data.band_name,
-                                        userPic = item.auther.profile_data.user_picture,
+                                        firstName = item.auther?.profile_data?.first_name ?:"",
+                                        lastName = item.auther?.profile_data?.last_name ?:"",
+                                        type = item.auther?.type?:"",
+                                        bandNam = item.auther?.profile_data?.band_name ?:"",
+                                        userPic = item.auther?.profile_data?.user_picture ?:"",
                                         status = item.moderation_state,
-                                        favorites = item.video_actions_per_user.favorites.toString(),
-                                        userSave = item.video_actions_per_user.save.toString(),
+                                        favorites = item.video_actions_per_user?.favorites.toString(),
+                                        userSave = item.video_actions_per_user?.save.toString(),
                                         target_user = result.data.target_user,
                                         video_counts = item.video_counts,
-                                        numOfFollowers = item.auther.numOfFollowers,
-                                        numOfFollowing = item.auther.numOfFollowing,
-                                        numOfLikes = item.auther.numOfLikes
+                                        numOfFollowers = item.auther?.numOfFollowers ?:0,
+                                        numOfFollowing = item.auther?.numOfFollowing ?:0,
+                                        numOfLikes = item.auther?.numOfLikes ?:0
 
 
                                     )

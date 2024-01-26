@@ -137,11 +137,11 @@ class PartitionChannelFragment : Fragment() {
         isLoading = true
         binding.shimmerView.startShimmer()
         Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
-        mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
+        mainViewModel.retriveUserVideos("3", userIdes, "0", currentPage.toString())
         mainViewModel.retriveUserProfile(userIdes)
         getMainVidos()
 
-        Log.d("***", userIdes)
+        Log.d("*WWEEEE**", userIdes)
 
         binding.followersLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
@@ -316,7 +316,7 @@ class PartitionChannelFragment : Fragment() {
                     val lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition()
 
 
-                    if (!isLoading && totalItemCount <= (lastVisibleItem + 1) && totalItemCount > previousTotalItemCount && isScrolling) {
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 1) && totalItemCount > previousTotalItemCount && isScrolling && isLastPage == false) {
 
                         previousTotalItemCount = totalItemCount
                         loadMoreItems()
@@ -363,50 +363,55 @@ class PartitionChannelFragment : Fragment() {
                     result.data.datass?.forEach { item ->
                         var vidLink = ""
                         if (!(item.vimeo_detials == null)) {
+                            if (item != null) {
+                                val adaptiveFile =
+                                    item.vimeo_detials.files?.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
+                                vidLink = adaptiveFile?.link ?: item.file
 
-                            val adaptiveFile =
-                                item.vimeo_detials.files?.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
-                            vidLink = adaptiveFile?.link ?: item.file
+                                //                            Log.e("***", item.vimeo_detials.files.toString())
+                                Log.d("AdaptiveLink", item.id)
+                                Log.d("hellohelloworld", " item.id : " + item.id)
 
-                            //                            Log.e("***", item.vimeo_detials.files.toString())
-                            Log.d("AdaptiveLink", item.id)
-                            Log.d("hellohelloworld", " item.id : " + item.id)
+                                isLoading = false
+                                isLastPage = false
+                            Log.d("*****2", item.id)
+                            newArrVideoModel.add(
+                                NewAppendItItems(
+                                    item.title,
+                                    item.id.toString(),
+                                    item.created_at,
+                                    vidLink,
+                                    item.auther?.uid ?: "",
+                                    item.auther?.username ?: "",
+                                    item.vimeo_detials?.duration.toString(),
 
-                        }
-
-                        Log.d("*****2", item.id)
-                        newArrVideoModel.add(
-                            NewAppendItItems(
-                                item.title,
-                                item.id.toString(),
-                                item.created_at,
-                                vidLink,
-                                item.auther.uid,
-                                item.auther.username,
-                                item.vimeo_detials?.duration.toString(),
-
-                                item.vimeo_detials?.pictures?.base_link
-                                    ?: "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788245666559364.jpg",
-                                //                                firstName = item.auther.profile_data.first_name,
-                                lastName = item.auther.profile_data.last_name,
-                                type = item.auther.type,
-                                bandNam = item.auther.profile_data.band_name,
-                                userPic = item.auther.profile_data.user_picture,
-                                favorites = item.video_actions_per_user.favorites.toString(),
-                                userSave = item.video_actions_per_user.save.toString(),
-                                target_user = result.data.target_user,
-                                video_counts = item.video_counts,
-                                nodeId = item.id
+                                    item.vimeo_detials?.pictures?.base_link
+                                        ?: "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788245666559364.jpg",
+                                    //                                firstName = item.auther.profile_data.first_name,
+                                    lastName = item.auther?.profile_data?.last_name ?: "",
+                                    type = item.auther?.type ?: "",
+                                    bandNam = item.auther?.profile_data?.band_name ?: "",
+                                    userPic = item.auther?.profile_data?.user_picture ?: "",
+                                    favorites = item.video_actions_per_user?.favorites.toString(),
+                                    userSave = item.video_actions_per_user?.save.toString(),
+                                    target_user = result.data.target_user,
+                                    video_counts = item.video_counts,
+                                    nodeId = item.id
+                                )
                             )
-                        )
-
+                        }
+                            else{
+                                isLoading = true
+                                isLastPage = true
+                            }
+                    }
                     }
                     setRecyclerView()
 
-                    addExtraItems()
+      //              addExtraItems()
 //                    videoAdapter.notifyDataSetChanged()
                     binding.progressBar.hide()
-                    isLoading = false
+
 
                 }
 
@@ -453,11 +458,16 @@ class PartitionChannelFragment : Fragment() {
         if (noMoreData || count == 0) {
             Log.d("****No MORE DATA ", "qwertyuiop[")
         } else {
+
             currentPage++
             binding.progressBar.show()
             isLoading = true
-            Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
-            mainViewModel.retriveUserVideos("9", userIdes, "1", currentPage.toString())
+            if ( isLastPage == true){
+
+            }else{
+                mainViewModel.retriveUserVideos("3", userIdes, "0", currentPage.toString())
+
+            }
         }
     }
 

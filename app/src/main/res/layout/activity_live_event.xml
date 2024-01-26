@@ -252,6 +252,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/sb_size_10"
+                    android:visibility="gone"
                     app:cardCornerRadius="24dp">
 
                     <TextView

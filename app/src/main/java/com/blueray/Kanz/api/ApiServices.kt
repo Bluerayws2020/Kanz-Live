@@ -221,7 +221,7 @@ interface ApiServices {
         @Query("page") page: String,
         @Query("Page_limit") page_limit: String,
         @Query("Is_home") is_home: String,
-        @Query("user_profile_uid") user_profile_uid: String,
+        @Query("User_profile_uid") user_profile_uid: String,
 
     ): VideoDataModel
 

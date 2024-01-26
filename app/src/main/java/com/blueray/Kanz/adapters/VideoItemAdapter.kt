@@ -59,11 +59,11 @@ class VideoItemAdapter(
 //        val videoPath = videoItem.videoUrl
 
         holder.apply {
-            Log.d("RTYU", videoItem.imageThum)
+
 
             if(videoItem.videoUrl != "-1")
                 binding.rel.show()
-
+            Log.d("RTYUXXXX", videoItem.imageThum)
 //            if (videoItem.imageThum.isNullOrEmpty() || videoItem.imageThum == "https://i.vimeocdn.com/video/default") {
 
 
@@ -99,7 +99,7 @@ class VideoItemAdapter(
 //            } else {
                 binding.progressBar.hide()
                 binding.gifs.show()
-Log.d("rtyuiop",position.toString())
+
                 Picasso.get()
                     .load(videoItem.imageThum)
                     .placeholder(R.drawable.logo)
@@ -150,12 +150,12 @@ Log.d("rtyuiop",position.toString())
             if (videoItem.imageThum.isNullOrEmpty()) {
                 Log.d("ERRROR", "1")
             } else {
-//
-//                Picasso.get()
-//                    .load(videoItem.imageThum)
-//                    .placeholder(R.drawable.logo)
-//                    .error(R.drawable.logo)
-//                    .into(binding.gifs)
+
+                Picasso.get()
+                    .load(videoItem.imageThum)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(binding.gifs)
 
             }
 

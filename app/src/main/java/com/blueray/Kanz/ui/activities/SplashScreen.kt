@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.blueray.Kanz.R
 import com.blueray.Kanz.helpers.HelperUtils
@@ -21,15 +20,15 @@ import com.sendbird.live.AuthenticateParams
 import com.sendbird.live.SendbirdLive
 import com.sendbird.live.videoliveeventsample.util.EventObserver
 
-import android.os.Handler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
+import java.util.logging.Handler
 
 class SplashScreen : AppCompatActivity() {
-var uid = ""
+    var uid = ""
     var token=""
-    private val SPLASH_DURATION = 4000L
+    private val SPLASH_DURATION = 4500L
 
 
     private lateinit var prefManager: PrefManager
@@ -41,71 +40,15 @@ var uid = ""
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        uid = HelperUtils.getUid(this@SplashScreen)
-        token=HelperUtils.getUserToken(this@SplashScreen)
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        val imageViewSplash = findViewById<ImageView>(R.id.imageViewSplash)
-        val appId = "7BCF8753-4413-4CED-B5C4-21A816253451"
-        val userId = HelperUtils.getUid(this)
-        val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 
-        if (appId == null || userId == null) {
-            // Delayed execution for 2 seconds
-            Handler().postDelayed({
-                if (!token.isNullOrEmpty() && token != "0") {
-                    val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
-                    startActivity(intent)
-                    finish()}
-                else {
-                    val intent = Intent(this@SplashScreen, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            }, SPLASH_DURATION)
-
-            return
-        }
-
-        val params = AuthenticateParams(userId, accessToken)
-        SendbirdLive.authenticate(params) { user, e ->
-            if (e != null || user == null) {
-                // Delayed execution for 2 seconds
-                Handler().postDelayed({
-                    if (!token.isNullOrEmpty() && token != "0") {
-                        val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
-                        startActivity(intent)
-                        finish()}
-                    else {
-                        val intent = Intent(this@SplashScreen, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }, SPLASH_DURATION)
-
-                return@authenticate
-            }else{
-                // Delayed execution for 2 seconds
-                Handler().postDelayed({
-                    if (!token.isNullOrEmpty() && token != "0") {
-                        val intent =  Intent(this@SplashScreen,HomeActivity::class.java)
-                        startActivity(intent)
-                        finish()}
-                    else {
-                        val intent = Intent(this@SplashScreen, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }, SPLASH_DURATION)
-
-            }
-        }
+        val loadingImageView = findViewById<ImageView>(R.id.imageViewSplash)
         Glide.with(this)
             .asGif()
-            .load(R.drawable.kinz2) // Replace with your GIF resource
-            .into(imageViewSplash)
+            .load(R.drawable.kinz2)
+            .into(loadingImageView)
 
-
-
+        uid = HelperUtils.getUid(this@SplashScreen)
+        token=HelperUtils.getUserToken(this@SplashScreen)
 
 //        lifecycleScope.launch{
 //            delay(SPLASH_DURATION)
@@ -132,24 +75,60 @@ var uid = ""
 
         Log.d("TEEEESTTTT",uid)
         lifecycleScope.launch {
+            delay(2000)
 
 //                    user
+            if (!uid.isNullOrEmpty() && uid != "0") {
 
+                prefManager = PrefManager(this@SplashScreen)
+                (application as BaseApplication).initResultLiveData.observe(
+                    this@SplashScreen,
+                    EventObserver {
+                        if (it) {
+                            autoAuthenticate { isSucceed, e ->
+//                                if (e != null) showToast(e)
+
+
+                                val intent =
+                                    if (isSucceed) Intent(
+                                        this@SplashScreen,
+                                        HomeActivity::class.java
+                                    ) else
+
+                                        Intent(
+                                            this@SplashScreen,
+                                            LoginActivity::class.java
+                                        )
+                                startActivity(intent)
+                                finish()
+                            }
+                        } else {
+                            val intent = Intent(this@SplashScreen, HomeActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    })
+            } else {
+                //make user use App
+
+                val intent = Intent(this@SplashScreen, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
     }
 
     private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
-        val appId = "7BCF8753-4413-4CED-B5C4-21A816253451"
-        val userId = HelperUtils.getUid(this)
-        val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
+        val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
+        val userId = HelperUtils.getUserName(this)
 
         if (appId == null || userId == null) {
             callback.invoke(false, null)
             return
         }
 
-        val params = AuthenticateParams(userId, accessToken)
+        val params = AuthenticateParams(userId,"")
         SendbirdLive.authenticate(params) { user, e ->
             if (e != null || user == null) {
                 callback.invoke(false, "${e?.message}")
@@ -166,7 +145,6 @@ var uid = ""
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
     }
-
 
 
 }

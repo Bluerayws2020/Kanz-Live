@@ -37,6 +37,8 @@ import com.blueray.Kanz.ui.activities.SplashScreen
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.sendbird.live.AuthenticateParams
+import com.sendbird.live.SendbirdLive
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -91,6 +93,21 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
         isAuthintcted = HelperUtils.getUid(requireContext()) != "0"
         binding.img.show()
+            val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
+            val userId = HelperUtils.getUserName(requireContext())
+
+            if (appId == null || userId == null) {
+                return
+            }
+
+            val params = AuthenticateParams(userId,"")
+            SendbirdLive.authenticate(params) { user, e ->
+                if (e != null || user == null) {
+                    return@authenticate
+                }
+            }
+
+
 //        binding.includeTap.profile.setOnClickListener {
 //
 //            if (HelperUtils.getUid(requireContext()) == "0") {
@@ -339,45 +356,53 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                         val startPosition = newArrVideoModel.size
                         // Iterate over each item and add to newArrVideoModel
                         mainArrVideoModel = result.data.datass.toMutableList()
-                        val sortedList =
-                            result.data.datass.sortedBy { it.created_at.toDate() } // Assuming 'created' is a valid date string
+//                        val sortedList =
+//                            result.data.datass.sortedBy { it.created_at?.toDate() } // Assuming 'created' is a valid date string
 
-                        sortedList.forEach { item ->
+                        result.data.datass.forEach { item ->
 
                             var vidLink = ""
-                            val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
-                                it.rendition == "adaptive" || it.rendition == "360p" || it.rendition == "240p" || it.rendition == "540p" || it.rendition == "720p" || it.rendition == "1080p"
-                            }
-                            vidLink = adaptiveFile?.link
-                                ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
+                            if (result.data.datass == null) {
+
+                            } else {
+
+                                if (item != null) {
+
+                                    val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
+                                        it.rendition == "adaptive" || it.rendition == "360p" || it.rendition == "240p" || it.rendition == "540p" || it.rendition == "720p" || it.rendition == "1080p"
+                                    }
+                                    vidLink = adaptiveFile?.link
+                                        ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
 
 
-                            newArrVideoModel.add(
-                                NewAppendItItems(
-                                    "title",
-                                    item.id,
-                                    item.created_at,
-                                    vidLink,
-                                    item.auther.uid,
-                                    item.auther.username,
-                                     item.vimeo_detials?.duration.toString(),
-                                     firstName = item.auther.profile_data.first_name,
-                                    lastName = item.auther.profile_data.last_name,
-                                    type = item.auther.type,
-                                    bandNam = item.auther.profile_data.band_name,
-                                    favorites = item.video_actions_per_user.favorites.toString(),
-                                    userSave = item.video_actions_per_user.save.toString(),
-                                    target_user = result.data.target_user,
-                                    video_counts = item.video_counts,
-                                    numOfFollowers = item.auther.numOfFollowers,
-                                    numOfFollowing = item.auther.numOfFollowing,
-                                    numOfLikes = item.auther.numOfLikes,
-                                    nodeId = item.id,
-                                    userPic = item.auther.profile_data.user_picture
+                                    newArrVideoModel.add(
+                                        NewAppendItItems(
+                                            "title",
+                                            item.id,
+                                            "",
+                                            vidLink,
+                                            item.auther?.uid ?: "",
+                                            item.auther?.username ?: "",
+                                            item.vimeo_detials?.duration.toString(),
+                                            firstName = item.auther?.profile_data?.first_name ?: "",
+                                            lastName = item.auther?.profile_data?.last_name ?: "",
+                                            type = item.auther?.type ?: "",
+                                            bandNam = item.auther?.profile_data?.band_name ?: "",
+                                            favorites = item.video_actions_per_user?.favorites.toString(),
+                                            userSave = item.video_actions_per_user?.save.toString(),
+                                            target_user = result.data.target_user,
+                                            video_counts = item.video_counts,
+                                            numOfFollowers = item.auther?.numOfFollowers ?: 0,
+                                            numOfFollowing = item.auther?.numOfFollowing ?: 0,
+                                            numOfLikes = item.auther?.numOfLikes ?: 0,
+                                            nodeId = item.id,
+                                            userPic = item.auther?.profile_data?.user_picture ?: ""
+                                        )
                                     )
-                            )
 
 
+                                }
+                            }
                         }
 
 
@@ -590,7 +615,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
                 if (!isLoading && !noMoreData && totalItemCount <= (lastVisibleItem + 12)) {
-                    loadMoreItems()
+                   // loadMoreItems()
                 }
             }
         })

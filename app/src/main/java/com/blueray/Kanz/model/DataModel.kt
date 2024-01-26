@@ -464,14 +464,14 @@ data class AuthresFolow(
 //)
 
 data class VideoResponse(
-    val id: String,
-    val title: String,
-    val created_at: String,
-    val file: String,
-    val moderation_state: String,
+    val id: String ="",
+    val title: String ="",
+    val created_at: String ="",
+    val file: String ="",
+    val moderation_state: String ="",
     val vimeo_detials: VimeoDetails? = null,
-    val auther: Author,
-    val video_actions_per_user: Video_actions_per_user,
+    val auther: Author? = null,
+    val video_actions_per_user: Video_actions_per_user? = null,
     val video_counts: VideoCounts? = null
 
 )

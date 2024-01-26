@@ -18,6 +18,8 @@ import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.LoginModel
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import com.sendbird.live.AuthenticateParams
+import com.sendbird.live.SendbirdLive
 
 class LoginActivity : BaseActivity() {
     private val viewmodel by viewModels<AppViewModel>()
@@ -127,6 +129,19 @@ class LoginActivity : BaseActivity() {
 
     fun saveUserData(model: LoginModel){
         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
+            val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
+            val userId = HelperUtils.getUserName(this)
+
+            if (appId == null || userId == null) {
+                return
+            }
+
+            val params = AuthenticateParams(userId,"")
+            SendbirdLive.authenticate(params) { user, e ->
+                if (e != null || user == null) {
+                    return@authenticate
+                }
+            }
 
         sharedPreferences.edit().apply {
             putString(HelperUtils.UID_KEY, model.id)
@@ -155,18 +170,7 @@ class LoginActivity : BaseActivity() {
         binding.progressBar.show()
     }
 
-    private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
-        val appId = "7BCF8753-4413-4CED-B5C4-21A816253451"
-        val userId = HelperUtils.getUid(this)
-        val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 
-        if (appId == null || userId == null) {
-            callback.invoke(false, null)
-            return
-            }
-
-
-       }
 
 }
 

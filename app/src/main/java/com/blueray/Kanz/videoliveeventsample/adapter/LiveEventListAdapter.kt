@@ -46,6 +46,7 @@ open class LiveEventListAdapter : RecyclerView.Adapter<LiveEventListAdapter.Live
     override fun onBindViewHolder(holder: LiveEventListHolder, position: Int) {
         val liveEvent = liveEventList[position]
         holder.bind(liveEvent)
+
         holder.itemView.setOnClickListener {
             val channelPosition = holder.adapterPosition
             if (channelPosition != RecyclerView.NO_POSITION && onItemClickListener != null) {

@@ -163,31 +163,31 @@ class VideoListFragment : Fragment() {
                                     item.id.toString(),
                                     item.created_at,
                                     vidLink,
-                                    item.auther.uid,
-                                    item.auther.username,
+                                    item.auther?.uid ?:"",
+                                    item.auther?.username ?:"",
                                     item.vimeo_detials?.duration.toString(),
                                     item.vimeo_detials?.pictures?.base_link.toString(),
 
-                                    firstName = item.auther.profile_data.first_name,
-                                    lastName = item.auther.profile_data.last_name,
-                                    type = item.auther.type,
-                                    bandNam = item.auther.profile_data.band_name,
-                                    userPic = item.auther.profile_data.user_picture ?: "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788778547564820.jpg",
+                                    firstName = item.auther?.profile_data?.first_name ?:"",
+                                    lastName = item.auther?.profile_data?.last_name ?:"",
+                                    type = item.auther?.type ?:"",
+                                    bandNam = item.auther?.profile_data?.band_name ?:"",
+                                    userPic = item.auther?.profile_data?.user_picture ?: "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788778547564820.jpg",
                                     status = item.moderation_state,
-                                    favorites = item.video_actions_per_user.favorites.toString(),
-                                    userSave = item.video_actions_per_user.save.toString(),
+                                    favorites = item.video_actions_per_user?.favorites.toString(),
+                                    userSave = item.video_actions_per_user?.save.toString(),
                                     target_user = result.data.target_user,
                                     video_counts = item.video_counts,
-                                    numOfFollowers = item.auther.numOfFollowers,
-                                    numOfFollowing = item.auther.numOfFollowing,
-                                    numOfLikes = item.auther.numOfLikes
+                                    numOfFollowers = item.auther?.numOfFollowers ?:0,
+                                    numOfFollowing = item.auther?.numOfFollowing ?:0,
+                                    numOfLikes = item.auther?.numOfLikes ?:0
 
 
                                 )
                             )
                         }
 
-                        addExtraItems()
+                      //  addExtraItems()
                         videoAdapter.notifyDataSetChanged()
                         binding.progressBar.hide()
                         isLoading = false
@@ -210,7 +210,7 @@ class VideoListFragment : Fragment() {
 
     fun addExtraItems(){
 
-       // clearExtra()
+        //clearExtra()
         Log.d("***2", "count:${newArrVideoModel.count()}")
         if ( newArrVideoModel.count() % 3 != 0){
             var extra = NewAppendItItems("", "", "", "-1", "", "", "", "",
