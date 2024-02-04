@@ -7,9 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.blueray.Kanz.api.NetworkRepository
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.model.AudienceCountResponse
 import com.blueray.Kanz.model.CheckUserNameResponse
+import com.blueray.Kanz.model.CreateLiveResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
+import com.blueray.Kanz.model.GetLiveVideosResponse
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
@@ -78,11 +81,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val createAccountLive = MutableLiveData<NetworkResults<RgetrationModel>>()
     private val createAccountBandLive = MutableLiveData<NetworkResults<UserLoginModel>>()
 
-
+    private val getLiveVideosLiveData = MutableLiveData<NetworkResults<GetLiveVideosResponse>>()
+    private val audienceCountLiveData = MutableLiveData<NetworkResults<AudienceCountResponse>>()
     private val userUplaodeLoive = MutableLiveData<NetworkResults<VideoUploadeDoneMessage>>()
     private val setActions = MutableLiveData<NetworkResults<UserActionMessageModel>>()
     private val updateUserLive = MutableLiveData<NetworkResults<UpdateProfileResponse>>()
-
+    private val createLiveData = MutableLiveData<NetworkResults<CreateLiveResponse>>()
     private val deletVideoLive = MutableLiveData<NetworkResults<MessageModel>>()
 
 
@@ -273,6 +277,24 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun getUserProfile() = viewUserPrfofile
 
+    fun retrieveLiveVideos(){
+        val authToken = "Bearer $userToken"
+        viewModelScope.launch {
+            getLiveVideosLiveData.postValue(repo.getLiveVideos(authToken))
+        }
+    }
+    fun getLiveVideos() = getLiveVideosLiveData
+
+    fun retrieveAudienceCount(
+        live_stream_id:String
+    ){
+        val authToken = "Bearer $userToken"
+        viewModelScope.launch {
+            audienceCountLiveData.postValue(repo.audienceCount(authToken,live_stream_id))
+        }
+    }
+    fun getAudienceCount() = audienceCountLiveData
+
     fun retrieveVideoOption(videoUrl: String, vimeoToken: String) {
 
         viewModelScope.launch {
@@ -336,6 +358,15 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getGender() = genderLive
+
+    fun retrieveCreateLive(){
+        val authToken = "Bearer $userToken"
+        viewModelScope.launch {
+            createLiveData.postValue(repo.createLive(authToken))
+        }
+    }
+
+    fun getCreateLive() = createLiveData
 
 
     fun retriveCategory() {

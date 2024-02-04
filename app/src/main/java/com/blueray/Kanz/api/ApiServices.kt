@@ -1,8 +1,11 @@
 package com.blueray.Kanz.api
 
+import com.blueray.Kanz.model.AudienceCountResponse
 import com.blueray.Kanz.model.CheckUserNameResponse
+import com.blueray.Kanz.model.CreateLiveResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
+import com.blueray.Kanz.model.GetLiveVideosResponse
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
@@ -343,5 +346,22 @@ interface ApiServices {
         @Header("Authorization") authorizationToken: String,
     ): VimeoVideoModelV2
 
+    @POST("user/createOrStopLiveStreaming")
+    suspend fun createLive(
+        @Header ("Authorization") authorizationToken: String,
+
+    ): CreateLiveResponse
+
+    @POST("user/getAllLiveStreams")
+    suspend fun getLiveVideos(
+        @Header ("Authorization") authorizationToken: String,
+    ):GetLiveVideosResponse
+
+    @Multipart
+    @POST("user/getAudienceNumberByLiveStreamId")
+    suspend fun audienceCount(
+        @Header ("Authorization") authorizationToken: String,
+        @Part("live_stream_id") live_stream_id:RequestBody
+    ):AudienceCountResponse
 
 }

@@ -650,3 +650,55 @@ data class Linkss(
     val get_session: String
 )
 
+
+data class CreateLiveResponse(
+    val results: CreateLiveResults,
+    val status: CreateLiveStatus
+)
+
+data class CreateLiveStatus(
+    val code: Int,
+    val message: String
+)
+
+data class CreateLiveResults(
+    val created_at: String,
+    val id: Int,
+    val room_id: String,
+    val updated_at: String,
+    val user_id: Int
+)
+
+data class GetLiveVideosResponse(
+    val results: GetLiveVideosResults,
+    val status: GetLiveVideosStatus
+)
+
+data class GetLiveVideosResults(
+    val followingLiveStreams: List<ForYouLiveStraem>,
+    val forYouLiveStraems: List<ForYouLiveStraem>
+)
+
+data class ForYouLiveStraem(
+    val audience_number: Int,
+    val created_at: String,
+    val id: Int,
+    val room_id: String,
+    val updated_at: String,
+    val user_id: Int
+)
+
+data class GetLiveVideosStatus(
+    val code: Int,
+    val message: String
+)
+
+data class AudienceCountResponse(
+    val results: String,
+    val status: Status
+)
+
+data class Status(
+    val code: Int,
+    val message: String
+)

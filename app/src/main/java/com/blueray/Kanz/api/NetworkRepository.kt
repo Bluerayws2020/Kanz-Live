@@ -3,8 +3,12 @@ package com.blueray.Kanz.api
 import android.util.Base64
 import android.util.Log
 import com.blueray.Kanz.helpers.HelperUtils
+import com.blueray.Kanz.model.AudienceCountResponse
 import com.blueray.Kanz.model.CheckUserNameResponse
+import com.blueray.Kanz.model.CreateLiveResponse
 import com.blueray.Kanz.model.DropDownModel
+import com.blueray.Kanz.model.GetLiveVideosResponse
+import com.blueray.Kanz.model.GetLiveVideosResults
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
@@ -488,6 +492,47 @@ object NetworkRepository {
                 NetworkResults.Error(e)
             }
             }}
+
+    suspend fun createLive(
+        bearerToken: String,
+    ):NetworkResults<CreateLiveResponse>{
+        return withContext(Dispatchers.IO){
+            try {
+                val results = ApiClient.retrofitService.createLive(bearerToken)
+                NetworkResults.Success(results)
+            }catch (e:Exception){
+                NetworkResults.Error(e)
+            }
+        }
+    }
+    suspend fun getLiveVideos(
+        bearerToken: String
+    ):NetworkResults<GetLiveVideosResponse>{
+        return withContext(Dispatchers.IO){
+            try {
+                val results = ApiClient.retrofitService.getLiveVideos(bearerToken)
+                NetworkResults.Success(results)
+            }catch (e:Exception){
+                NetworkResults.Error(e)
+            }
+        }
+    }
+
+    suspend fun audienceCount(
+        bearerToken: String ,
+        live_stream_id:String
+    ):NetworkResults<AudienceCountResponse>{
+        return withContext(Dispatchers.IO){
+            val liveIdBody = live_stream_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            try {
+
+                val results = ApiClient.retrofitService.audienceCount(bearerToken,liveIdBody)
+                NetworkResults.Success(results)
+            }catch (e:Exception){
+                NetworkResults.Error(e)
+            }
+        }
+    }
 
     suspend fun getCheckUserFollow(
 
