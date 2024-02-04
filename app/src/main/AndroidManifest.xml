@@ -62,23 +62,23 @@
         android:theme="@style/Theme.Fares"
         tools:targetApi="31">
         <activity
+            android:name=".zegoCload.PrepareLivees"
+            android:exported="false" />
+        <activity
+            android:name=".zegoCload.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.SplashScreen2"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.activities.AgoraLiveChat"
             android:exported="false" />
         <activity
             android:name=".ui.activities.LoginActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.activities.HomeActivity"
-            android:exported="true">
-
-        </activity> <!-- <activity -->
+            android:exported="true" /> <!-- <activity -->
         <!-- android:name="Foll" -->
         <!-- android:exported="false" /> -->
         <activity
@@ -147,6 +147,17 @@
             android:name=".videoliveeventsample.view.CreateLiveEventActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".zegoCload.CreateLiveEventActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.blueray.Kanz.zegoCload.PrepareLivees"
+            android:exported="false"
+
+             />
+
         <activity
             android:name=".videoliveeventsample.view.HostAndCandidatesListActivity"
             android:exported="false"
