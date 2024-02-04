@@ -4,10 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".zegoCload.LiveVideossListFragment">
-
- <androidx.recyclerview.widget.RecyclerView
-     android:id="@+id/livesRv"
+ <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+     android:id="@+id/swipeRefresh"
      android:layout_width="match_parent"
-     android:layout_height="match_parent"/>
+     android:layout_height="match_parent">
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/livesRv"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+ </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </FrameLayout>

@@ -14,8 +14,10 @@ import com.blueray.Kanz.videoliveeventsample.util.showToast
 class PrepareLivees : AppCompatActivity() {
     private lateinit var binding: ActivityPrepareLiveBinding
     private val viewModel: AppViewModel by viewModels()
-    private lateinit var liveId:String
 
+    companion object{
+        var liveId:String? = null
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrepareLiveBinding.inflate(layoutInflater)
@@ -40,10 +42,8 @@ class PrepareLivees : AppCompatActivity() {
 
                     if (result.data.status.code == 200) {
                         liveId = result.data.results.room_id
-                        showToast(liveId.toString())
                         binding.start.setOnClickListener {
                             val intent = Intent(this, CreateLiveEventActivity::class.java)
-                        //    intent.putExtra("live_id", liveId)
                             startActivity(intent)
                         }
                    //

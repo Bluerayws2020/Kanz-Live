@@ -9,7 +9,8 @@ import com.blueray.Kanz.model.ForYouLiveStraem
 import com.bumptech.glide.Glide
 
 class LiveVideosListAdapter(
-    var list: List<ForYouLiveStraem>
+    var list: List<ForYouLiveStraem> ,
+    private var cLick: LiveCLick
 ) : RecyclerView.Adapter<LiveVideosListAdapter.LiveVideosViewHolder>() {
 
     inner class LiveVideosViewHolder(val binding: LiveVideosListItemBinding) :
@@ -30,6 +31,9 @@ class LiveVideosListAdapter(
         holder.binding.apply {
             Glide.with(holder.itemView.context).load(item.user_image).placeholder(R.drawable.logo)
                 .into(liveVideoImage)
+        }
+        holder.binding.liveVideoImage.setOnClickListener {
+            cLick.OnLiveClick(position)
         }
     }
 }

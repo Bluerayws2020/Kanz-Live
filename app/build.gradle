@@ -197,6 +197,7 @@ dependencies {
     implementation 'com.sendbird.sdk:sendbird-live-uikit:1.0.0-beta.4'
 
     implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_live_streaming_android:+'
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_signaling_plugin_android:+'
 
 
 }

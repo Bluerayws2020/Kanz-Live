@@ -1,29 +1,22 @@
 package com.blueray.Kanz.zegoCload
 
-import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.blueray.Kanz.databinding.ActivityCreateLiveEventtBinding
+import android.os.Bundle
+import android.util.Log
+import com.blueray.Kanz.R
 import com.blueray.Kanz.helpers.HelperUtils
-import com.blueray.Kanz.ui.viewModels.AppViewModel
-import com.zegocloud.uikit.prebuilt.livestreaming.ZegoUIKitPrebuiltLiveStreamingConfig
-import com.zegocloud.uikit.prebuilt.livestreaming.ZegoUIKitPrebuiltLiveStreamingFragment
+import com.zegocloud.uikit.prebuilt.livestreaming.*
 
 
-class CreateLiveEventActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCreateLiveEventtBinding
-    private val viewModel: AppViewModel by viewModels()
-    private val mainViewModel by viewModels<AppViewModel>()
-    private lateinit var  liveId:String
-
+class JoinLiveActivity : AppCompatActivity() {
+    private  var modifiedString:String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.blueray.Kanz.R.layout.activity_create_live_eventt)
-        liveId = PrepareLivees.liveId.toString()
+        setContentView(R.layout.activity_join_live)
+
         addFragment()
 
     }
-
 
     private fun addFragment() {
         val appID: Long = 1099604494
@@ -31,9 +24,8 @@ class CreateLiveEventActivity : AppCompatActivity() {
         val userID = HelperUtils.getUid(this)
         val userName = HelperUtils.getUserName(this)
 
-        val isHost = true
-        val liveID = liveId
-
+        val isHost = false
+        val liveID = intent.getStringExtra("roomId")
 
         val config: ZegoUIKitPrebuiltLiveStreamingConfig = if (isHost) {
             ZegoUIKitPrebuiltLiveStreamingConfig.host(true)
@@ -44,13 +36,7 @@ class CreateLiveEventActivity : AppCompatActivity() {
             appID, appSign, userID, userName, liveID, config
         )
         supportFragmentManager.beginTransaction()
-            .replace(com.blueray.Kanz.R.id.fragment_container, fragment)
+            .replace(com.blueray.Kanz.R.id.fragment_container22, fragment)
             .commitNow()
     }
-
-
-
-
-
-
 }

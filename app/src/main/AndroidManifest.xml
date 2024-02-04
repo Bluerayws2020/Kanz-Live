@@ -62,6 +62,9 @@
         android:theme="@style/Theme.Fares"
         tools:targetApi="31">
         <activity
+            android:name=".zegoCload.JoinLiveActivity"
+            android:exported="false" />
+        <activity
             android:name=".zegoCload.PrepareLivees"
             android:exported="false" />
         <activity
@@ -151,13 +154,9 @@
             android:name=".zegoCload.CreateLiveEventActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.blueray.Kanz.zegoCload.PrepareLivees"
-            android:exported="false"
-
-             />
-
+            android:name=".zegoCload.PrepareLivees"
+            android:exported="false" />
         <activity
             android:name=".videoliveeventsample.view.HostAndCandidatesListActivity"
             android:exported="false"

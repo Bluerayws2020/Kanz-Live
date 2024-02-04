@@ -355,7 +355,7 @@ interface ApiServices {
         ): CreateLiveResponse
     @POST("user/getAllLiveStreams")
     suspend fun getLiveVideos(
-        @Header ("Authorization") authorizationToken: String,
+        @Header ("Authorization") bearerToken: String,
     ):GetLiveVideosResponse
 
     @Multipart

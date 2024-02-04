@@ -1,6 +1,8 @@
 package com.blueray.Kanz.zegoCload
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +16,11 @@ import com.blueray.Kanz.ui.viewModels.AppViewModel
 
 
 class LiveVideossListFragment : Fragment() {
-
+    companion object{
+        private var roomId:String? = null
+    }
     private lateinit var binding: FragmentLiveVideossListBinding
-    var liveAdapter = LiveVideosListAdapter(listOf())
+
     private val viewModel by viewModels<AppViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +32,10 @@ class LiveVideossListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLiveVideossListBinding.inflate(layoutInflater)
-
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.retrieveLiveVideos()
+            getLives()
+        }
         viewModel.retrieveLiveVideos()
         setUpRecyclerView()
         getLives()
@@ -41,8 +48,21 @@ class LiveVideossListFragment : Fragment() {
             results ->
             when(results){
                 is NetworkResults.Success ->{
+                    Log.e("LDKDJSDADADAD" , results.data.results.forYouLiveStraems.toString())
                     binding.livesRv.layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL , false)
-                    liveAdapter.list = results.data.results.forYouLiveStraems
+                 val   liveAdapterArr = results.data.results.forYouLiveStraems
+
+                    var liveAdapter = LiveVideosListAdapter(liveAdapterArr , object : LiveCLick{
+                        override fun OnLiveClick(position: Int) {
+                         val roomId =   liveAdapterArr[position].room_id
+                            val intent =Intent(requireContext() , JoinLiveActivity::class.java)
+                            intent.putExtra("roomId" , roomId)
+                            startActivity(intent)
+                        }
+
+                    })
+                    binding.livesRv.adapter = liveAdapter
+                    liveAdapter.notifyDataSetChanged()
                 }
                 is NetworkResults.Error ->{
                     Toast.makeText(requireContext(),results.exception.message.toString() ,Toast.LENGTH_LONG ).show()

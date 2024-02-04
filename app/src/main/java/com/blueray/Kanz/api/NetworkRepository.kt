@@ -511,6 +511,7 @@ object NetworkRepository {
         return withContext(Dispatchers.IO){
             try {
                 val results = ApiClient.retrofitService.getLiveVideos(bearerToken)
+                Log.d("ASASASADVVCCC" , results.results.forYouLiveStraems.toString())
                 NetworkResults.Success(results)
             }catch (e:Exception){
                 NetworkResults.Error(e)

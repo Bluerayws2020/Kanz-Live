@@ -1,6 +1,7 @@
 package com.blueray.Kanz.ui.viewModels
 
 import android.app.Application
+import android.util.Log
 import android.view.PixelCopy.Request
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -280,6 +281,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun retrieveLiveVideos(){
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
+            Log.d("LLKKKKAAAXXXXXc" , authToken.toString())
             getLiveVideosLiveData.postValue(repo.getLiveVideos(authToken))
         }
     }
