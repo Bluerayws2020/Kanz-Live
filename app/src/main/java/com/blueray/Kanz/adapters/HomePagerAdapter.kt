@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.blueray.Kanz.ui.fragments.HomeVidFrag
 import com.blueray.Kanz.videoliveeventsample.view.fragment.LiveEventListFragment
+import com.blueray.Kanz.zegoCload.live_fragment
 
 class HomePagerAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -18,8 +19,9 @@ class HomePagerAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle) 
             videosFragment
         } else{
            // val livesFragment = LiveEventList()
-            val livesFragment = LiveEventListFragment()
-            videosFragment.videoAdapter = null
+            // val livesFragment = LiveEventListFragment()
+            val livesFragment = live_fragment()
+//            videosFragment.videoAdapter = null
             livesFragment
 
 
