@@ -22,38 +22,21 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         prefManager = PrefManager(this)
-        (application as BaseApplication).initResultLiveData.observe(this, EventObserver {
-            if (it) {
-                autoAuthenticate { isSucceed, e ->
-                    if (e != null) showToast(e)
-                    val intent = if (isSucceed) Intent(this, MainActivity::class.java) else Intent(this, SignInManuallyActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            } else {
-                val intent = Intent(this, SignInManuallyActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        })
+//        (application as BaseApplication).initResultLiveData.observe(this, EventObserver {
+//            if (it) {
+//                autoAuthenticate { isSucceed, e ->
+//                    if (e != null) showToast(e)
+//                    val intent = if (isSucceed) Intent(this, MainActivity::class.java) else Intent(this, SignInManuallyActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }
+//            } else {
+//                val intent = Intent(this, SignInManuallyActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }
+//        })
     }
 
-    private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
-        val appId = prefManager.appId
-        val userId = prefManager.userId
-        val accessToken = prefManager.accessToken
-        if (appId == null || userId == null) {
-            callback.invoke(false, null)
-            return
-        }
 
-        val params = AuthenticateParams(userId, accessToken)
-        SendbirdLive.authenticate(params) { user, e ->
-            if (e != null || user == null) {
-                callback.invoke(false, "${e?.message}")
-                return@authenticate
-            }
-            callback.invoke(true, null)
-        }
-    }
 }

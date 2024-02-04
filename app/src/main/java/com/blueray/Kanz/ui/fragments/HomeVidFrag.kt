@@ -93,19 +93,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
         isAuthintcted = HelperUtils.getUid(requireContext()) != "0"
         binding.img.show()
-            val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
-            val userId = HelperUtils.getUserName(requireContext())
 
-            if (appId == null || userId == null) {
-                return
-            }
-
-            val params = AuthenticateParams(userId,"")
-            SendbirdLive.authenticate(params) { user, e ->
-                if (e != null || user == null) {
-                    return@authenticate
-                }
-            }
 
 
 //        binding.includeTap.profile.setOnClickListener {

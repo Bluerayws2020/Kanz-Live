@@ -37,20 +37,6 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-            val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
-            val userId = HelperUtils.getUserName(this)
-
-            if (appId == null || userId == null) {
-                return
-            }
-
-            val params = AuthenticateParams(userId,"")
-            SendbirdLive.authenticate(params) { user, e ->
-                if (e != null || user == null) {
-                    return@authenticate
-                }
-            }
-
 
 
 

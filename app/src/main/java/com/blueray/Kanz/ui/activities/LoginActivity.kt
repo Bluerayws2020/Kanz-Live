@@ -129,19 +129,7 @@ class LoginActivity : BaseActivity() {
 
     fun saveUserData(model: LoginModel){
         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
-            val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
-            val userId = HelperUtils.getUserName(this)
 
-            if (appId == null || userId == null) {
-                return
-            }
-
-            val params = AuthenticateParams(userId,"")
-            SendbirdLive.authenticate(params) { user, e ->
-                if (e != null || user == null) {
-                    return@authenticate
-                }
-            }
 
         sharedPreferences.edit().apply {
             putString(HelperUtils.UID_KEY, model.id)

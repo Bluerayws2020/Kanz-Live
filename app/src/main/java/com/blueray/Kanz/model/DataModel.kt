@@ -664,7 +664,7 @@ data class CreateLiveStatus(
 data class CreateLiveResults(
     val created_at: String,
     val id: Int,
-    val room_id: String,
+   @SerializedName("room_id") val room_id: String,
     val updated_at: String,
     val user_id: Int
 )
@@ -685,7 +685,9 @@ data class ForYouLiveStraem(
     val id: Int,
     val room_id: String,
     val updated_at: String,
-    val user_id: Int
+    val user_id: Int,
+    val user_name:String,
+    val user_image:String
 )
 
 data class GetLiveVideosStatus(

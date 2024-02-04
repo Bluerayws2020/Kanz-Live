@@ -76,67 +76,32 @@ class SplashScreen : AppCompatActivity() {
         Log.d("TEEEESTTTT",uid)
         lifecycleScope.launch {
             delay(2000)
-
-//                    user
-            if (!uid.isNullOrEmpty() && uid != "0") {
-
-                prefManager = PrefManager(this@SplashScreen)
-                (application as BaseApplication).initResultLiveData.observe(
+            if (token == null || token == ""){
+                val intent = Intent(
                     this@SplashScreen,
-                    EventObserver {
-                        if (it) {
-                            autoAuthenticate { isSucceed, e ->
-//                                if (e != null) showToast(e)
+                    LoginActivity::class.java
+                )
+                startActivity(intent)
+                finish()
+            }else {
 
 
-                                val intent =
-                                    if (isSucceed) Intent(
-                                        this@SplashScreen,
-                                        HomeActivity::class.java
-                                    ) else
-
-                                        Intent(
-                                            this@SplashScreen,
-                                            LoginActivity::class.java
-                                        )
-                                startActivity(intent)
-                                finish()
-                            }
-                        } else {
-                            val intent = Intent(this@SplashScreen, HomeActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                    })
-            } else {
-                //make user use App
-
-                val intent = Intent(this@SplashScreen, LoginActivity::class.java)
+                val intent = Intent(
+                    this@SplashScreen,
+                    LoginActivity::class.java
+                )
                 startActivity(intent)
                 finish()
             }
+
+
+
+
         }
 
     }
 
-    private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
-        val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
-        val userId = HelperUtils.getUserName(this)
 
-        if (appId == null || userId == null) {
-            callback.invoke(false, null)
-            return
-        }
-
-        val params = AuthenticateParams(userId,"")
-        SendbirdLive.authenticate(params) { user, e ->
-            if (e != null || user == null) {
-                callback.invoke(false, "${e?.message}")
-                return@authenticate
-            }
-            callback.invoke(true, null)
-        }
-    }
     private fun setLocale(language: String) {
         val locale = Locale(language)
         Locale.setDefault(locale)
