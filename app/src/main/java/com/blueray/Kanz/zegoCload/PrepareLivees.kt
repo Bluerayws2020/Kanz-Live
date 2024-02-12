@@ -3,6 +3,7 @@ package com.blueray.Kanz.zegoCload
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import com.blueray.Kanz.databinding.ActivityPrepareLiveBinding
@@ -41,11 +42,18 @@ class PrepareLivees : AppCompatActivity() {
 
 
                     if (result.data.status.code == 200) {
-                        liveId = result.data.results.room_id
-                        binding.start.setOnClickListener {
+
+                        if(result.data.status.message == "تم إنشاء البث المباشر بنجاح"){
+                            liveId = result.data.results.room_id
                             val intent = Intent(this, CreateLiveEventActivity::class.java)
                             startActivity(intent)
+                            showToast(result.data.status.message)
+                            Log.w("AASCCVXBVCBD" ,result.data.status.message.toString() )
+                        }else{
+                            viewModel.retrieveCreateLive()
+                            Log.w("AASCCVXBVCBD" ,result.data.status.message.toString() )
                         }
+
                    //
                     } else {
                         showToast(result.data.status.message)

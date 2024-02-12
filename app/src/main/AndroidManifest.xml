@@ -64,6 +64,7 @@
         <activity
             android:name=".zegoCload.JoinLiveActivity"
             android:exported="false" />
+
         <activity
             android:name=".zegoCload.PrepareLivees"
             android:exported="false" />
@@ -119,7 +120,21 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".ui.activities.SharedVideoPlayer"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="player.vimeo.com"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity

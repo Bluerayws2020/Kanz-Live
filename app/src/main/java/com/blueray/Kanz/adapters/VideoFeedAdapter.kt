@@ -113,7 +113,7 @@ class VideoFeedAdapter(
         }
         holder.binding.username.text = videoUrls[position].userName
         holder.binding.description.text = videoUrls[position].videoTitle
-    Log.d("useeeerPPPIICC" , videoUrls[position].userName.toString())
+    Log.d("useeeerPPPIICC" , videoUrls[position].videoUrl.toString())
         Glide.with(holder.itemView.context).load(videoUrls[position].userPic).placeholder(R.drawable.logo).into(holder.binding.profielImage)
 //
         // Save button
