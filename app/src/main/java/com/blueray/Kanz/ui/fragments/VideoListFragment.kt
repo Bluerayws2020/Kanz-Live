@@ -35,7 +35,7 @@ class VideoListFragment : Fragment() {
     private lateinit var navController: NavController
     var data: Int? = null
 
-    private var currentPage = 0
+    private var currentPage = 1
     private val pageSize = 3 // Set this based on your API's page size
 
     private var noMoreData = false
@@ -57,7 +57,7 @@ class VideoListFragment : Fragment() {
         isLoading = true
         binding.shimmerView.startShimmer()
 
-       mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
+       mainViewModel.retriveUserVideos("5", userIdes, "0", currentPage.toString())
 
         setupRecyclerView()
         getMainVidos()
@@ -81,7 +81,7 @@ class VideoListFragment : Fragment() {
             binding.progressBar.show()
             isLoading = true
            // Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 0  user_profile_uid : $userIdes")
-            mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
+            mainViewModel.retriveUserVideos("5", userIdes, "0", currentPage.toString())
         }
 
     }

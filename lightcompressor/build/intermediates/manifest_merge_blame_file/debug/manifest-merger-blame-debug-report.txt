@@ -3,6 +3,6 @@
 3    package="com.abedelazizshe.lightcompressorlibrary" >
 4
 5    <uses-sdk android:minSdkVersion="24" />
-5-->C:\Users\Waleed\Documents\GitHub\Kanz-Live\lightcompressor\src\main\AndroidManifest.xml
+5-->C:\Users\Waleed\AndroidStudioProjects\Kanz-Alarab_VSDK-WALOur\lightcompressor\src\main\AndroidManifest.xml
 6
 7</manifest>

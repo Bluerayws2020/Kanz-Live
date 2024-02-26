@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:layout_margin="16dp"
         app:elevation="10dp"
-        app:srcCompat="@drawable/plusadds"
+        app:srcCompat="@drawable/new_upload_icon"
         app:backgroundTint="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -3,7 +3,9 @@ package com.blueray.Kanz.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -15,13 +17,16 @@ import com.blueray.Kanz.helpers.HelperUtils.setDefaultLanguage
 import com.blueray.Kanz.helpers.HelperUtils.setLang
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
+import com.blueray.Kanz.model.NetworkResults
+import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.sendbird.live.AuthenticateParams
 import com.sendbird.live.SendbirdLive
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+    private val viewModel by viewModels<AppViewModel>()
 
-    private lateinit var binding : ActivityHomeBinding
+    private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,19 +34,13 @@ class HomeActivity : AppCompatActivity() {
 
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
-
-        setDefaultLanguage(this@HomeActivity,"ar")
-        setLang(this@HomeActivity,"ar")
-
-
-
-
-
-
-
-
-
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        val versionCode = packageInfo.versionCode
+        viewModel.retrieveVersionCode("3")
+        Log.d("Versiomm", versionCode.toString())
+        getCode()
+        setDefaultLanguage(this@HomeActivity, "ar")
+        setLang(this@HomeActivity, "ar")
 
 
         val navHostFragment =
@@ -50,82 +49,101 @@ class HomeActivity : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
 //        NavigationUI.setupWithNavController(binding.navDrawer, navController)
-        binding.addNew.setOnClickListener{
+        binding.addNew.setOnClickListener {
 
-            if (HelperUtils.getUid(this@HomeActivity) == "0"){
-                Toast.makeText(this,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
+            if (HelperUtils.getUid(this@HomeActivity) == "0") {
+                Toast.makeText(this, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
 
-                startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
+                startActivity(Intent(this, com.blueray.Kanz.ui.activities.SplashScreen::class.java))
                 finish()
 
-            }else {
-                MyBottomSheetFragment().show(supportFragmentManager, MyBottomSheetFragment::class.java.simpleName)
-
-
+            } else {
+                MyBottomSheetFragment().show(
+                    supportFragmentManager,
+                    MyBottomSheetFragment::class.java.simpleName
+                )
 
 
             }
         }
 
 
-        binding.bottomNav.setOnItemSelectedListener {
-                item ->
-            when(item.itemId){
-                R.id.home ->{
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
 //                    val v = Bundle()
 //                    v.putString("123","1")
                     navController.navigate(R.id.homePagerFragment)
                     true
                 }
-                R.id.search->{
+
+                R.id.search -> {
 //                    replace(R.id.fragmentContainerView, liveEventListFragment)
 
-navController.navigate(R.id.searchFragment)
-                   true
+                    navController.navigate(R.id.searchFragment)
+                    true
                 }
-                R.id.PlaceHolder->{
 
-                    if (HelperUtils.getUid(this@HomeActivity) == "0"){
-                        Toast.makeText(this,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
+                R.id.PlaceHolder -> {
 
-                        startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
+                    if (HelperUtils.getUid(this@HomeActivity) == "0") {
+                        Toast.makeText(this, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
+
+                        startActivity(
+                            Intent(
+                                this,
+                                com.blueray.Kanz.ui.activities.SplashScreen::class.java
+                            )
+                        )
                         finish()
 
                         true
-                    }else {
+                    } else {
 
-                        startActivity(Intent(this,UploadeVedio::class.java))
+                        startActivity(Intent(this, UploadeVedio::class.java))
                         true
 
                     }
 
                     true
                 }
-                R.id.profiles->{
-                    if (HelperUtils.getUid(this@HomeActivity) == "0"){
-                        Toast.makeText(this,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
 
-                        startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
+                R.id.profiles -> {
+                    if (HelperUtils.getUid(this@HomeActivity) == "0") {
+                        Toast.makeText(this, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
+
+                        startActivity(
+                            Intent(
+                                this,
+                                com.blueray.Kanz.ui.activities.SplashScreen::class.java
+                            )
+                        )
                         finish()
 
                         false
-                    }else {
+                    } else {
                         navController.navigate(R.id.myAccountFragment)
                         true
                     }
 
                 }
-                else ->{
-                    if (HelperUtils.getUid(this@HomeActivity) == "0"){
-                        Toast.makeText(this,"يجب تسجيل الدخول",Toast.LENGTH_LONG).show()
 
-                        startActivity(Intent(this,com.blueray.Kanz.ui.activities.SplashScreen::class.java))
+                else -> {
+                    if (HelperUtils.getUid(this@HomeActivity) == "0") {
+                        Toast.makeText(this, "يجب تسجيل الدخول", Toast.LENGTH_LONG).show()
+
+                        startActivity(
+                            Intent(
+                                this,
+                                com.blueray.Kanz.ui.activities.SplashScreen::class.java
+                            )
+                        )
                         finish()
 
                         false
-                    }else {
+                    } else {
                         navController.navigate(R.id.notfi)
-true
+                        true
                     }
                     true
                 }
@@ -167,10 +185,11 @@ true
 //    }
 
 
-    fun showBottomNav(){
+    fun showBottomNav() {
         binding.bottomNav.show()
     }
-    fun hideBottomNav(){
+
+    fun hideBottomNav() {
         binding.bottomNav.hide()
     }
 
@@ -181,7 +200,7 @@ true
 //            binding.drawerLayout.closeDrawer(GravityCompat.START)
 //        }
 
-//    override fun onBackPressed() {
+    //    override fun onBackPressed() {
 //        super.onBackPressed()
 //
 //        AlertDialog.Builder(this)
@@ -194,6 +213,30 @@ true
 //                .show()
 //
 //    }
+    private fun getCode() {
 
 
+        viewModel.getVersionCode().observe(this) { result ->
+            when (result) {
+                is NetworkResults.Success -> {
+//                    version = result.data.msg.status.toString()
+                    if (result.data.msg.message == "true"){
+                    Log.d("update","last version installed")
+                    }else{
+                        val intent = Intent(this , UpdateAppActivity::class.java)
+                        startActivity(intent)
+                        finishAffinity()
+                    }
+                }
+
+                is NetworkResults.Error -> {
+                    Log.d("EEERRRROO", result.exception.message.toString())
+                }
+
+                else -> {}
+            }
+        }
     }
+
+
+}

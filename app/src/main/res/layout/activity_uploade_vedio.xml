@@ -42,7 +42,7 @@
                     android:layout_alignParentBottom="true"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/upl_l"
+                    app:lottie_rawRes="@raw/upload"
                     />
 
 
@@ -61,10 +61,9 @@
 
                     android:background="@color/white"
                     android:hint="اضف بعض المعلومات عن الفيديو الخاص بك
-الحد الاقصى 40000 حرف
 "
                     android:textColor="@color/green"
-                    android:textColorHint="@color/green"
+                    android:textColorHint="@color/grey"
                     android:textSize="14sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +156,7 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/sb_size_12"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="#545C83"
                 android:gravity="center"
                 android:text="تحميل"
                 android:textAllCaps="false"

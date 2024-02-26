@@ -19,7 +19,7 @@ class MyAccountPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
             videosFragment.data = data
             videosFragment
         } else{
-            val livesFragment = SavedVideoFragment()
+            val livesFragment =SavedVideoFragment()
             livesFragment
         }
     }

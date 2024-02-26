@@ -136,12 +136,10 @@ class PartitionChannelFragment : Fragment() {
         binding.progressBar.show()
         isLoading = true
         binding.shimmerView.startShimmer()
-        Log.d("***", "page: $currentPage   Page_limit: 9   Is_home: 1  user_profile_uid : $userIdes")
         mainViewModel.retriveUserVideos("3", userIdes, "0", currentPage.toString())
         mainViewModel.retriveUserProfile(userIdes)
         getMainVidos()
 
-        Log.d("*WWEEEE**", userIdes)
 
         binding.followersLayout.setOnClickListener {
             val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
@@ -353,6 +351,7 @@ class PartitionChannelFragment : Fragment() {
                         binding.videosRv.show()
                         followFlag = result.data.target_user?.target_user_follow_flag.toString()
                         count += result.data.datass?.count() ?: 0
+                        Log.wtf("WEWEWTTT" , count.toString())
 
                     }
 
@@ -454,7 +453,6 @@ class PartitionChannelFragment : Fragment() {
 
 
     private fun loadMoreItems() {
-        Log.d("****", "loadMoreItems  $noMoreData   $count")
         if (noMoreData || count == 0) {
             Log.d("****No MORE DATA ", "qwertyuiop[")
         } else {

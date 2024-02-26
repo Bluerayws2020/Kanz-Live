@@ -230,11 +230,11 @@
 
         <com.like.LikeButton
             app:icon_type="heart"
-            app:icon_size="10dp"
-            app:like_drawable="@drawable/star"
-            app:unlike_drawable="@drawable/star_white"
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
+            app:icon_size="30dp"
+            app:like_drawable="@drawable/new_like_filled"
+            app:unlike_drawable="@drawable/new_like"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:id="@+id/likeBtn"/>
 
         <TextView
@@ -254,10 +254,10 @@
 
         <ImageView
             android:id="@+id/commentBtn"
-            android:layout_width="@dimen/sb_size_35"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="@dimen/sb_size_10"
-            android:src="@drawable/comments" />
+            android:src="@drawable/new_comment" />
 
         <TextView
             android:id="@+id/commentsCount"
@@ -275,10 +275,10 @@
 
         <ImageView
             android:id="@+id/saveBtn"
-            android:layout_width="@dimen/sb_size_35"
-            android:layout_height="27dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="@dimen/sb_size_10"
-            android:src="@drawable/save" />
+            android:src="@drawable/new_save" />
         <!--        <androidx.appcompat.widget.AppCompatCheckBox-->
         <!--            android:id="@+id/saveBtn"-->
         <!--            android:layout_width="35dp"-->
@@ -290,12 +290,11 @@
 
         <ImageView
             android:id="@+id/shareBtn"
-            android:layout_width="@dimen/sb_size_35"
-            android:layout_height="35dp"
-            android:padding="@dimen/sb_size_7"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:shadowColor="@color/colorBlack"
-            android:src="@drawable/share1" />
+            android:src="@drawable/new_share" />
 
         <TextView
 

@@ -48,6 +48,7 @@ class LiveVideossListFragment : Fragment() {
             results ->
             when(results){
                 is NetworkResults.Success ->{
+                    binding.swipeRefresh.isRefreshing = false
                     Log.e("LDKDJSDADADAD" , results.data.results.forYouLiveStraems.toString())
                     binding.livesRv.layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL , false)
                  val   liveAdapterArr = results.data.results.forYouLiveStraems
@@ -65,8 +66,11 @@ class LiveVideossListFragment : Fragment() {
                     liveAdapter.notifyDataSetChanged()
                 }
                 is NetworkResults.Error ->{
+                    binding.swipeRefresh.isRefreshing = false
+
                     Toast.makeText(requireContext(),results.exception.message.toString() ,Toast.LENGTH_LONG ).show()
                 }
+
 
                 else -> {}
             }

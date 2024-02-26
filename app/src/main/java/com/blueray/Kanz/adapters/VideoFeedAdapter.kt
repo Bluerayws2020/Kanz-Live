@@ -1,5 +1,6 @@
 package com.blueray.Kanz.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
@@ -103,6 +104,7 @@ class VideoFeedAdapter(
     }
 
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.bind(videoUrls[position].videoUrl)
         val item = videoUrls[position]
@@ -112,8 +114,8 @@ class VideoFeedAdapter(
             true
         }
         holder.binding.username.text = videoUrls[position].userName
-        holder.binding.description.text = videoUrls[position].videoTitle
-    Log.d("useeeerPPPIICC" , videoUrls[position].videoUrl.toString())
+        holder.binding.description.text = videoUrls[position].videoDesc
+    Log.d("useeeerPPPIICC" , videoUrls[position].userName.toString())
         Glide.with(holder.itemView.context).load(videoUrls[position].userPic).placeholder(R.drawable.logo).into(holder.binding.profielImage)
 //
         // Save button
@@ -185,10 +187,10 @@ class VideoFeedAdapter(
         // Like button logic
 
         if (videoUrls[position].userSave == "true") {
-            holder.binding.saveBtn.setImageResource(R.drawable.baseline_bookmark_24)
+            holder.binding.saveBtn.setImageResource(R.drawable.new_share_filled)
 
         } else {
-            holder.binding.saveBtn.setImageResource(R.drawable.save)
+            holder.binding.saveBtn.setImageResource(R.drawable.new_save)
 
         }
 //
@@ -292,7 +294,7 @@ class VideoFeedAdapter(
 
 
     private fun updateSaveButtonUI(holder: VideoViewHolder, item: NewAppendItItems) {
-        holder.binding.saveBtn.setImageResource(if (item.userSave == "true") R.drawable.baseline_bookmark_24 else R.drawable.save)
+        holder.binding.saveBtn.setImageResource(if (item.userSave == "true") R.drawable.new_share_filled else R.drawable.new_save)
         holder.binding.commentsCount.text = item.video_counts?.save_count.toString()
     }
 

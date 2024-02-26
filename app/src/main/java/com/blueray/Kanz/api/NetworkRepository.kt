@@ -24,6 +24,7 @@ import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
+import com.blueray.Kanz.model.VersionCodeResponse
 import com.blueray.Kanz.model.VideoDataModel
 import com.blueray.Kanz.model.VideoUploadeDoneMessage
 import com.blueray.Kanz.model.VimeoVideoModelV2
@@ -81,10 +82,13 @@ object NetworkRepository {
         ): NetworkResults<VideoUploadeDoneMessage> {
         return withContext(Dispatchers.IO) {
             val titleBody = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val descriptionBody = description.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val descriptionBody =
+                description.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-            val commercial_recordBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), viemo_link)
-            val videoFile  =  MultipartBody.Part.createFormData("file", viemo_link.name, commercial_recordBody)
+            val commercial_recordBody =
+                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), viemo_link)
+            val videoFile =
+                MultipartBody.Part.createFormData("file", viemo_link.name, commercial_recordBody)
 
             val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val type_of_activityBody =
@@ -109,7 +113,7 @@ object NetworkRepository {
         bearerToken: String
 
 
-        ): NetworkResults<MainJsonFollowersFollowingData> {
+    ): NetworkResults<MainJsonFollowersFollowingData> {
         return withContext(Dispatchers.IO) {
 
             try {
@@ -136,7 +140,7 @@ object NetworkRepository {
 
             try {
                 val results = ApiClient.retrofitService.getUserFollowersFollowingData(
-                     bearerToken = bearerToken,
+                    bearerToken = bearerToken,
                     user_id = user_idBody
                 )
                 NetworkResults.Success(results)
@@ -161,23 +165,23 @@ object NetworkRepository {
             val lang = HelperUtils.LANG2.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             try {
 
-                var results = UserActionMessageModel(UserActionMessage(-1 , "no result"))
+                var results = UserActionMessageModel(UserActionMessage(-1, "no result"))
 
                 if (flag_id == "like") {
                     results = ApiClient.retrofitService.likeOrUnlikeVideo(
-                        authToken, entityIdBody , lang
+                        authToken, entityIdBody, lang
                     )
                 }
                 if (flag_id == "save") {
                     results = ApiClient.retrofitService.saveOrCancelSaveVideo(
-                        authToken, entityIdBody , lang
+                        authToken, entityIdBody, lang
                     )
                 }
 
 
                 if (flag_id == "following") {
                     results = ApiClient.retrofitService.followOrUnfollowUser(
-                        authToken, entityIdBody , lang
+                        authToken, entityIdBody, lang
                     )
                 }
 
@@ -199,7 +203,7 @@ object NetworkRepository {
     ): NetworkResults<VideoDataModel> {
         return withContext(Dispatchers.IO) {
 
-               try {
+            try {
                 val results = ApiClient.retrofitService.getVideos(
                     bearerToken,
                     uid,
@@ -292,10 +296,10 @@ object NetworkRepository {
 
     suspend fun getSearchContent(
         bearerToken: String,
-        text:String
+        text: String
 
 
-        ): NetworkResults<SearchResponse> {
+    ): NetworkResults<SearchResponse> {
         return withContext(Dispatchers.IO) {
 
             val textBody = text.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -335,11 +339,36 @@ object NetworkRepository {
                     is_home,
                     user_profile_uid
                 )
-                Log.d("egwky",results.datass.toString())
+                Log.d("egwky", results.datass.toString())
 
                 NetworkResults.Success(results)
             } catch (e: Exception) {
-                Log.d("egwky",e.localizedMessage.toString())
+                Log.d("egwky", e.localizedMessage.toString())
+                NetworkResults.Error(e)
+            }
+        }
+    }
+
+    suspend fun getSavedVideos(
+        bearerToken: String,
+        page_limit: String,
+        is_home: String,
+        page: String,
+        is_save: Int,
+//       user_profile_uid: String,
+    ): NetworkResults<VideoDataModel> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val results = ApiClient.retrofitService.getSavedVideos(
+                    bearerToken = bearerToken,
+                    page = page,
+                    page_limit = page_limit,
+                    is_home = is_home,
+                    is_save = is_save,
+//                    user_profile_uid = user_profile_uid
+                )
+                NetworkResults.Success(results)
+            } catch (e: Exception) {
                 NetworkResults.Error(e)
             }
         }
@@ -369,18 +398,19 @@ object NetworkRepository {
             }
         }
     }
+
     suspend fun getUserInfo(
         token: String,
-        user_id:String
-    ):NetworkResults<GetProfileResponse>{
-        return withContext(Dispatchers.IO){
+        user_id: String
+    ): NetworkResults<GetProfileResponse> {
+        return withContext(Dispatchers.IO) {
             try {
                 val results = ApiClient.retrofitService.getUserInfo(
                     token,
                     user_id = user_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
                 )
                 NetworkResults.Success(results)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 NetworkResults.Error(e)
             }
         }
@@ -464,7 +494,8 @@ object NetworkRepository {
             val full_nameBody = full_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val user_nameBody = user_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val phoneBody = phone.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val country_phone_idBody = country_phone_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val country_phone_idBody =
+                country_phone_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val emailBody = email.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val genderBody = sex.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val barth_of_dateBody =
@@ -472,7 +503,11 @@ object NetworkRepository {
             val lang = HelperUtils.LANG2.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val commercial_recordBody =
                 RequestBody.create("multipart/form-data".toMediaTypeOrNull(), profile_image)
-            val commercial_record_part  =  MultipartBody.Part.createFormData("profile_image", profile_image.name, commercial_recordBody)
+            val commercial_record_part = MultipartBody.Part.createFormData(
+                "profile_image",
+                profile_image.name,
+                commercial_recordBody
+            )
 
             try {
                 val results = ApiClient.retrofitService.editProfile(
@@ -488,52 +523,118 @@ object NetworkRepository {
                     lang
                 )
                 NetworkResults.Success(results)
-            } catch (e: Exception){
-                NetworkResults.Error(e)
-            }
-            }}
-
-    suspend fun createLive(
-        bearerToken: String,
-    ):NetworkResults<CreateLiveResponse>{
-        return withContext(Dispatchers.IO){
-            try {
-                val results = ApiClient.retrofitService.createLive(bearerToken)
-                NetworkResults.Success(results)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 NetworkResults.Error(e)
             }
         }
     }
+
+    //    suspend fun createLive(
+//        bearerToken: String,
+//    ):NetworkResults<CreateLiveResponse>{
+//        return withContext(Dispatchers.IO){
+//            try {
+//                val results = ApiClient.retrofitService.createLive(bearerToken)
+//                NetworkResults.Success(results)
+//            }catch (e:Exception){
+//                NetworkResults.Error(e)
+//            }
+//        }
+//    }
     suspend fun getLiveVideos(
         bearerToken: String
-    ):NetworkResults<GetLiveVideosResponse>{
-        return withContext(Dispatchers.IO){
+    ): NetworkResults<GetLiveVideosResponse> {
+        return withContext(Dispatchers.IO) {
             try {
                 val results = ApiClient.retrofitService.getLiveVideos(bearerToken)
-                Log.d("ASASASADVVCCC" , results.results.forYouLiveStraems.toString())
+                Log.d("ASASASADVVCCC", results.results.forYouLiveStraems.toString())
                 NetworkResults.Success(results)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 NetworkResults.Error(e)
             }
         }
     }
 
     suspend fun audienceCount(
-        bearerToken: String ,
-        live_stream_id:String
-    ):NetworkResults<AudienceCountResponse>{
-        return withContext(Dispatchers.IO){
+        bearerToken: String,
+        live_stream_id: String
+    ): NetworkResults<AudienceCountResponse> {
+        return withContext(Dispatchers.IO) {
             val liveIdBody = live_stream_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             try {
 
-                val results = ApiClient.retrofitService.audienceCount(bearerToken,liveIdBody)
+                val results = ApiClient.retrofitService.audienceCount(bearerToken, liveIdBody)
                 NetworkResults.Success(results)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 NetworkResults.Error(e)
             }
         }
     }
+
+    suspend fun getVersionCode(
+        bearerToken: String,
+        version_code: String
+    ): NetworkResults<VersionCodeResponse> {
+        return withContext(Dispatchers.IO) {
+            val version_codeBody =
+                version_code.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            try {
+
+                val results =
+                    ApiClient.retrofitService.getVersionCode(bearerToken, version_codeBody)
+                Log.d("EE432432RRTTT" , results.msg.toString())
+
+                NetworkResults.Success(results)
+            } catch (e: Exception) {
+                Log.d("EERRTTT" , e.localizedMessage.toString())
+                Log.d("EERRTTT" , e.toString())
+                Log.d("EERRTTT123" , e.stackTraceToString())
+                NetworkResults.Error(e)
+            }
+        }
+    }
+
+    suspend fun createLive(
+        bearerToken: String,
+    ): NetworkResults<CreateLiveResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val results = ApiClient.retrofitService.createLive(bearerToken)
+                NetworkResults.Success(results)
+            } catch (e: Exception) {
+                NetworkResults.Error(e)
+            }
+        }
+    }
+//    suspend fun getLiveVideos(
+//        bearerToken: String
+//    ):NetworkResults<GetLiveVideosResponse>{
+//        return withContext(Dispatchers.IO){
+//            try {
+//                val results = ApiClient.retrofitService.getLiveVideos(bearerToken)
+//                Log.d("ASASASADVVCCC" , results.results.forYouLiveStraems.toString())
+//                NetworkResults.Success(results)
+//            }catch (e:Exception){
+//                NetworkResults.Error(e)
+//            }
+//        }
+//    }
+
+//    suspend fun audienceCount(
+//        bearerToken: String ,
+//        live_stream_id:String
+//    ):NetworkResults<AudienceCountResponse>{
+//        return withContext(Dispatchers.IO){
+//            val liveIdBody = live_stream_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//            try {
+//
+//                val results = ApiClient.retrofitService.audienceCount(bearerToken,liveIdBody)
+//                NetworkResults.Success(results)
+//            }catch (e:Exception){
+//                NetworkResults.Error(e)
+//            }
+//        }
+//    }
 
     suspend fun getCheckUserFollow(
 
@@ -559,16 +660,17 @@ object NetworkRepository {
             }
         }
     }
+
     suspend fun checkUserName(
         bearerToken: String,
         user_name: String
-    ):NetworkResults<CheckUserNameResponse>{
-        return withContext(Dispatchers.IO){
+    ): NetworkResults<CheckUserNameResponse> {
+        return withContext(Dispatchers.IO) {
             val user_nameBody = user_name.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             try {
-                val results =ApiClient.retrofitService.checkUserName(bearerToken,user_nameBody)
+                val results = ApiClient.retrofitService.checkUserName(bearerToken, user_nameBody)
                 NetworkResults.Success(results)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 NetworkResults.Error(e)
             }
         }
@@ -613,7 +715,7 @@ object NetworkRepository {
     }
 
     suspend fun registerUser(
-    data:RegisterModel
+        data: RegisterModel
     ): NetworkResults<RgetrationModel> {
 
         return withContext(Dispatchers.IO) {
@@ -621,9 +723,9 @@ object NetworkRepository {
                 val results = ApiClient.retrofitService.registerUser(
                     data
                 )
-                when(results.code()){
-                200 -> NetworkResults.Success(results.body()!!)
-                else -> NetworkResults.Error(IOException("Unexpected response code ${results.code()}"))
+                when (results.code()) {
+                    200 -> NetworkResults.Success(results.body()!!)
+                    else -> NetworkResults.Error(IOException("Unexpected response code ${results.code()}"))
                 }
 
 

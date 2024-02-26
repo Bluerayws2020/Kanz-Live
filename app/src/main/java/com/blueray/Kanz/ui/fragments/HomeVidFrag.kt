@@ -48,14 +48,10 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
     private lateinit var navController: NavController
     var isAuthintcted = false
 
+    private var currentPage = 1
+    private var lastPage = 0
     private var isLoading = false
-    private var noMoreData = false
-//        private fun isRootFragment(): Boolean {
-//            return navController.backQueue.size == 1
-//        }
-
-    private var currentPage = 0
-    private val pageSize = 3 // Set this based on your API's page size
+    private var isLastPage = false
 
 
     private lateinit var binding: OnevidfragBinding
@@ -84,13 +80,11 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
             .load(R.drawable.loadinggif) // Replace with your GIF resource
             .into(binding.img)
 
-        mainViewModel.retriveMainVideos(currentPage, 3, "1")
 
         navController = findNavController()
         dialog = BottomSheetDialog(requireActivity())
 
-        Log.d("dhfrgjkl", HelperUtils.getUid(requireContext()))
-
+loadData(currentPage)
         isAuthintcted = HelperUtils.getUid(requireContext()) != "0"
         binding.img.show()
 
@@ -165,6 +159,14 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
         }
 
+    }
+
+
+    private fun loadData(page: Int) {
+        if (isLastPage || isLoading) return
+
+        isLoading = true
+        mainViewModel.retriveMainVideos(page, 2, "1")
     }
 
 
@@ -333,26 +335,26 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 //                        result.data.f
                     // append new Items
                     isLoading = false
+                    lastPage = result.data.pagination?.last_page ?: 1
+                    isLastPage = currentPage >= lastPage
+
                     if (result.data.datass.isNullOrEmpty()) {
-                        noMoreData = true
-                        binding.progg.hide()
+
 
 
                     } else {
                         binding.progg.hide()
 
+
                         val startPosition = newArrVideoModel.size
                         // Iterate over each item and add to newArrVideoModel
                         mainArrVideoModel = result.data.datass.toMutableList()
-//                        val sortedList =
-//                            result.data.datass.sortedBy { it.created_at?.toDate() } // Assuming 'created' is a valid date string
+                        val existingIds = newArrVideoModel.map { it.nodeId }.toHashSet()
+
 
                         result.data.datass.forEach { item ->
 
                             var vidLink = ""
-                            if (result.data.datass == null) {
-
-                            } else {
 
                                 if (item != null) {
 
@@ -391,7 +393,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
                                 }
                             }
-                        }
+
 
 
 //                            if (isLoading == false){
@@ -407,6 +409,9 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                             startPosition,
                             result.data.datass.size
                         )
+                        if (!isLastPage) {
+                            currentPage++ // Prepare for the next page
+                        }
 
 
                     }
@@ -415,6 +420,7 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                 }
 
                 is NetworkResults.Error -> {
+                    isLoading = false
 
                     Log.d("ERRRRor", result.exception.toString())
                 }
@@ -602,8 +608,9 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                if (!isLoading && !noMoreData && totalItemCount <= (lastVisibleItem + 12)) {
-                   // loadMoreItems()
+                val shouldLoadMoreItems = lastVisibleItem + 3 >= totalItemCount && !isLastPage && !isLoading
+                if (shouldLoadMoreItems) {
+                    loadData(currentPage)
                 }
             }
         })
@@ -612,15 +619,16 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
         binding.vidRec.adapter = videoAdapter
     }
 
-    private fun loadMoreItems() {
-        if (!noMoreData && !isLoading) {
-            isLoading = true
-            currentPage++
-            binding.progg.show()
-            Log.e("***3", "currentPage $currentPage  count 3 ")
-            mainViewModel.retriveMainVideos(page = currentPage, pageLimit = pageSize, ishome = "1")
-        }
+    fun resetAndLoadData() {
+        currentPage = 1
+        lastPage = 0
+        isLoading = false
+        isLastPage = false
+        newArrVideoModel.clear()
+        videoAdapter?.notifyDataSetChanged()
+        loadData(currentPage)
     }
+
 
 
     private fun getUserAction() {

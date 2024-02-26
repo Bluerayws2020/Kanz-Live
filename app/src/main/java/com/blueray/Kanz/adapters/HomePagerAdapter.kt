@@ -19,7 +19,7 @@ class HomePagerAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle) 
         return if(position == 0){
             videosFragment
         } else{
-           // val livesFragment = LiveEventList()
+            // val livesFragment = LiveEventList()
             // val livesFragment = LiveEventListFragment()
             val livesFragment = LiveVideossListFragment()
 //            videosFragment.videoAdapter = null

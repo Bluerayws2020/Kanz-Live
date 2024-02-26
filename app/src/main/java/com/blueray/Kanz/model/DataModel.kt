@@ -228,7 +228,7 @@ data class UpdateResults(
     val date_of_birth: String,
     val email: String,
     val first_name: String,
-    val full_name:String,
+    val full_name: String,
     val followers_count: String,
     val following_count: String,
     val id: Int,
@@ -353,7 +353,7 @@ data class NewAppendItItems(
     val lastName: String = "",
     val bandNam: String = "",
     val type: String = "",
-    val userPic:  String,
+    val userPic: String,
     val status: String = "",
     var favorites: String = "",
     var userSave: String = "",
@@ -383,6 +383,8 @@ data class NewAppendItItems(
 data class VideoDataModel(
     @SerializedName("data") val datass: List<VideoResponse>? = null,
     @SerializedName("target_user") val target_user: TargetUsers? = null,
+    @SerializedName("pagination") val pagination: Pagention? = null,
+    @SerializedName("mySavedVideos") val mySavedVideos: List<VideoResponse>? = null,
 
 
     )
@@ -393,19 +395,28 @@ data class SearchDataModel(
 
     )
 
+data class Pagention(
+    @SerializedName("last_page") val last_page: Int,
+
+
+    )
+
 data class checkUserFollowData(
     @SerializedName("data") val datass: CheckUserFollow,
 
 
     )
+
 data class SearchResponse(
     val msg: SearchMsg,
     val results: List<SearchResult>
 )
+
 data class SearchMsg(
     val message: String,
     val status: Int
 )
+
 data class SearchResult(
     val email: String,
     val first_name: String,
@@ -413,11 +424,17 @@ data class SearchResult(
     val last_name: String,
     val phone: String,
     val profile_image: String,
-    val user_name: String
-)
+    val user_name: String,
+    val userFollowings: String,
+    val userFollowers: String,
+    val userVideosLikes: String,
+
+    )
+
 data class CheckUserNameResponse(
     val msg: CheckMsg
 )
+
 data class CheckMsg(
     val exists: Boolean,
     val status: Int
@@ -464,11 +481,11 @@ data class AuthresFolow(
 //)
 
 data class VideoResponse(
-    val id: String ="",
-    val title: String ="",
-    val created_at: String ="",
-    val file: String ="",
-    val moderation_state: String ="",
+    val id: String = "",
+    val title: String = "",
+    val created_at: String = "",
+    val file: String = "",
+    val moderation_state: String = "",
     val vimeo_detials: VimeoDetails? = null,
     val auther: Author? = null,
     val video_actions_per_user: Video_actions_per_user? = null,
@@ -513,7 +530,7 @@ data class VimeoDetails(
     val width: Int,
     val language: String,
     val height: Int,
-    val files: List<VideoFile>? =null,
+    val files: List<VideoFile>? = null,
 
 
     val transcode: Transcode? = null,
@@ -645,33 +662,14 @@ data class Webhook(
     val data: List<Any>
 )
 
-data class Linkss(
-    val get_room: String,
-    val get_session: String
-)
-
-
-data class CreateLiveResponse(
-    val results: CreateLiveResults,
-    val status: CreateLiveStatus
-)
-
-data class CreateLiveStatus(
-    val code: Int,
-    val message: String
-)
-
-data class CreateLiveResults(
-    val created_at: String,
-    val id: Int,
-   @SerializedName("room_id") val room_id: String,
-    val updated_at: String,
-    val user_id: Int
-)
-
 data class GetLiveVideosResponse(
     val results: GetLiveVideosResults,
     val status: GetLiveVideosStatus
+)
+
+data class Linkss(
+    val get_room: String,
+    val get_session: String
 )
 
 data class GetLiveVideosResults(
@@ -686,8 +684,8 @@ data class ForYouLiveStraem(
     val room_id: String,
     val updated_at: String,
     val user_id: Int,
-    val user_name:String,
-    val user_image:String
+    val user_name: String,
+    val user_image: String
 )
 
 data class GetLiveVideosStatus(
@@ -704,3 +702,31 @@ data class Status(
     val code: Int,
     val message: String
 )
+
+data class CreateLiveResponse(
+    val results: CreateLiveResults,
+    val status: CreateLiveStatus
+)
+
+data class CreateLiveStatus(
+    val code: Int,
+    val message: String
+)
+
+data class CreateLiveResults(
+    val created_at: String,
+    val id: Int,
+    @SerializedName("room_id") val room_id: String,
+    val updated_at: String,
+    val user_id: Int
+)
+
+data class VersionCodeResponse(
+    val msg: VersionCodeMsg
+)
+
+data class VersionCodeMsg(
+    val message: String,
+    val status: Int
+)
+

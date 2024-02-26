@@ -22,6 +22,7 @@ import com.blueray.Kanz.model.UserActionMessage
 import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
 import com.blueray.Kanz.model.UserUploadeDone
+import com.blueray.Kanz.model.VersionCodeResponse
 import com.blueray.Kanz.model.VideoDataModel
 import com.blueray.Kanz.model.VideoUploadeDone
 import com.blueray.Kanz.model.VideoUploadeDoneMessage
@@ -117,7 +118,7 @@ interface ApiServices {
         @Header("Authorization") bearerToken: String,
         @Part("title") title: RequestBody,
         @Part("description") description: RequestBody,
-        @Part file :MultipartBody.Part,
+        @Part file: MultipartBody.Part,
         @Part("hashtag_ids[]") type_of_activity: RequestBody,
 
         ): VideoUploadeDoneMessage
@@ -161,7 +162,7 @@ interface ApiServices {
     suspend fun getMyFollowersFollowingData(
         @Header("Authorization") bearerToken: String,
 
-    ): MainJsonFollowersFollowingData
+        ): MainJsonFollowersFollowingData
 
     @Multipart
     @POST("user/getUserFollowersFollowingData")
@@ -226,8 +227,17 @@ interface ApiServices {
         @Query("Is_home") is_home: String,
         @Query("User_profile_uid") user_profile_uid: String,
 
-    ): VideoDataModel
+        ): VideoDataModel
 
+    @GET("frontend/getVideos")
+    suspend fun getSavedVideos(
+//        @Query("User_profile_uid") user_profile_uid: String,
+        @Query("token") bearerToken: String,
+        @Query("page") page: String,
+        @Query("Page_limit") page_limit: String,
+        @Query("Is_home") is_home: String,
+        @Query("is_save") is_save: Int,
+    ): VideoDataModel
 
     @Multipart
     @POST("app/flag-conents-list")
@@ -243,11 +253,11 @@ interface ApiServices {
     @Multipart
     @POST("user/deleteVideo")
     suspend fun deletVideo(
-        @Header("Authorization")  bearerToken: String,
-        @Part("video_id") video_id:RequestBody,
+        @Header("Authorization") bearerToken: String,
+        @Part("video_id") video_id: RequestBody,
         @Part("lang") lang: RequestBody
 
-        ): MessageModel
+    ): MessageModel
 
     @Multipart
     @POST("app/notifications")
@@ -260,17 +270,17 @@ interface ApiServices {
     @Multipart
     @POST("user/searchForUser")
     suspend fun getSearch(
-
         @Header("Authorization") bearerToken: String,
-        @Part("text") text:RequestBody
+        @Part("text") text: RequestBody
 
-        ): SearchResponse
-        @Multipart
-        @POST("user/checkUserNameExists")
-        suspend fun checkUserName(
-            @Header("Authorization") bearerToken: String,
-            @Part("user_name") user_name: RequestBody
-        ): CheckUserNameResponse
+    ): SearchResponse
+
+    @Multipart
+    @POST("user/checkUserNameExists")
+    suspend fun checkUserName(
+        @Header("Authorization") bearerToken: String,
+        @Part("user_name") user_name: RequestBody
+    ): CheckUserNameResponse
 
     @Multipart
     @POST("app/check-user-follow")
@@ -293,7 +303,7 @@ interface ApiServices {
     @POST("user/getUserProfile")
     suspend fun getUserInfo(
         @Header("Authorization") bearerToken: String,
-        @Part("user_id") user_id:RequestBody
+        @Part("user_id") user_id: RequestBody
 
     ): GetProfileResponse
 
@@ -304,14 +314,14 @@ interface ApiServices {
         @Header("Authorization") bearerToken: String,
 //        @Part("first_name") first_name: RequestBody,
 //        @Part("last_name") last_name: RequestBody,
-        @Part("full_name") full_name:RequestBody,
+        @Part("full_name") full_name: RequestBody,
         @Part("user_name") user_name: RequestBody,
         @Part("date_of_birth") date_of_birth: RequestBody,
         @Part("sex") sex: RequestBody,
         @Part("phone") phone: RequestBody,
         @Part("country_phone_id") country_phone_id: RequestBody,
         @Part("email") email: RequestBody,
-        @Part image_profile :MultipartBody.Part,
+        @Part image_profile: MultipartBody.Part,
         @Part("lang") lang: RequestBody
     ): UpdateProfileResponse
 
@@ -347,22 +357,28 @@ interface ApiServices {
     ): VimeoVideoModelV2
 
 
-
     @POST("user/createOrStopLiveStreaming")
     suspend fun createLive(
-        @Header ("Authorization") authorizationToken: String,
+        @Header("Authorization") authorizationToken: String,
 
         ): CreateLiveResponse
+
     @POST("user/getAllLiveStreams")
     suspend fun getLiveVideos(
-        @Header ("Authorization") bearerToken: String,
-    ):GetLiveVideosResponse
+        @Header("Authorization") bearerToken: String,
+    ): GetLiveVideosResponse
 
     @Multipart
     @POST("user/getAudienceNumberByLiveStreamId")
     suspend fun audienceCount(
-        @Header ("Authorization") authorizationToken: String,
-        @Part("live_stream_id") live_stream_id:RequestBody
-    ):AudienceCountResponse
+        @Header("Authorization") authorizationToken: String,
+        @Part("live_stream_id") live_stream_id: RequestBody
+    ): AudienceCountResponse
 
+    @Multipart
+    @POST("frontend/getVersionCode")
+    suspend fun getVersionCode(
+        @Header("Authorization") authorizationToken: String,
+        @Part("version_code") version_code: RequestBody
+    ): VersionCodeResponse
 }

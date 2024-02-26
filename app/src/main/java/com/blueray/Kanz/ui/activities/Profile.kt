@@ -116,9 +116,9 @@ class Profile : BaseActivity() {
             }
             else{
                 binding.progressBar.show()
-                if (binding.genderEt.text.toString() == "female" || binding.genderEt.text.toString() == "Female") {
+                if (binding.genderEt.text.toString() == "انثى" || binding.genderEt.text.toString() == "انثى") {
                     gender = 1
-                } else if (binding.genderEt.text.toString() == "male" || binding.genderEt.text.toString() == "Male") {
+                } else if (binding.genderEt.text.toString() == "ذكر" || binding.genderEt.text.toString() == "ذكر") {
                     gender = 2
                 }
                 userPhoto = saveImageToFile(binding.userImagee)
@@ -203,7 +203,13 @@ class Profile : BaseActivity() {
                     binding.emailTxt.setText(data.results.email)
                     binding.nameEt.setText(data.results.first_name +" "+ data.results.last_name)
 
-                    binding.genderEt.setText(data.results.sex.toString())
+
+                    if (data.results.sex == "Male" || data.results.sex == "male"){
+                        binding.genderEt.setText("ذكر")
+                    }else{
+                        binding.genderEt.setText("انثى")
+                    }
+
                     binding.birthDateTxt.setText(data.results.date_of_birth)
                     phoneId = data.results.country_phone_id
                     userLastName = data.results.last_name

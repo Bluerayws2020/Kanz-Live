@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    private const val USER_BASE_URL = "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/api/"
+        private const val USER_BASE_URL = "https://knzalarab.com/api/"
 
     private fun getRetrofit(baseUrl: String): Retrofit {
         val okHttpClient = OkHttpClient.Builder()

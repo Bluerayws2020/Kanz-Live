@@ -195,9 +195,11 @@ class UploadeVedio : AppCompatActivity() {
 
 //                    prepareVideoUpload(videoUri!!)
                     showProgress()
+                    binding.nextBtn.isEnabled = false
                     uploadVideoToVimeoDirectlly(videoUri!!)
 
                 } else{
+                    binding.nextBtn.isEnabled = false
                     Toast.makeText(this, "يتم ضغط المقطع", Toast.LENGTH_LONG).show()
                 }
             }
@@ -748,7 +750,7 @@ class UploadeVedio : AppCompatActivity() {
                     processVideo()
 
                     displayVideoThumbnail(videoUri)
-
+                        binding.nextBtn.setBackgroundColor(getResources().getColor(R.color.green))
 //                    binding.uploadVideo.text = "تم اختيار فيديو"
 //                    Log.d("ayhamVideo", videoUri.toString())
                 } else {

@@ -32,8 +32,8 @@ class SavedVideoFragment : Fragment() {
     var newArrVideoModel = ArrayList<NewAppendItItems>()
     private lateinit var navController: NavController
     var data: Int? = null
-
-    private var currentPage = 0
+    private var isLastPage = false
+    private var currentPage = 1
     private val pageSize = 3 // Set this based on your API's page size
 
     private var isLinearLayout = false
@@ -52,6 +52,7 @@ class SavedVideoFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentVideoListBinding.inflate(layoutInflater)
+
         return binding.root
     }
 
@@ -59,14 +60,12 @@ class SavedVideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        navController = Navigation.findNavController(view)
-        //binding.progressBar.show()
+        binding.progressBar.show()
 
         // mainViewModel.retriveFlagContent("save")
         isLoading = true
-        binding.shimmerView.hide()
-        Log.d("***", userIdes)
-        mainViewModel.retriveUserVideos("9", userIdes, "0", currentPage.toString())
-        setupRecyclerView()
+
+        mainViewModel.retrieveSavedVideos(page = currentPage.toString(), "3", "0", 1)
         getMainVidos()
     }
 
@@ -131,7 +130,7 @@ class SavedVideoFragment : Fragment() {
                     val lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition()
 
 
-                    if (!isLoading && totalItemCount <= (lastVisibleItem + 1) && totalItemCount > previousTotalItemCount && isScrolling) {
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 1) && totalItemCount > previousTotalItemCount && isScrolling && isLastPage == false) {
 
                         previousTotalItemCount = totalItemCount
                         loadMoreItems()
@@ -147,90 +146,93 @@ class SavedVideoFragment : Fragment() {
     }
 
     fun getMainVidos() {
-        mainViewModel.getUserVideos().observe(viewLifecycleOwner) { result ->
+        mainViewModel.getSavedVideos().observe(viewLifecycleOwner) { result ->
             binding.progressBar.hide()
-
-//            binding.shimmerView.stopShimmer()
-//            binding.shimmerView.hide()
+            binding.shimmerView.stopShimmer()
+            binding.shimmerView.hide()
             when (result) {
 
                 is NetworkResults.Success -> {
 
-                    if (result.data.datass == null && count == 0) {
+                    if (result.data.mySavedVideos == null && count == 0) {
                         binding.noData.show()
                         binding.videosRv.hide()
 
                     } else {
                         binding.noData.hide()
                         binding.videosRv.show()
-                        count += result.data.datass?.count() ?: 0
-
-                        result.data.datass?.forEach { item ->
-                            var vidLink = ""
-                            if (!(item.vimeo_detials == null)) {
-                                val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
-                                    it.rendition == "adaptive" || it.rendition == "360"
-                                }
-                                vidLink = adaptiveFile?.link ?: item.file
-                                Log.d("AdaptiveLink", vidLink)
-                            }
-
-                            if (item.video_actions_per_user?.save == "true") {
-                                newArrVideoModel.add(
-                                    NewAppendItItems(
-                                        item.title,
-                                        item.id.toString(),
-                                        item.created_at,
-                                        vidLink,
-                                        item.auther?.uid ?:"",
-                                        item.auther?.username ?:"",
-                                        item.vimeo_detials?.duration.toString(),
-                                        item.vimeo_detials?.pictures?.base_link.toString(),
-
-                                        firstName = item.auther?.profile_data?.first_name ?:"",
-                                        lastName = item.auther?.profile_data?.last_name ?:"",
-                                        type = item.auther?.type?:"",
-                                        bandNam = item.auther?.profile_data?.band_name ?:"",
-                                        userPic = item.auther?.profile_data?.user_picture ?:"",
-                                        status = item.moderation_state,
-                                        favorites = item.video_actions_per_user?.favorites.toString(),
-                                        userSave = item.video_actions_per_user?.save.toString(),
-                                        target_user = result.data.target_user,
-                                        video_counts = item.video_counts,
-                                        numOfFollowers = item.auther?.numOfFollowers ?:0,
-                                        numOfFollowing = item.auther?.numOfFollowing ?:0,
-                                        numOfLikes = item.auther?.numOfLikes ?:0
-
-
-                                    )
-                                )
-                            }
-                        }
-
-                        videoAdapter.notifyDataSetChanged()
-                        binding.progressBar.hide()
-                        isLoading = false
-
+                        count = 0
                     }
 
+                        result.data.mySavedVideos?.forEach { item ->
+                            var vidLink = ""
+                            if (!(item.vimeo_detials == null)) {
+                                if (item != null) {
+                                    val adaptiveFile =
+                                        item.vimeo_detials.files?.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
+                                    vidLink = adaptiveFile?.link ?: item.file
+
+                                    //                            Log.e("***", item.vimeo_detials.files.toString())
+
+                                    isLoading = false
+                                    isLastPage = false
+                                    Log.d("*****2", item.id)
+                                    newArrVideoModel.add(
+                                        NewAppendItItems(
+                                            item.title,
+                                            item.id.toString(),
+                                            item.created_at,
+                                            vidLink,
+                                            item.auther?.uid ?: "",
+                                            item.auther?.username ?: "",
+                                            item.vimeo_detials?.duration.toString(),
+
+                                            item.vimeo_detials?.pictures?.base_link
+                                                ?: "http://kenzalarabnew.br-ws.com.dedivirt1294.your-server.de/storage/images/users/profile_image/1788245666559364.jpg",
+                                            //                                firstName = item.auther.profile_data.first_name,
+                                            lastName = item.auther?.profile_data?.last_name ?: "",
+                                            type = item.auther?.type ?: "",
+                                            bandNam = item.auther?.profile_data?.band_name ?: "",
+                                            userPic = item.auther?.profile_data?.user_picture ?: "",
+                                            favorites = item.video_actions_per_user?.favorites.toString(),
+                                            userSave = item.video_actions_per_user?.save.toString(),
+                                            target_user = result.data.target_user,
+                                            video_counts = item.video_counts,
+                                            nodeId = item.id
+                                        )
+                                    )
+                                } else {
+                                    isLoading = true
+                                    isLastPage = true
+                                }
+                            }
+
+
+                        }
+                        setupRecyclerView()
+                    binding.progressBar.hide()
                 }
 
                 is NetworkResults.Error -> {
-                    // Handle error case
+                    result.exception.printStackTrace()
+                    binding.progressBar.hide()
                 }
 
                 is NetworkResults.NoInternet -> {
                     // Handle no internet case
                 }
             }
+
         }
     }
+
+
 
     fun setupRecyclerView() {
 
         binding.videosRv.layoutManager = GridLayoutManager(requireContext(), 3)
 //                    switchToGridLayout()
-        videoAdapter = VideoItemAdapter(1, newArrVideoModel, object : VideoClick {
+        videoAdapter = VideoItemAdapter(0, newArrVideoModel, object : VideoClick {
             override fun OnVideoClic(pos: List<NewAppendItItems>, position: Int) {
 //
 //                                val intent = Intent(context, VidInnerPlay::class.java)
@@ -244,7 +246,6 @@ class SavedVideoFragment : Fragment() {
 //
 //                                startActivity(intent)
 
-                Log.d("fairoozzz", "hello 1")
 
             }
 
@@ -257,11 +258,10 @@ class SavedVideoFragment : Fragment() {
 
                 PartitionChannelFragment.DataHolder.itemsList = newArrVideoModel
 
-                intent.putExtra("isMyProfile", "1")
+//                intent.putExtra("isMyProfile", "1")
 
                 startActivity(intent)
-                Log.d("fairoozzz", "hello 2")
-                Log.d("fairoozzz", position.toString())
+
             }
         }, requireContext())
 
@@ -275,14 +275,19 @@ class SavedVideoFragment : Fragment() {
     }
 
     private fun loadMoreItems() {
-        Log.d("****", "loadMoreItems  $noMoreData   $count")
         if (noMoreData || count == 0) {
             Log.d("****No MORE DATA ", "qwertyuiop[")
         } else {
+
             currentPage++
             binding.progressBar.show()
             isLoading = true
-            mainViewModel.retriveUserVideos("6", userIdes, "1", currentPage.toString())
+            if ( isLastPage == true){
+
+            }else{
+                mainViewModel.retrieveSavedVideos(page = currentPage.toString(),  "3", "0" ,1)
+
+            }
         }
     }
 

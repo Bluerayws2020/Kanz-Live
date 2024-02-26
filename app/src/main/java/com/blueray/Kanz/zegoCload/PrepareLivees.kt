@@ -54,7 +54,7 @@ class PrepareLivees : AppCompatActivity() {
                             Log.w("AASCCVXBVCBD" ,result.data.status.message.toString() )
                         }
 
-                   //
+                        //
                     } else {
                         showToast(result.data.status.message)
                     }

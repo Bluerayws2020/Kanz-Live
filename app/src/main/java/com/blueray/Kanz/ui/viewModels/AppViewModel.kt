@@ -28,6 +28,7 @@ import com.blueray.Kanz.model.SearchResponse
 import com.blueray.Kanz.model.UpdateProfileResponse
 import com.blueray.Kanz.model.UserActionMessageModel
 import com.blueray.Kanz.model.UserLoginModel
+import com.blueray.Kanz.model.VersionCodeResponse
 import com.blueray.Kanz.model.VideoDataModel
 import com.blueray.Kanz.model.VideoUploadeDone
 import com.blueray.Kanz.model.VideoUploadeDoneMessage
@@ -64,6 +65,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val getSearchLive = MutableLiveData<NetworkResults<SearchResponse>>()
 
     private val getUserVideosLive = MutableLiveData<NetworkResults<VideoDataModel>>()
+    private val getSavedVideosLive = MutableLiveData<NetworkResults<VideoDataModel>>()
     private val viewMyPrfofile = MutableLiveData<NetworkResults<GetProfileResponse>>()
     private val viewUserPrfofile = MutableLiveData<NetworkResults<GetProfileResponse>>()
 
@@ -83,6 +85,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val createAccountBandLive = MutableLiveData<NetworkResults<UserLoginModel>>()
 
     private val getLiveVideosLiveData = MutableLiveData<NetworkResults<GetLiveVideosResponse>>()
+    private val getVersionCodeLiveData = MutableLiveData<NetworkResults<VersionCodeResponse>>()
     private val audienceCountLiveData = MutableLiveData<NetworkResults<AudienceCountResponse>>()
     private val userUplaodeLoive = MutableLiveData<NetworkResults<VideoUploadeDoneMessage>>()
     private val setActions = MutableLiveData<NetworkResults<UserActionMessageModel>>()
@@ -150,7 +153,14 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
             userUplaodeLoive.value =
-                repo.userUplaodeVideo(authToken, title, description, viemo_link, userId, type_of_activity)
+                repo.userUplaodeVideo(
+                    authToken,
+                    title,
+                    description,
+                    viemo_link,
+                    userId,
+                    type_of_activity
+                )
         }
     }
 
@@ -194,7 +204,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-
     fun updateUserProfile(
         first_name: String,
         user_name: String,
@@ -205,20 +214,20 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         sex: String,
         barth_of_date: String,
         profile_image: File
-        ) {
+    ) {
         viewModelScope.launch {
             val authToken = "Bearer $userToken"
             updateUserLive.value = repo.getEditProfile(
                 authToken,
-               full_name = first_name ,
-                user_name =  user_name,
+                full_name = first_name,
+                user_name = user_name,
                 email = email,
                 phone = phone,
                 country_phone_id = country_phone_id,
                 profile_image = profile_image,
                 sex = sex,
                 barth_of_date = barth_of_date,
-                )
+            )
 
 
         }
@@ -233,7 +242,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     ) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            setActions.value = repo.setUserActionPost(authToken,userId, entityId, entity_type, flag_id)
+            setActions.value =
+                repo.setUserActionPost(authToken, userId, entityId, entity_type, flag_id)
         }
     }
 
@@ -241,7 +251,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun retriveUserVideos(
-         page_limit: String, user_profile_uid: String,
+        page_limit: String, user_profile_uid: String,
         is_home: String,
         page: String
     ) {
@@ -254,7 +264,29 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getUserVideos() = getUserVideosLive
 
-    fun retriveViewMyProfile (
+    fun retrieveSavedVideos(
+        page: String,
+        page_limit: String,
+        is_home: String,
+        is_save: Int,
+//       user_profile_uid: String
+    ) {
+        viewModelScope.launch {
+
+            getSavedVideosLive.value = repo.getSavedVideos(
+                bearerToken = userToken,
+                page = page,
+                page_limit = page_limit,
+                is_home = is_home,
+                is_save = is_save,
+//                user_profile_uid = user_profile_uid
+            )
+        }
+    }
+
+    fun getSavedVideos() = getSavedVideosLive
+
+    fun retriveViewMyProfile(
 
     ) {
 
@@ -262,39 +294,43 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             val authToken = "Bearer $userToken"
             viewMyPrfofile.value = repo.getMyInfo(authToken)
 
-            }}
+        }
+    }
 
     fun getMyProfile() = viewMyPrfofile
 
     fun retriveUserProfile(
-        user_id:String
-    ){
+        user_id: String
+    ) {
 
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            viewUserPrfofile.postValue(repo.getUserInfo(authToken , user_id = user_id))
+            viewUserPrfofile.postValue(repo.getUserInfo(authToken, user_id = user_id))
         }
 
     }
+
     fun getUserProfile() = viewUserPrfofile
 
-    fun retrieveLiveVideos(){
+    fun retrieveLiveVideos() {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            Log.d("LLKKKKAAAXXXXXc" , authToken.toString())
+            Log.d("LLKKKKAAAXXXXXc", authToken.toString())
             getLiveVideosLiveData.postValue(repo.getLiveVideos(authToken))
         }
     }
+
     fun getLiveVideos() = getLiveVideosLiveData
 
     fun retrieveAudienceCount(
-        live_stream_id:String
-    ){
+        live_stream_id: String
+    ) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            audienceCountLiveData.postValue(repo.audienceCount(authToken,live_stream_id))
+            audienceCountLiveData.postValue(repo.audienceCount(authToken, live_stream_id))
         }
     }
+
     fun getAudienceCount() = audienceCountLiveData
 
     fun retrieveVideoOption(videoUrl: String, vimeoToken: String) {
@@ -345,13 +381,14 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getFollowCheckUser() = getCheckFollowId
 
-    fun retriveCheckUserName(user_name: String){
+    fun retriveCheckUserName(user_name: String) {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getCheckUserName.postValue(repo.checkUserName(authToken , user_name))
+            getCheckUserName.postValue(repo.checkUserName(authToken, user_name))
         }
 
     }
+
     fun getCheckUserName() = getCheckUserName
     fun retriveGender() {
         viewModelScope.launch {
@@ -361,7 +398,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getGender() = genderLive
 
-    fun retrieveCreateLive(){
+    fun retrieveCreateLive() {
         val authToken = "Bearer $userToken"
         viewModelScope.launch {
             createLiveData.postValue(repo.createLive(authToken))
@@ -386,7 +423,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
 
             createAccountLive.value = repo.registerUser(
-            data
+                data
             )
         }
     }
@@ -429,6 +466,15 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             loginUserMessageLiveData.value = repo.userOtpLogin(userName, password, language)
         }
     }
+
+    fun retrieveVersionCode(versionCode: String) {
+        val authToken = "Bearer $userToken"
+        viewModelScope.launch {
+            getVersionCodeLiveData.value = repo.getVersionCode(authToken, versionCode)
+        }
+    }
+
+    fun getVersionCode() = getVersionCodeLiveData
 
     fun getLogin() = loginUserMessageLiveData
 

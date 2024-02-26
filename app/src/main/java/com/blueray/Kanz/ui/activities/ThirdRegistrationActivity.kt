@@ -32,12 +32,11 @@ class ThirdRegistrationActivity : BaseActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
-binding.includeTap.back.setOnClickListener {
-    onBackPressed()
-}
+        binding.includeTap.back.setOnClickListener {
+            onBackPressed()
+        }
 
 //binding.countryCode.setText("+962")
-
 
 
         binding.chekBoxss.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -98,27 +97,27 @@ binding.includeTap.back.setOnClickListener {
                 if (binding.chekBoxss.isChecked == false) {
                     showToast("يجب الموافقة على الشروط والاحكام")
 
-                }else {
 
-                    showProgress()
-                    val data = RegisterModel(
-                        RegistrationActivity.firstName.toString(),
-                        RegistrationActivity.lastName.toString(),
-                       country_phone_id =  binding.countryCode.getSelectedCountryCode().toInt(),
-                        //todo check the birthdate format error
-                        date_of_birth = RegistrationActivity.barithDate,
-                        sex = RegistrationActivity.genderId.toInt(),
-                        phone =  binding.phoneNumber.text.toString(),
-                        email = binding.email.text.toString(),
-                        user_name = RegistrationActivity.userName.toString(),
-                        hashtags_ids =ActivitiesTypesAdapter.selected_items
-                        ,
-                        password = RegistrationActivity.passwordTxt.toString(),
+                } else {
+                    if (binding.phoneNumber.text!!.length == 10) {
+                        showProgress()
+                        val data = RegisterModel(
+                            RegistrationActivity.firstName.toString(),
+                            RegistrationActivity.lastName.toString(),
+                            country_phone_id = binding.countryCode.getSelectedCountryCode().toInt(),
+                            //todo check the birthdate format error
+                            date_of_birth = RegistrationActivity.barithDate,
+                            sex = RegistrationActivity.genderId.toInt(),
+                            phone = binding.phoneNumber.text.toString(),
+                            email = binding.email.text.toString(),
+                            user_name = RegistrationActivity.userName.toString(),
+                            hashtags_ids = ActivitiesTypesAdapter.selected_items,
+                            password = RegistrationActivity.passwordTxt.toString(),
 
-                    )
-                    viewmodel.retriveCreateAccount(
+                            )
+                        viewmodel.retriveCreateAccount(
 
-                        data
+                            data
 //                        RegistrationActivity.firstName.toString(),
 //                        RegistrationActivity.lastName.toString(),
 //                        RegistrationActivity.genderId,
@@ -130,9 +129,13 @@ binding.includeTap.back.setOnClickListener {
 //                        binding.phoneNumber.text.toString(),
 //                        RegistrationActivity.passwordTxt.toString(),
 //                        RegistrationActivity.barithDate
-                    )
+                        )
 
+                    } else {
+                        binding.phoneNumber.setError("الرجاء ادخال رقم من 10 خانات")
+                    }
                 }
+
 
 //                        }else {
 //                            viewmodel.retriveBandName(
@@ -177,22 +180,22 @@ binding.includeTap.back.setOnClickListener {
                 is NetworkResults.Success -> {
                     if (result.data.msg.status == 200) {
                         hideProgress()
-                        val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
+                        val sharedPreferences =
+                            getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
 
                         sharedPreferences.edit().apply {
                             putString(HelperUtils.UID_KEY, result.data.results.id)
-                            putString(HelperUtils.TOKEN_KEY , result.data.results.token)
+                            putString(HelperUtils.TOKEN_KEY, result.data.results.token)
 
                             putString(HelperUtils.USERNAME, RegistrationActivity.userName)
                             putString(HelperUtils.PASSWORD, RegistrationActivity.passwordTxt)
 
 
-
                         }.apply()
 
 
-                        Log.d("wertyuiop",HelperUtils.getUserToken(this))
-                        startActivity(Intent(this,HomeActivity::class.java))
+                        Log.d("wertyuiop", HelperUtils.getUserToken(this))
+                        startActivity(Intent(this, HomeActivity::class.java))
                         finish()
 
                     } else {
@@ -223,9 +226,10 @@ binding.includeTap.back.setOnClickListener {
     private fun showProgress() {
         binding.progressBar.show()
     }
-    fun saveUserData(model: RegisterModel){
+
+    fun saveUserData(model: RegisterModel) {
         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
-Log.d("TESTTTTLOOG",model.toString())
+        Log.d("TESTTTTLOOG", model.toString())
 
         sharedPreferences.edit().apply {
 
@@ -234,8 +238,8 @@ Log.d("TESTTTTLOOG",model.toString())
 
 
         }.apply()
-        startActivity(Intent(this,HomeActivity::class.java))
-                    finish()
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
 
 //        //            prefManager = PrefManager(this)
 //        (application as BaseApplication).initResultLiveData.observe(this, EventObserver {
@@ -255,7 +259,7 @@ Log.d("TESTTTTLOOG",model.toString())
 
     private fun autoAuthenticate(callback: (Boolean, String?) -> Unit) {
         binding.progressBar.show()
-        val appId ="463780EA-658F-4CC7-B3D3-B9EC3401C650"
+        val appId = "463780EA-658F-4CC7-B3D3-B9EC3401C650"
         val userId = "65"
         val accessToken = "1e48ba0789fd622a621f50b476bb4aad2e1ede6e"
 
@@ -314,8 +318,6 @@ Log.d("TESTTTTLOOG",model.toString())
 //        startActivity(Intent(this,HomeActivity::class.java))
 //
 //    }
-
-
 
 
 //}

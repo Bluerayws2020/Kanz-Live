@@ -167,6 +167,7 @@ android:layout_gravity="center"
             android:text="تاريخ الميلاد"
             android:textColor="@color/brown"
             android:textSize="11sp"
+
             android:textStyle="bold" />
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:layout_width="match_parent"-->
@@ -186,6 +187,8 @@ android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/green"
+                android:editable="false"
+                android:clickable="false"
                 android:textSize="14sp"
                 />
         <TextView

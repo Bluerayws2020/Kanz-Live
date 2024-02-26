@@ -1,7 +1,6 @@
 package com.blueray.Kanz.ui.fragments
 
 
-
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -25,8 +24,8 @@ import com.blueray.Kanz.ui.viewModels.AppViewModel
 
 
 class SearchFragment : Fragment() {
-    private lateinit var adapter : SearchAdapters
-    private lateinit var binding : SearchFragmentsBinding
+    private lateinit var adapter: SearchAdapters
+    private lateinit var binding: SearchFragmentsBinding
     private lateinit var navController: NavController
 
 
@@ -45,10 +44,11 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mainViewModel.retrivesearchTxt("")
         navController = Navigation.findNavController(view)
-binding.searchs.show()
+        binding.progressBar.show()
+        binding.searchs.show()
         getMainVidos()
-
         binding.noData.show()
 
         binding.searchs.setOnEditorActionListener { v, actionId, event ->
@@ -63,7 +63,6 @@ binding.searchs.show()
         }
 
 
-
     }
 //    private fun setUpRecyclerView() {
 //        adapter = SearchAdapters(listOf())
@@ -73,25 +72,24 @@ binding.searchs.show()
 //    }
 
 
-    fun getMainVidos(){
+    fun getMainVidos() {
         mainViewModel.getSerchData().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResults.Success -> {
-                 binding.progressBar.hide()
+                    binding.progressBar.hide()
 
 
-                    if(result.data.results.isNullOrEmpty()){
+                    if (result.data.results.isNullOrEmpty()) {
                         binding.noData.show()
-                    }else {
+                    } else {
                         binding.noData.hide()
 
                     }
-                    adapter = SearchAdapters(result.data.results ,object : OnProfileSearch {
+                    adapter = SearchAdapters(result.data.results, object : OnProfileSearch {
                         override fun onProfileTargetSearch(pos: Int) {
-                            var swipedItem  = result.data.results[pos]
+                            var swipedItem = result.data.results[pos]
                             val bundle = Bundle().apply {
 //                            if (swipedItem.type == "poet") {
-
 
 
                                 putString(
@@ -113,18 +111,18 @@ binding.searchs.show()
 
                                 putString(
                                     "numOfFollowers",
-                                    ""
+                                    swipedItem.userFollowers
                                 ) // Use your item's unique identifier
 
                                 putString(
                                     "numOfFollowing",
-                                    ""
+                                    swipedItem.userFollowings
                                 ) // Use your item's unique identifier
 
 
                                 putString(
                                     "numOfLikes",
-                                    ""
+                                    swipedItem.userVideosLikes
                                 ) // Use your item's unique identifier
 
 
@@ -134,9 +132,6 @@ binding.searchs.show()
                                 ) // Use your item's unique identifier
 
 
-
-
-
                             }
 
                             navController.navigate(R.id.partitionChannelFragment, bundle)
@@ -144,11 +139,11 @@ binding.searchs.show()
 
                         }
                     })
-                    val lm  = LinearLayoutManager(requireContext())
+                    val lm = LinearLayoutManager(requireContext())
                     binding.recyclerView.adapter = adapter
                     binding.recyclerView.layoutManager = lm
 
-binding.progressBar.hide()
+                    binding.progressBar.hide()
                 }
 
 
@@ -162,7 +157,7 @@ binding.progressBar.hide()
             }
         }
     }
-    }
+}
 
 
 

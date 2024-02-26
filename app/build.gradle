@@ -11,9 +11,9 @@ def localProperties = new Properties()
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/mohammedjaber/Downloads/kanzJks')
+            storeFile file('Users/Waleed/AndroidStudioProjects/Kanz-Alarab_VSDK-WALOur/jabejabe.jks')
             storePassword 'brws1234'
-            keyAlias 'key0'
+            keyAlias 'upload'
             keyPassword 'brws1234'
         }
     }
@@ -25,8 +25,8 @@ android {
         minSdk 24
 
         targetSdk 34
-        versionCode 4
-        versionName "4.0"
+        versionCode 9
+        versionName "9.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,7 +37,7 @@ android {
             signingConfig signingConfigs.release
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
 
             buildConfigField("String", "AUTH_TOKEN", "\"" + localProperties['auth_token'] + "\"")
             buildConfigField("String", "AUTH_URL", "\"" + "\"")
@@ -190,14 +190,14 @@ dependencies {
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
 
-   // implementation 'live.videosdk:rtc-android-sdk:0.1.21'
+    // implementation 'live.videosdk:rtc-android-sdk:0.1.21'
 
     implementation 'com.sendbird.sdk:sendbird-live:1.2.0-beta.1'
     implementation 'com.sendbird.sdk:sendbird-live:1.1.2'
     implementation 'com.sendbird.sdk:sendbird-live-uikit:1.0.0-beta.4'
 
-    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_live_streaming_android:+'
-    implementation 'com.github.ZEGOCLOUD:zego_uikit_signaling_plugin_android:+'
 
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_live_streaming_android:2.7.0'
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_signaling_plugin_android:2.4.0'
 
 }
