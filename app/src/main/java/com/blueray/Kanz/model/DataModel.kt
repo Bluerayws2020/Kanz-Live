@@ -147,7 +147,8 @@ data class RegisterModel(
     val password: String,
     val country_phone_id: Int,
     val phone: String,
-    val email: String
+    val email: String,
+    val player_id:String
 )
 
 data class LoginModel(

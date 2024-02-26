@@ -461,9 +461,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun getBandAccount() = createAccountBandLive
 
 
-    fun retriveLogin(userName: String, password: String) {
+    fun retriveLogin(userName: String, password: String,player_id:String) {
         viewModelScope.launch {
-            loginUserMessageLiveData.value = repo.userOtpLogin(userName, password, language)
+            loginUserMessageLiveData.value = repo.userOtpLogin(userName, password, language, player_id)
         }
     }
 

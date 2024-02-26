@@ -14,6 +14,7 @@ import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.model.RegisterModel
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import com.onesignal.OneSignal
 
 
 class ThirdRegistrationActivity : BaseActivity() {
@@ -31,6 +32,8 @@ class ThirdRegistrationActivity : BaseActivity() {
 
             startActivity(Intent(this, LoginActivity::class.java))
         }
+        val playerId = OneSignal.getDeviceState()?.userId
+
 
         binding.includeTap.back.setOnClickListener {
             onBackPressed()
@@ -101,35 +104,39 @@ class ThirdRegistrationActivity : BaseActivity() {
                 } else {
                     if (binding.phoneNumber.text!!.length == 10) {
                         showProgress()
-                        val data = RegisterModel(
-                            RegistrationActivity.firstName.toString(),
-                            RegistrationActivity.lastName.toString(),
-                            country_phone_id = binding.countryCode.getSelectedCountryCode().toInt(),
-                            //todo check the birthdate format error
-                            date_of_birth = RegistrationActivity.barithDate,
-                            sex = RegistrationActivity.genderId.toInt(),
-                            phone = binding.phoneNumber.text.toString(),
-                            email = binding.email.text.toString(),
-                            user_name = RegistrationActivity.userName.toString(),
-                            hashtags_ids = ActivitiesTypesAdapter.selected_items,
-                            password = RegistrationActivity.passwordTxt.toString(),
-
+                        val data = playerId?.let { it1 ->
+                            RegisterModel(
+                                RegistrationActivity.firstName.toString(),
+                                RegistrationActivity.lastName.toString(),
+                                country_phone_id = binding.countryCode.getSelectedCountryCode().toInt(),
+                                //todo check the birthdate format error
+                                date_of_birth = RegistrationActivity.barithDate,
+                                sex = RegistrationActivity.genderId.toInt(),
+                                phone = binding.phoneNumber.text.toString(),
+                                email = binding.email.text.toString(),
+                                user_name = RegistrationActivity.userName.toString(),
+                                hashtags_ids = ActivitiesTypesAdapter.selected_items,
+                                password = RegistrationActivity.passwordTxt.toString(),
+                                player_id = it1,
                             )
-                        viewmodel.retriveCreateAccount(
+                        }
+                        if (data != null) {
+                            viewmodel.retriveCreateAccount(
 
-                            data
-//                        RegistrationActivity.firstName.toString(),
-//                        RegistrationActivity.lastName.toString(),
-//                        RegistrationActivity.genderId,
-//                        RegistrationActivity.natonalId,
-//                        RegistrationActivity.residantPlace,
-//                        ActivitiesTypesAdapter.selected_items.joinToString(","),
-//                        RegistrationActivity.userName.toString(),
-//                        binding.email.text.toString(),
-//                        binding.phoneNumber.text.toString(),
-//                        RegistrationActivity.passwordTxt.toString(),
-//                        RegistrationActivity.barithDate
-                        )
+                                data
+                    //                        RegistrationActivity.firstName.toString(),
+                    //                        RegistrationActivity.lastName.toString(),
+                    //                        RegistrationActivity.genderId,
+                    //                        RegistrationActivity.natonalId,
+                    //                        RegistrationActivity.residantPlace,
+                    //                        ActivitiesTypesAdapter.selected_items.joinToString(","),
+                    //                        RegistrationActivity.userName.toString(),
+                    //                        binding.email.text.toString(),
+                    //                        binding.phoneNumber.text.toString(),
+                    //                        RegistrationActivity.passwordTxt.toString(),
+                    //                        RegistrationActivity.barithDate
+                            )
+                        }
 
                     } else {
                         binding.phoneNumber.setError("الرجاء ادخال رقم من 10 خانات")

@@ -18,6 +18,7 @@ import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.LoginModel
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import com.onesignal.OneSignal
 import com.sendbird.live.AuthenticateParams
 import com.sendbird.live.SendbirdLive
 
@@ -35,6 +36,10 @@ class LoginActivity : BaseActivity() {
         binding.signUpBtn.setOnClickListener {
             startActivity(Intent(this,RegistrationActivity::class.java))
         }
+        val playerId = OneSignal.getDeviceState()?.userId
+//
+//        // Now you can use the playerId as needed
+//        Log.d("WEERDSCSACVSD", "Player ID: $playerId")
 
         binding.userName.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
@@ -64,10 +69,13 @@ class LoginActivity : BaseActivity() {
 
             }else {
                 binding.progressBar.show()
-                viewmodel.retriveLogin(
-                    binding.userName.text.toString().trim(),
-                    binding.password.text.toString().trim()
-                )
+                if (playerId != null) {
+                    viewmodel.retriveLogin(
+                        binding.userName.text.toString().trim(),
+                        binding.password.text.toString().trim(),
+                        playerId
+                    )
+                }
 
             }
         }

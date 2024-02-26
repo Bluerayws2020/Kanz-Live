@@ -1,7 +1,9 @@
 package com.blueray.Kanz
 
 import android.app.Application
+import android.util.Log
 import com.blueray.Kanz.helpers.HelperUtils
+import com.onesignal.OneSignal
 
 const val ONESIGNAL_APP_ID = "14a886e5-d580-4d7a-81ea-61184f75186a"
 
@@ -10,12 +12,13 @@ class AppClass : Application() {
         super.onCreate()
         HelperUtils.setDefaultLanguage(this@AppClass, "ar")
         HelperUtils.setLang(this@AppClass, "ar")
-//        // Enable verbose OneSignal logging to debug issues if needed.
-//        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
-//
-//        // OneSignal Initialization
-//
-//        OneSignal.initWithContext(this)
-//        OneSignal.setAppId(ONESIGNAL_APP_ID)
+        // Enable verbose OneSignal logging to debug issues if needed.
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+
+        // OneSignal Initialization
+
+
+        OneSignal.initWithContext(this)
+        OneSignal.setAppId(ONESIGNAL_APP_ID)
     }
 }

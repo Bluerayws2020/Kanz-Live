@@ -48,19 +48,21 @@ object NetworkRepository {
         password: String,
 
         language: String,
+        player_id: String
 
-
-        ): NetworkResults<UserLoginModel> {
+    ): NetworkResults<UserLoginModel> {
         return withContext(Dispatchers.IO) {
             val passwordBody = password.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val languageBody = language.toRequestBody("multipart/form-data".toMediaTypeOrNull())
             val userBody = user.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val playerBody = player_id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
 
             try {
                 val results = ApiClient.retrofitService.userOtpLogin(
                     userBody, passwordBody,
                     languageBody,
+                    playerBody
                 )
                 NetworkResults.Success(results)
             } catch (e: Exception) {
@@ -582,13 +584,13 @@ object NetworkRepository {
 
                 val results =
                     ApiClient.retrofitService.getVersionCode(bearerToken, version_codeBody)
-                Log.d("EE432432RRTTT" , results.msg.toString())
+                Log.d("EE432432RRTTT", results.msg.toString())
 
                 NetworkResults.Success(results)
             } catch (e: Exception) {
-                Log.d("EERRTTT" , e.localizedMessage.toString())
-                Log.d("EERRTTT" , e.toString())
-                Log.d("EERRTTT123" , e.stackTraceToString())
+                Log.d("EERRTTT", e.localizedMessage.toString())
+                Log.d("EERRTTT", e.toString())
+                Log.d("EERRTTT123", e.stackTraceToString())
                 NetworkResults.Error(e)
             }
         }

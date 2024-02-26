@@ -97,7 +97,7 @@ interface ApiServices {
         @Part("user_name") user_name: RequestBody,
         @Part("password") password: RequestBody,
         @Part("lang") lang: RequestBody,
-
+        @Part("player_id") player_id:RequestBody
         ): UserLoginModel
 
 
