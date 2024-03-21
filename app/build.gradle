@@ -11,7 +11,7 @@ def localProperties = new Properties()
 android {
     signingConfigs {
         release {
-            storeFile file('Users/Waleed/AndroidStudioProjects/Kanz-Alarab_VSDK-WALOur/jabejabe.jks')
+            storeFile file('/Users/mohammedjaber/AndroidStudioProjects/Kanz-Alarab_VSDK-WALOur/jabejabe.jks')
             storePassword 'brws1234'
             keyAlias 'upload'
             keyPassword 'brws1234'
@@ -37,7 +37,6 @@ android {
             signingConfig signingConfigs.release
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable true
 
             buildConfigField("String", "AUTH_TOKEN", "\"" + localProperties['auth_token'] + "\"")
             buildConfigField("String", "AUTH_URL", "\"" + "\"")
@@ -45,7 +44,6 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable true
 
             buildConfigField("String", "AUTH_TOKEN", "\"" + localProperties['auth_token'] + "\"")
             buildConfigField("String", "AUTH_URL", "\"" + localProperties['auth_url'] + "\"")

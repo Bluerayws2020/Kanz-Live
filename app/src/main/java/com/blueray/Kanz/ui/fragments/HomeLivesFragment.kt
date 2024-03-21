@@ -206,10 +206,8 @@ class HomeLivesFragment : Fragment() , VideoPlaybackControl {
                         // Iterate over each item and add to newArrVideoModel
                         result.data.datass.forEach { item ->
                             var vidLink = ""
-                            val adaptiveFile =
-                                item.vimeo_detials?.files?.firstOrNull { it.rendition == "adaptive" || it.rendition == "360" }
-
-                            vidLink = adaptiveFile?.link ?: item.file
+                            vidLink = item.vimeo_detials?.files?.last()?.link
+                                ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
 
                             newArrVideoModel.add(
                                 NewAppendItItems(

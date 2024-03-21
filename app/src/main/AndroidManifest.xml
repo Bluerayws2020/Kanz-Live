@@ -220,6 +220,23 @@
         <meta-data
             android:name="notificationIcon"
             android:resource="@mipmap/ic_launcher_round" />
+
+<!--        <activity android:name=".ui.activities.HomeActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter android:autoVerify="true"-->
+<!--                >-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                &lt;!&ndash; Accepts URIs that begin with "https://www.example.com/gizmos” &ndash;&gt;-->
+<!--                <data-->
+<!--                    android:host="www.kanalarab.com"-->
+<!--                    android:scheme="https"-->
+<!--                    android:pathPrefix="/gizmos" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
     </application>
 
 </manifest>

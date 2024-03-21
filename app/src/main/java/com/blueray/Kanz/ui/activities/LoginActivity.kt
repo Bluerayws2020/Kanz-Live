@@ -18,14 +18,17 @@ import com.blueray.Kanz.helpers.ViewUtils.show
 import com.blueray.Kanz.model.LoginModel
 import com.blueray.Kanz.model.NetworkResults
 import com.blueray.Kanz.ui.viewModels.AppViewModel
+import com.onesignal.OSSubscriptionObserver
+import com.onesignal.OSSubscriptionStateChanges
 import com.onesignal.OneSignal
 import com.sendbird.live.AuthenticateParams
 import com.sendbird.live.SendbirdLive
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : BaseActivity(), OSSubscriptionObserver {
     private val viewmodel by viewModels<AppViewModel>()
 
     private lateinit var binding : ActivityLoginBinding
+    var playerId =  ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -36,7 +39,7 @@ class LoginActivity : BaseActivity() {
         binding.signUpBtn.setOnClickListener {
             startActivity(Intent(this,RegistrationActivity::class.java))
         }
-        val playerId = OneSignal.getDeviceState()?.userId
+         playerId = OneSignal.getDeviceState()?.userId.toString()
 //
 //        // Now you can use the playerId as needed
 //        Log.d("WEERDSCSACVSD", "Player ID: $playerId")
@@ -166,6 +169,15 @@ class LoginActivity : BaseActivity() {
         binding.progressBar.show()
     }
 
+    override fun onOSSubscriptionChanged(p0: OSSubscriptionStateChanges?) {
+        p0?.let {
+            if (!it.from.isSubscribed && it.to.isSubscribed) {
+                playerId = it.to.userId
+
+            }
+        }
+
+    }
 
 
 }

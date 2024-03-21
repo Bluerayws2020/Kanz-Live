@@ -26,8 +26,8 @@ class CreateLiveEventActivity : AppCompatActivity() {
 
 
     private fun addFragment() {
-        val appID: Long = 1099604494
-        val appSign = "f192aaef99c7b160abbee0fce1675ff31ed5d4a0802a6e7051945687ab8f9fb6"
+        val appID: Long = 1022380921
+        val appSign = "bc2ce2e37147ae5341a956505bb0fca73ac1c2a16025425d1c9c91938f3f225d"
         val userID = HelperUtils.getUid(this)
         val userName = HelperUtils.getUserName(this)
 

@@ -1,11 +1,13 @@
 package com.blueray.Kanz.ui.fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
@@ -358,10 +360,10 @@ loadData(currentPage)
 
                                 if (item != null) {
 
-                                    val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
-                                        it.rendition == "adaptive" || it.rendition == "360p" || it.rendition == "240p" || it.rendition == "540p" || it.rendition == "720p" || it.rendition == "1080p"
-                                    }
-                                    vidLink = adaptiveFile?.link
+//                                    val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
+//                                        it.rendition == "adaptive" || it.rendition == "360p" || it.rendition == "240p" || it.rendition == "540p" || it.rendition == "720p" || it.rendition == "1080p"
+//                                    }
+                                    vidLink = item.vimeo_detials?.files?.last()?.link
                                         ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
 
 
@@ -544,7 +546,26 @@ loadData(currentPage)
                     val shareIntent = Intent.createChooser(sendIntent, null)
                     startActivity(shareIntent)
 
+                // Get the intent that started this activity
+//                val intent = intent
+//                val action: String? = intent.action
+//                val data: Uri? = intent.data
+//
+//                // Check if the intent is a deep link
+//                if (Intent.ACTION_VIEW == action && data != null) {
+//                    val pathSegments = data.pathSegments
+//                    // Assuming the URL is "https://www.example.com/gizmos/special"
+//                    // You can access each part of the path like so:
+//                    if (pathSegments.size > 1) {
+//                        val category = pathSegments[0] // This would be "gizmos"
+//                        val type = pathSegments[1] // This would be "special"
+//                        // Now you can use these values to show specific content in your app
+//                    }
+//
+//            }
+
             }
+
 
 
             override fun onMyProfileClikc() {

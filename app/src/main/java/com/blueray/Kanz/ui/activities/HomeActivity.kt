@@ -1,6 +1,7 @@
 package com.blueray.Kanz.ui.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -46,6 +47,18 @@ class HomeActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
+
+
+
+        val intent = intent
+        val action: String? = intent.action
+        val data: Uri? = intent.data
+
+        // Use the URI data for what you need
+        if (Intent.ACTION_VIEW == action && data != null) {
+            val gizmoId = data.lastPathSegment
+            // Now you can use this gizmoId to load specific content
+        }
 
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
 //        NavigationUI.setupWithNavController(binding.navDrawer, navController)
