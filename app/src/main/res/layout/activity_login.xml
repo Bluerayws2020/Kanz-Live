@@ -15,15 +15,74 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/splash_screen"
+        android:layout_width="900dp"
+        android:layout_height="900dp"
+        android:background="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="@dimen/sb_size_20"
+        app:layout_constraintBottom_toBottomOf="@+id/splash_screen"
+        app:layout_constraintEnd_toEndOf="@+id/splash_screen"
+        app:layout_constraintStart_toStartOf="@+id/splash_screen"
+        app:layout_constraintTop_toTopOf="@+id/splash_screen">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/kanz_splash" />
+
+        <TextView
+            android:id="@+id/some_id"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:visibility="gone"
+            android:text="كنز العرب"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/some_id2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="-10dp"
+            android:gravity="center|bottom"
+            android:text="لكل العرب"
+            android:textColor="#2E3650"
+            android:textSize="30sp" />
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
@@ -57,36 +116,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="200dp"
                     android:padding="20dp">
 
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/newkanzlogo" />
 
-                    <TextView
-                        android:id="@+id/some_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:gravity="bottom"
-                        android:text="كنز العرب"
-                        android:textColor="#2E3650"
-                        android:textSize="38sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/some_id2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="-10dp"
-                        android:gravity="center|bottom"
-                        android:text="لكل العرب"
-                        android:textColor="#2E3650"
-                        android:textSize="30sp" />
 
                     <TextView
                         android:layout_width="wrap_content"

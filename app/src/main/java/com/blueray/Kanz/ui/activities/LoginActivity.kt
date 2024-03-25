@@ -3,6 +3,8 @@ package com.blueray.Kanz.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -11,6 +13,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import com.blueray.Kanz.R
 import com.blueray.Kanz.databinding.ActivityLoginBinding
 import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
@@ -21,8 +25,11 @@ import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.onesignal.OSSubscriptionObserver
 import com.onesignal.OSSubscriptionStateChanges
 import com.onesignal.OneSignal
-import com.sendbird.live.AuthenticateParams
-import com.sendbird.live.SendbirdLive
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 class LoginActivity : BaseActivity(), OSSubscriptionObserver {
     private val viewmodel by viewModels<AppViewModel>()
@@ -35,6 +42,9 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
         setContentView(binding.root)
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        //startAnimation()
+
         HelperUtils.setDefaultLanguage(this,"ar")
         binding.signUpBtn.setOnClickListener {
             startActivity(Intent(this,RegistrationActivity::class.java))
@@ -62,6 +72,8 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
                 false
             }
         }
+
+
         
 
         getLogin()
@@ -103,6 +115,21 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
         }
 
         onBackPressedDispatcher.addCallback(this, callback)
+
+    }
+
+    fun startAnimation(){
+
+        binding.scroll.show()
+        binding.splashScreen.animate()
+            .scaleY(0.25f) //scale to quarter(half x,half y)
+            .translationY(-(binding.splashScreen.height).toFloat())
+            .alpha(1.0f) // make it less visible
+            //.rotation(360f) // one round turns
+            .setDuration(1000) // all take 1 seconds
+            .withEndAction(Runnable {
+                //animation ended
+            })
 
     }
 
