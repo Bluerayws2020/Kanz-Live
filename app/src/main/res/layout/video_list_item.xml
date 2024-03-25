@@ -59,11 +59,11 @@
                 android:textSize="10sp" />
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/times"
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:padding="5dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
@@ -72,19 +72,32 @@
             android:layout_marginTop="218dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:drawableLeft="@drawable/baseline_remove_red_eye_24"
-            android:drawablePadding="1dp"
-            android:gravity="center"
-            android:text="01:20"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.921" />
+            app:layout_constraintVertical_bias="0.921"
+            app:cardCornerRadius="20dp"
+            android:backgroundTint="@color/transparentColor">
+
+            <TextView
+                android:id="@+id/times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:drawableLeft="@drawable/baseline_remove_red_eye_16"
+
+                    android:drawablePadding="5dp"
+                android:gravity="center|center_horizontal"
+
+                android:text="01:20"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
 
     </RelativeLayout>
 

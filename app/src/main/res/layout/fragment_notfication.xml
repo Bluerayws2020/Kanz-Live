@@ -11,6 +11,7 @@
         <include
             layout="@layout/registration_new_app_bar"
             android:id="@+id/include_tap"
+
             />
 
 
