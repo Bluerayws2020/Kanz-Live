@@ -125,7 +125,7 @@ class RegistrationActivity : BaseActivity() {
           //  barithDate = binding.dateOfBirthDatePicker.text.toString()
             firstName = binding.firstNameEt.text.toString()
             val selectedDate = formatDate(binding.yearPicker.value, binding.monthPicker.value, binding.dayPicker.value)
-            barithDate = selectedDate
+            barithDate = "1995-04-21"
             if (binding.female.isChecked) {
                 genderId = "1"
             } else {

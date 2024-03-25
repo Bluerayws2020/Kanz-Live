@@ -17,6 +17,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/kanzlogonew"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            />
     <include
         layout="@layout/registration_new_app_bar"
 
