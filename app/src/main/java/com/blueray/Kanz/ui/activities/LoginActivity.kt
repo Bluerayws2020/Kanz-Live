@@ -34,8 +34,8 @@ import kotlinx.coroutines.launch
 class LoginActivity : BaseActivity(), OSSubscriptionObserver {
     private val viewmodel by viewModels<AppViewModel>()
 
-    private lateinit var binding : ActivityLoginBinding
-    var playerId =  ""
+    private lateinit var binding: ActivityLoginBinding
+    var playerId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -43,13 +43,13 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        //startAnimation()
+        startAnimation()
 
-        HelperUtils.setDefaultLanguage(this,"ar")
+        HelperUtils.setDefaultLanguage(this, "ar")
         binding.signUpBtn.setOnClickListener {
-            startActivity(Intent(this,RegistrationActivity::class.java))
+            startActivity(Intent(this, RegistrationActivity::class.java))
         }
-         playerId = OneSignal.getDeviceState()?.userId.toString()
+        playerId = OneSignal.getDeviceState()?.userId.toString()
 //
 //        // Now you can use the playerId as needed
 //        Log.d("WEERDSCSACVSD", "Player ID: $playerId")
@@ -74,15 +74,15 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
         }
 
 
-        
+
 
         getLogin()
         binding.signInBtn.setOnClickListener {
 
-            if (binding.userName.text?.isEmpty() == true || binding.password.text?.isEmpty() == true){
-                Toast.makeText(this,"جميع الحقول مطلوبة",Toast.LENGTH_LONG).show()
+            if (binding.userName.text?.isEmpty() == true || binding.password.text?.isEmpty() == true) {
+                Toast.makeText(this, "جميع الحقول مطلوبة", Toast.LENGTH_LONG).show()
 
-            }else {
+            } else {
                 binding.progressBar.show()
                 if (playerId != null) {
                     viewmodel.retriveLogin(
@@ -99,7 +99,7 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
 //        binding.forgotPassword.setOnClickListener {
 //            startActivity(Intent(this,ForgetPasswordFirstActivity::class.java))
 //        }
-        val callback = object : OnBackPressedCallback(true ) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 AlertDialog.Builder(this@LoginActivity)
                     .setTitle("خروج")
@@ -118,18 +118,43 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
 
     }
 
-    fun startAnimation(){
+    fun startAnimation() {
 
-        binding.scroll.show()
-        binding.splashScreen.animate()
-            .scaleY(0.25f) //scale to quarter(half x,half y)
-            .translationY(-(binding.splashScreen.height).toFloat())
-            .alpha(1.0f) // make it less visible
-            //.rotation(360f) // one round turns
-            .setDuration(1000) // all take 1 seconds
-            .withEndAction(Runnable {
-                //animation ended
-            })
+//        binding.scroll.show()
+//        binding.splashScreen.animate()
+//            .scaleY(0.25f) //scale to quarter(half x,half y)
+//            .translationY(-200f)
+//            .alpha(1.0f) // make it less visible
+//            .setDuration(1500) // all take 1 seconds
+//            .withEndAction(Runnable {
+//                //animation ended
+//            })
+//
+
+
+        val animation =
+            AnimationUtils.loadAnimation(this, R.anim.scale_up).apply {
+                duration = 2500
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(500)
+            binding.scroll.show()
+            binding.splashScreen.startAnimation(animation)
+            delay(2000)
+            binding.splashScreen.hide()
+
+            binding.logo.animate()
+                .alpha(1f) // make it less visible
+                .setDuration(1500) // all take 1 seconds
+                .withEndAction(Runnable {
+                    //animation ended
+                })
+
+            //binding.splashScreen2.show()
+
+
+        }
 
     }
 
@@ -141,18 +166,20 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
             when (result) {
                 is NetworkResults.Success -> {
 
-                    if (result.data.status.status == 200){
+                    if (result.data.status.status == 200) {
                         saveUserData(result.data.datas)
                         //             Toast.makeText(this, result.data.datas.toString(), Toast.LENGTH_LONG).show()
-                        Log.d("wew" ,  result.data.datas.toString())
-                    }else {
-                        Toast.makeText(this, "الرجاء التأكد من البيانات المدخلة", Toast.LENGTH_LONG).show()
+                        Log.d("wew", result.data.datas.toString())
+                    } else {
+                        Toast.makeText(this, "الرجاء التأكد من البيانات المدخلة", Toast.LENGTH_LONG)
+                            .show()
                     }
 
                 }
 
                 is NetworkResults.Error -> {
-                    Toast.makeText(this, "الرجاء التأكد من البيانات المدخلة", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "الرجاء التأكد من البيانات المدخلة", Toast.LENGTH_LONG)
+                        .show()
                     Log.d("jeff", result.exception.toString())
                     result.exception.printStackTrace()
 
@@ -165,7 +192,7 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
     }
 
 
-    fun saveUserData(model: LoginModel){
+    fun saveUserData(model: LoginModel) {
         val sharedPreferences = getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
 
 
@@ -179,7 +206,7 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
 
         binding.progressBar.hide()
 
-        startActivity(Intent(this,HomeActivity::class.java))
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
         //            prefManager = PrefManager(this)
 
