@@ -84,10 +84,10 @@ class Notfi : Fragment() {
         viewmodel.getNotifcation().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResults.Success -> {
-                    Log.d("Tessss", result.data.datass.toString())
+                    Log.d("TessssLA", result.data.results.toString())
 
                     binding.progressBar.hide()
-                    if (result.data.datass.isNullOrEmpty()){
+                    if (result.data.results.isNullOrEmpty()){
                         binding.rvNotifications.hide()
                         binding.messageSearch.show()
 
@@ -100,7 +100,7 @@ class Notfi : Fragment() {
 binding.noDataImage.hide()
 
 
-                        notfiAdabter = NotficationAcdapter(result.data.datass)
+                        notfiAdabter = NotficationAcdapter(result.data.results)
                         binding.rvNotifications.adapter = notfiAdabter
                         binding.rvNotifications.layoutManager = LinearLayoutManager(requireContext())
                     }

@@ -1,13 +1,11 @@
 package com.blueray.Kanz.ui.fragments
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
@@ -39,8 +37,6 @@ import com.blueray.Kanz.ui.activities.SplashScreen
 import com.blueray.Kanz.ui.viewModels.AppViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.sendbird.live.AuthenticateParams
-import com.sendbird.live.SendbirdLive
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -86,10 +82,9 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
         navController = findNavController()
         dialog = BottomSheetDialog(requireActivity())
 
-loadData(currentPage)
+        loadData(currentPage)
         isAuthintcted = HelperUtils.getUid(requireContext()) != "0"
         binding.img.show()
-
 
 
 //        binding.includeTap.profile.setOnClickListener {
@@ -343,7 +338,6 @@ loadData(currentPage)
                     if (result.data.datass.isNullOrEmpty()) {
 
 
-
                     } else {
                         binding.progg.hide()
 
@@ -357,45 +351,66 @@ loadData(currentPage)
                         result.data.datass.forEach { item ->
 
                             var vidLink = ""
+                            var videoRes = ""
+                            if (item != null) {
 
-                                if (item != null) {
+                                val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
+                                    it.rendition == "adaptive" || it.rendition == "360p" || it.rendition == "240p" || it.rendition == "540p" || it.rendition == "720p" || it.rendition == "1080p"
+                                }
+                                var highestRendition: String? = null
+                                var highestLink: String? = null
 
-//                                    val adaptiveFile = item.vimeo_detials?.files?.firstOrNull {
-//                                        it.rendition == "adaptive" || it.rendition == "360p" || it.rendition == "240p" || it.rendition == "540p" || it.rendition == "720p" || it.rendition == "1080p"
-//                                    }
-                                    vidLink = item.vimeo_detials?.files?.last()?.link
-                                        ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
-
-
-                                    newArrVideoModel.add(
-                                        NewAppendItItems(
-                                            "title",
-                                            item.id,
-                                            "",
-                                            vidLink,
-                                            item.auther?.uid ?: "",
-                                            item.auther?.username ?: "",
-                                            item.vimeo_detials?.duration.toString(),
-                                            firstName = item.auther?.profile_data?.first_name ?: "",
-                                            lastName = item.auther?.profile_data?.last_name ?: "",
-                                            type = item.auther?.type ?: "",
-                                            bandNam = item.auther?.profile_data?.band_name ?: "",
-                                            favorites = item.video_actions_per_user?.favorites.toString(),
-                                            userSave = item.video_actions_per_user?.save.toString(),
-                                            target_user = result.data.target_user,
-                                            video_counts = item.video_counts,
-                                            numOfFollowers = item.auther?.numOfFollowers ?: 0,
-                                            numOfFollowing = item.auther?.numOfFollowing ?: 0,
-                                            numOfLikes = item.auther?.numOfLikes ?: 0,
-                                            nodeId = item.id,
-                                            userPic = item.auther?.profile_data?.user_picture ?: ""
-                                        )
-                                    )
-
+                                item.vimeo_detials?.files?.forEach {
+                                    if (it.rendition != "adaptive"){
+                                        if (highestRendition == null || it.rendition > highestRendition!!) {
+                                            highestRendition = it.rendition
+                                            highestLink = it.link
+                                        }
+                                    }
 
                                 }
-                            }
 
+// Use the highest rendition and its corresponding link
+                                if (highestRendition != null && highestLink != null) {
+                                    videoRes = highestRendition!!
+                                    vidLink = highestLink!!
+                                }
+
+
+//                                    vidLink =
+//                                        item.vimeo_detials?.files?.last()?.link
+//                                        ?: "https://firebasestorage.googleapis.com/v0/b/kenz-e9a7c.appspot.com/o/1024907363-preview.mp4?alt=media&token=a720feff-f094-4e5e-85fe-fca5e379d5d8"
+                                Log.d("POZZa", vidLink)
+                                Log.d("POZZa2", videoRes.toString())
+
+                                newArrVideoModel.add(
+                                    NewAppendItItems(
+                                        "title",
+                                        item.id,
+                                        "",
+                                        vidLink,
+                                        item.auther?.uid ?: "",
+                                        item.auther?.username ?: "",
+                                        item.vimeo_detials?.duration.toString(),
+                                        firstName = item.auther?.profile_data?.first_name ?: "",
+                                        lastName = item.auther?.profile_data?.last_name ?: "",
+                                        type = item.auther?.type ?: "",
+                                        bandNam = item.auther?.profile_data?.band_name ?: "",
+                                        favorites = item.video_actions_per_user?.favorites.toString(),
+                                        userSave = item.video_actions_per_user?.save.toString(),
+                                        target_user = result.data.target_user,
+                                        video_counts = item.video_counts,
+                                        numOfFollowers = item.auther?.numOfFollowers ?: 0,
+                                        numOfFollowing = item.auther?.numOfFollowing ?: 0,
+                                        numOfLikes = item.auther?.numOfLikes ?: 0,
+                                        nodeId = item.id,
+                                        userPic = item.auther?.profile_data?.user_picture ?: ""
+                                    )
+                                )
+
+
+                            }
+                        }
 
 
 //                            if (isLoading == false){
@@ -537,14 +552,14 @@ loadData(currentPage)
             override fun onProfileShare(pos: Int) {
                 // Implement sharing functionality
 
-                    val sendIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, newArrVideoModel[pos].videoUrl)
-                        type = "text/plain"
-                    }
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, newArrVideoModel[pos].videoUrl)
+                    type = "text/plain"
+                }
 
-                    val shareIntent = Intent.createChooser(sendIntent, null)
-                    startActivity(shareIntent)
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
 
                 // Get the intent that started this activity
 //                val intent = intent
@@ -565,7 +580,6 @@ loadData(currentPage)
 //            }
 
             }
-
 
 
             override fun onMyProfileClikc() {
@@ -629,7 +643,8 @@ loadData(currentPage)
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                val shouldLoadMoreItems = lastVisibleItem + 3 >= totalItemCount && !isLastPage && !isLoading
+                val shouldLoadMoreItems =
+                    lastVisibleItem + 3 >= totalItemCount && !isLastPage && !isLoading
                 if (shouldLoadMoreItems) {
                     loadData(currentPage)
                 }
@@ -651,12 +666,11 @@ loadData(currentPage)
     }
 
 
-
     private fun getUserAction() {
 
 
         mainViewModel.getSetAction().observe(viewLifecycleOwner) { result ->
-           // Log.e("***", result.toString())
+            // Log.e("***", result.toString())
             binding.progg.hide()
             binding.img.hide()
             when (result) {
