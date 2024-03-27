@@ -141,6 +141,7 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
 
             delay(500)
 
+
             binding.splashScreen.startAnimation(animation)
             binding.splashScreen.animate()
                 .alpha(1f) // make it less visible
