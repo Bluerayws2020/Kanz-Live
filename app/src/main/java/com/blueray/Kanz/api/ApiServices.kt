@@ -6,6 +6,7 @@ import com.blueray.Kanz.model.CreateLiveResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetLiveVideosResponse
+import com.blueray.Kanz.model.GetMyNotificationsResponse
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
@@ -259,12 +260,12 @@ interface ApiServices {
 
     ): MessageModel
 
-    @Multipart
-    @POST("app/notifications")
-    suspend fun getNotfi(
-        @Part("uid") uid: RequestBody,
 
-        ): NotfiMain
+    @POST("user/getMyNotifications")
+    suspend fun getNotfi(
+        @Header("Authorization") bearerToken: String,
+
+        ): GetMyNotificationsResponse
 
 
     @Multipart

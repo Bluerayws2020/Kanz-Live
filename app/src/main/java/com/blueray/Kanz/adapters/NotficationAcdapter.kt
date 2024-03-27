@@ -4,21 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.blueray.Kanz.databinding.NotfiItemBinding
-import com.blueray.Kanz.model.NofiItem
+import com.blueray.Kanz.model.NotificationsData
 
 
 class NotficationAcdapter // this down is the basic implementation of an adapter
     (
     // todo change list model
-    var list: List<NofiItem>
-)
-    : RecyclerView.Adapter<NotficationAcdapter.MyViewHolder>() {
+    var list: List<NotificationsData>
+) : RecyclerView.Adapter<NotficationAcdapter.MyViewHolder>() {
 
 
-    inner class MyViewHolder(val binding : NotfiItemBinding): RecyclerView.ViewHolder(binding.root)
+    inner class MyViewHolder(val binding: NotfiItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = NotfiItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = NotfiItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
 
         return MyViewHolder(binding)
@@ -30,7 +29,9 @@ class NotficationAcdapter // this down is the basic implementation of an adapter
 //        TODO("Not yet implemented")
 
 
-        holder.binding.username.text =  list[position].body
+        holder.binding.apply {
+            username.text = list[position].notification_text
+        }
     }
 
 

@@ -14,6 +14,7 @@ import com.blueray.Kanz.model.CreateLiveResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.FollowingResponse
 import com.blueray.Kanz.model.GetLiveVideosResponse
+import com.blueray.Kanz.model.GetMyNotificationsResponse
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
@@ -60,7 +61,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val getVideosLive = MutableLiveData<NetworkResults<VideoDataModel>>()
 
     private val getFlagContetntLive = MutableLiveData<NetworkResults<VideoDataModel>>()
-    private val getNotficationLive = MutableLiveData<NetworkResults<NotfiMain>>()
+    private val getNotficationLive = MutableLiveData<NetworkResults<GetMyNotificationsResponse>>()
 
     private val getSearchLive = MutableLiveData<NetworkResults<SearchResponse>>()
 
@@ -124,9 +125,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun retriveNotfication() {
-
+        val authToken = "Bearer $userToken"
         viewModelScope.launch {
-            getNotficationLive.value = repo.getNotfication(userId)
+            getNotficationLive.value = repo.getNotfication(authToken)
         }
     }
 

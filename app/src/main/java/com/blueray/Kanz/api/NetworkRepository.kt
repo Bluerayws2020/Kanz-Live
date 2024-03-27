@@ -9,6 +9,7 @@ import com.blueray.Kanz.model.CreateLiveResponse
 import com.blueray.Kanz.model.DropDownModel
 import com.blueray.Kanz.model.GetLiveVideosResponse
 import com.blueray.Kanz.model.GetLiveVideosResults
+import com.blueray.Kanz.model.GetMyNotificationsResponse
 import com.blueray.Kanz.model.GetProfileResponse
 import com.blueray.Kanz.model.MainJsonDropDownModel
 import com.blueray.Kanz.model.MainJsonDropDownModelHashTag
@@ -272,23 +273,21 @@ object NetworkRepository {
 
 
     suspend fun getNotfication(
-        uid: String,
+        token: String,
 
 
-        ): NetworkResults<NotfiMain> {
+        ): NetworkResults<GetMyNotificationsResponse> {
         return withContext(Dispatchers.IO) {
 
-            val uidBody = uid.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
             try {
                 val results = ApiClient.retrofitService.getNotfi(
-                    uidBody,
+                    token
                 )
-                Log.d("notifications", results.datass.toString())
+
 
                 NetworkResults.Success(results)
             } catch (e: Exception) {
-                Log.d("notifications", e.localizedMessage.toString())
 
                 NetworkResults.Error(e)
             }

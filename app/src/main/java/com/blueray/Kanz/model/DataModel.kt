@@ -148,7 +148,7 @@ data class RegisterModel(
     val country_phone_id: Int,
     val phone: String,
     val email: String,
-    val player_id:String
+    val player_id: String
 )
 
 data class LoginModel(
@@ -731,3 +731,19 @@ data class VersionCodeMsg(
     val status: Int
 )
 
+data class GetMyNotificationsResponse(
+    val msg: NotificationsMsg,
+    val results: List<NotificationsData>
+)
+
+data class NotificationsMsg(
+    val message: String,
+    val status: Int
+)
+
+data class NotificationsData(
+    val id: Int,
+    val notification_text: String,
+    val date: String
+
+)

@@ -96,8 +96,8 @@ class NotificationFragment : Fragment() {
 
 
 
-                    Log.d("Tessss",result.data.datass.toString())
-                    notfiAdabter = NotficationAcdapter(result.data.datass)
+                    Log.d("TessssLA",result.data.results.toString())
+                    notfiAdabter = NotficationAcdapter(result.data.results)
                     binding.rvNotifications.adapter = notfiAdabter
                     binding.rvNotifications.layoutManager = LinearLayoutManager(
                         requireContext(),
