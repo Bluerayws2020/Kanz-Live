@@ -256,6 +256,7 @@
             android:id="@+id/commentBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:clickable="true"
             android:layout_marginTop="@dimen/sb_size_10"
             android:src="@drawable/new_comment" />
 

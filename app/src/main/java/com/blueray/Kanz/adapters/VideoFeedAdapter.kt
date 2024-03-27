@@ -157,6 +157,9 @@ class VideoFeedAdapter(
 
         })
 
+
+
+
         holder.binding.loginitems.hide()
 
 //
@@ -198,6 +201,7 @@ class VideoFeedAdapter(
 
         holder.binding.commentBtn.setOnClickListener {
             onProfileClick.onProfileCommint(pos = position)
+
         }
 
         holder.binding.shareBtn.setOnClickListener {

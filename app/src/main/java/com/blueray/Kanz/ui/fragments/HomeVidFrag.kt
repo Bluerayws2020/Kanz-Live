@@ -26,7 +26,9 @@ import com.blueray.Kanz.adapters.VideoFeedAdapter
 import com.blueray.Kanz.api.OnProfileClick
 import com.blueray.Kanz.api.VideoPlaybackControl
 import com.blueray.Kanz.databinding.CommentLayoutBinding
+import com.blueray.Kanz.databinding.FragmentCommentsBottomSheetBinding
 import com.blueray.Kanz.databinding.OnevidfragBinding
+import com.blueray.Kanz.databinding.PopShowsBinding
 import com.blueray.Kanz.helpers.HelperUtils
 import com.blueray.Kanz.helpers.ViewUtils.hide
 import com.blueray.Kanz.helpers.ViewUtils.show
@@ -609,6 +611,8 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
             }
 
             override fun onProfileCommint(pos: Int) {
+                showCommentsBottomSheet()
+                Log.e("***", "here")
                 if (!isAuthintcted) {
                     shouldUserOut()
                 } else {
@@ -653,6 +657,10 @@ class HomeVidFrag : Fragment(), VideoPlaybackControl {
 
 
         binding.vidRec.adapter = videoAdapter
+    }
+
+    private fun showCommentsBottomSheet() {
+        CommentBottomSheetFragment().show(parentFragmentManager, "CommentsBottomSheet")
     }
 
     fun resetAndLoadData() {

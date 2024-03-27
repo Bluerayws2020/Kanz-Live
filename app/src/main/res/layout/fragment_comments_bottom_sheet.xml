@@ -23,10 +23,38 @@
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="130dp"
-        tools:listitem="@layout/comment_layout"
-        />
+        android:visibility="gone"
+        tools:itemCount="6"
+        tools:listitem="@layout/comment_layout" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/hearts">
+
+        <include
+            android:id="@+id/include_tab"
+            layout="@layout/comment_layout" />
+
+        <include
+
+            layout="@layout/comment_layout" />
+
+        <include
+
+            layout="@layout/comment_layout" />
+
+        <include
+
+            layout="@layout/comment_layout" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hearts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -35,61 +63,60 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/EmojisRv"
             android:layout_width="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            tools:listitem="@layout/emojis_item"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
-            android:layout_height="wrap_content" />
+            tools:listitem="@layout/emojis_item" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/profiel"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="@dimen/sb_size_20"
-            android:padding="2dp"
-            android:src="@drawable/logo2"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            app:cardCornerRadius="@dimen/sb_size_100"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profileImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/profile_image_place_holder" />
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/profiel"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/sb_size_20"
+                android:padding="2dp"
+                android:src="@drawable/logo2"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"
+                app:cardCornerRadius="@dimen/sb_size_100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profile_image_place_holder" />
+            </androidx.cardview.widget.CardView>
 
             <EditText
                 android:id="@+id/commentEt"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
+                android:layout_marginStart="@dimen/sb_size_10"
+                android:layout_marginEnd="@dimen/sb_size_30"
+                android:background="@drawable/comment_background"
+                android:paddingEnd="@dimen/sb_size_40"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/profiel"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="@dimen/sb_size_30"
-                android:background="@drawable/comment_background"
-                android:layout_marginStart="@dimen/sb_size_10"
-                android:paddingEnd="@dimen/sb_size_40"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Post"
-                app:layout_constraintEnd_toEndOf="@id/commentEt"
-                app:layout_constraintTop_toTopOf="@id/commentEt"
-                app:layout_constraintBottom_toBottomOf="@id/commentEt"
-                android:textSize="@dimen/sb_size_13"
                 android:layout_marginEnd="@dimen/sb_size_10"
+                android:text="Post"
                 android:textColor="#5C38CE"
-                />
+                android:textSize="@dimen/sb_size_13"
+                app:layout_constraintBottom_toBottomOf="@id/commentEt"
+                app:layout_constraintEnd_toEndOf="@id/commentEt"
+                app:layout_constraintTop_toTopOf="@id/commentEt" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
