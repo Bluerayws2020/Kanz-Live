@@ -134,19 +134,50 @@ class LoginActivity : BaseActivity(), OSSubscriptionObserver {
 
         val animation =
             AnimationUtils.loadAnimation(this, R.anim.scale_up).apply {
-                duration = 2500
+                duration = 1700
                 interpolator = AccelerateDecelerateInterpolator()
             }
         lifecycleScope.launch(Dispatchers.Main) {
+
             delay(500)
-            binding.scroll.show()
+
             binding.splashScreen.startAnimation(animation)
-            delay(2000)
+            binding.splashScreen.animate()
+                .alpha(1f) // make it less visible
+                .setDuration(1000) // all take 1 seconds
+                .withEndAction(Runnable {
+                    //animation ended
+                })
+
+            binding.logo2.animate()
+                .alpha(0f) // make it less visible
+                .setDuration(1000) // all take 1 seconds
+                .withEndAction(Runnable {
+                    //animation ended
+                })
+
+
+            binding.scroll.animate()
+                .alpha(1f) // make it less visible
+                .setDuration(1500) // all take 1 seconds
+                .withEndAction(Runnable {
+                    //animation ended
+                })
+
+            delay(500)
+            binding.splashScreen2.animate()
+                .alpha(1f) // make it less visible
+                .setDuration(1000) // all take 1 seconds
+                .withEndAction(Runnable {
+                    //animation ended
+                })
+
+            delay(500)
             binding.splashScreen.hide()
 
             binding.logo.animate()
                 .alpha(1f) // make it less visible
-                .setDuration(1500) // all take 1 seconds
+                .setDuration(1200) // all take 1 seconds
                 .withEndAction(Runnable {
                     //animation ended
                 })
