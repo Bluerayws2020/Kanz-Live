@@ -10,20 +10,26 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginBottom="-40dp"
         android:src="@drawable/newkanzlogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0.0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
@@ -57,36 +63,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="200dp"
                     android:padding="20dp">
 
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/newkanzlogo" />
 
-                    <TextView
-                        android:id="@+id/some_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:gravity="bottom"
-                        android:text="كنز العرب"
-                        android:textColor="#2E3650"
-                        android:textSize="38sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/some_id2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="-10dp"
-                        android:gravity="center|bottom"
-                        android:text="لكل العرب"
-                        android:textColor="#2E3650"
-                        android:textSize="30sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -257,5 +238,108 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/splash_screen2"
+        android:layout_width="1600dp"
+        android:layout_height="1600dp"
+        android:layout_marginTop="-2000dp"
+        android:alpha="0"
+        android:background="@drawable/splash_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/splash_screen"
+        android:layout_width="1600dp"
+        android:layout_height="1600dp"
+        android:alpha="0.9"
+        android:layout_marginTop="-500dp"
+        android:background="@drawable/splash_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/logo2"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="400dp"
+        android:src="@drawable/kanz_splash"
+        app:layout_constraintEnd_toEndOf="@+id/splash_screen"
+        app:layout_constraintStart_toStartOf="@+id/splash_screen"
+        app:layout_constraintBottom_toBottomOf="@+id/splash_screen"
+        app:layout_constraintTop_toTopOf="@+id/splash_screen"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/sb_size_20"
+        android:orientation="vertical"
+
+        android:padding="@dimen/sb_size_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="80dp"
+            android:layout_height="110dp"
+            android:alpha="0.0"
+            android:layout_gravity="center"
+            android:src="@drawable/kanz_splash" />
+
+        <TextView
+            android:id="@+id/some_id"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:visibility="gone"
+            android:text="كنز العرب"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/some_id2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="-10dp"
+            android:gravity="center|bottom"
+            android:text="لكل العرب"
+            android:textColor="#2E3650"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/layer"
+        android:layout_width="650dp"
+        android:layout_height="700dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="-100dp"
+        android:src="@drawable/layer_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

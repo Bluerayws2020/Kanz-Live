@@ -16,4 +16,5 @@
     <dimen name="sb_size_60">60dp</dimen>
     <dimen name="sb_size_70">70dp</dimen>
     <dimen name="sb_size_0">0dp</dimen>
+    <dimen name="dimen_200dp">200dp</dimen>
 </resources>
