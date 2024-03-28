@@ -35,6 +35,10 @@ class MyAccountFragment : Fragment() {
     private lateinit var binding: FragmentMyAccountBinding
     private val mainViewModel by viewModels<AppViewModel>()
     var userName = ""
+
+    private lateinit var videosFragment: VideoListFragment
+    private lateinit var savedVideosFragment: SavedVideoFragment
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,36 +49,48 @@ class MyAccountFragment : Fragment() {
     }
 
 
-
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setUpViewPagerWithTapLayout()
         mainViewModel.retriveViewMyProfile()
         getUserProifle()
 
+        binding.saved.setOnClickListener {
+
+            binding.viewPager.currentItem = 1
+        }
+        binding.myVd.setOnClickListener {
+            binding.viewPager.currentItem = 0
+        }
+
         binding.settings.setOnClickListener {
-          val intent =  Intent(requireContext(),Profile::class.java)
+            val intent = Intent(requireContext(), Profile::class.java)
             startActivity(intent)
 
         }
-        binding.logoutBtn.setOnClickListener{
+        binding.logoutBtn.setOnClickListener {
 
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle("تسجيل خروج")
             builder.setMessage("هل انت متاكد من تسجيل الخروج ؟")
 
             builder.setPositiveButton("نعم") { dialog, _ ->
-                val sharedPreferences = requireContext().getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
+                val sharedPreferences =
+                    requireContext().getSharedPreferences(HelperUtils.SHARED_PREF, MODE_PRIVATE)
                 sharedPreferences.edit().apply {
                     putString(HelperUtils.UID_KEY, "0")
                     putString(HelperUtils.TOKEN_KEY, "0")
                 }.apply()            // go to home activity
-                val intent = Intent(requireContext(), com.blueray.Kanz.ui.activities.SplashScreen::class.java)
+                val intent = Intent(
+                    requireContext(),
+                    com.blueray.Kanz.ui.activities.SplashScreen::class.java
+                )
                 startActivity(intent)
                 requireActivity().supportFragmentManager.popBackStack()
 
-        }
+            }
             builder.setNegativeButton("لا") { dialog, _ ->
                 dialog.dismiss()
             }
@@ -83,22 +99,28 @@ class MyAccountFragment : Fragment() {
             dialog.show()
         }
         binding.followingLayout.setOnClickListener {
-            val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
-            intent.putExtra("type","myAccount" )
-            intent.putExtra("user_id", HelperUtils.getUid(requireContext())) // Replace 'yourUserId' with the actual user ID
-            intent.putExtra("userName",userName ) // Replace 'yourUserId' with the actual user ID
-            intent.putExtra("flag","0" )
+            val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
+            intent.putExtra("type", "myAccount")
+            intent.putExtra(
+                "user_id",
+                HelperUtils.getUid(requireContext())
+            ) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("userName", userName) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("flag", "0")
 
             startActivity(intent)
 
         }
 
         binding.followersLayout.setOnClickListener {
-            val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
-            intent.putExtra("type","myAccount" )
-            intent.putExtra("user_id", HelperUtils.getUid(requireContext())) // Replace 'yourUserId' with the actual user ID
-            intent.putExtra("userName",userName ) // Replace 'yourUserId' with the actual user ID
-            intent.putExtra("flag","1" )
+            val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
+            intent.putExtra("type", "myAccount")
+            intent.putExtra(
+                "user_id",
+                HelperUtils.getUid(requireContext())
+            ) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("userName", userName) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("flag", "1")
 
             startActivity(intent)
 
@@ -106,9 +128,12 @@ class MyAccountFragment : Fragment() {
 
 
         binding.followingCount.setOnClickListener {
-            val intent  = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
-            intent.putExtra("user_id", HelperUtils.getUid(requireContext())) // Replace 'yourUserId' with the actual user ID
-            intent.putExtra("userName",userName ) // Replace 'yourUserId' with the actual user ID
+            val intent = Intent(requireContext(), FollowingAndFollowersActivity::class.java)
+            intent.putExtra(
+                "user_id",
+                HelperUtils.getUid(requireContext())
+            ) // Replace 'yourUserId' with the actual user ID
+            intent.putExtra("userName", userName) // Replace 'yourUserId' with the actual user ID
 
             startActivity(intent)
         }
@@ -158,33 +183,36 @@ class MyAccountFragment : Fragment() {
             }
         }.attach()
     }
-    fun getUserProifle(){
+
+    fun getUserProifle() {
 
 
         mainViewModel.getMyProfile().observe(viewLifecycleOwner) { result ->
 
             when (result) {
                 is NetworkResults.Success -> {
-                    val  data = result.data
-                    Glide.with(this).load(result.data.results.profile_image).placeholder(R.drawable.logo2).into(binding.profileImage)
+                    val data = result.data
+                    Glide.with(this).load(result.data.results.profile_image)
+                        .placeholder(R.drawable.logo2).into(binding.profileImage)
 
 
-                    binding.followersCount.text =  data.results.followers_count
-                    binding.followingCount.text =  data.results.following_count
-                    binding.likesCount.text =  data.results.likes_count
-                    binding.userName.text = "@"+data.results.user_name
-                    userName =  data.results.user_name
+                    binding.followersCount.text = data.results.followers_count
+                    binding.followingCount.text = data.results.following_count
+                    binding.likesCount.text = data.results.likes_count
+                    binding.userName.text = "@" + data.results.user_name
+                    userName = data.results.user_name
                     binding.fullNameTv.text = data.results.first_name + " " + data.results.last_name
                 }
 
                 is NetworkResults.Error -> {
-                    Log.d("sad error",result.exception.toString())
+                    Log.d("sad error", result.exception.toString())
                 }
+
                 is NetworkResults.NoInternet -> TODO()
             }
-            }
-
         }
+
+    }
 
     override fun onResume() {
         super.onResume()

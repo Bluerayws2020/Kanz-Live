@@ -23,4 +23,5 @@ class MyAccountPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
             livesFragment
         }
     }
+
 }

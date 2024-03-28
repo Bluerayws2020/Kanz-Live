@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/sb_size_10"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/sb_size_10">
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -46,12 +46,56 @@
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <LinearLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/sb_size_10"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/myVd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="@dimen/sb_size_5"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/brown"
+                        android:paddingTop="@dimen/sb_size_5"
+                        android:textSize="14sp"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/img_1"
+                        app:iconGravity="top"
+                        app:iconSize="@dimen/sb_size_20"
+                        app:iconTint="@color/white" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/saved"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="@dimen/sb_size_5"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/green"
+                        android:paddingTop="@dimen/sb_size_5"
+                        android:textSize="14sp"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/img"
+                        app:iconGravity="top"
+                        app:iconSize="@dimen/sb_size_20"
+                        app:iconTint="@color/white" />
+
+
+                </LinearLayout>
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/sb_size_50"
                     android:layout_marginEnd="@dimen/sb_size_50"
+                    android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -59,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+                    app:layout_constraintTop_toBottomOf="@id/tabs" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -194,7 +238,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/sb_size_20"
+                android:layout_marginHorizontal="@dimen/sb_size_10"
+                android:gravity="bottom"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -208,10 +253,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/user_name"
-                        android:textStyle="bold"
                         android:textColor="@color/green"
                         android:textSize="14sp"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/full_name_tv"
@@ -219,22 +263,30 @@
                         android:layout_height="wrap_content"
                         android:text="@string/user_name"
                         android:textColor="@color/brown"
-                        android:textSize="14sp"
-                        />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:padding="@dimen/sb_size_0"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/green"
-                    android:text="تعديل الحساب"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:cornerRadius="20dp" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="@dimen/sb_size_5"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/green">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="تعديل الحساب"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </LinearLayout>
@@ -246,19 +298,17 @@
                 android:layout_marginTop="10dp">
 
 
-
                 <ImageView
                     android:id="@+id/logoutBtn"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:layout_marginStart="15dp"
-                    android:visibility="gone"
                     android:src="@drawable/logouticon"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         </LinearLayout>
